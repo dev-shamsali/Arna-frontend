@@ -1,0 +1,77 @@
+/* src/app/globals.css */
+@import "tailwindcss";
+
+/* === Design tokens / CSS variables === */
+:root {
+  /* Colors */
+  --background: #ffffff;
+  --foreground: #111827;
+  --muted: #6b7280;
+
+  /* Accent (Arna brand) */
+  --arna-accent: #b77f6b;
+
+  /* Fonts injected by next/font in layout.js */
+  --font-sans: var(--font-inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial);
+  --font-serif: var(--font-playfair, Georgia, "Times New Roman", serif);
+
+  /* Utility */
+  --radius-lg: 1rem;
+}
+
+/* Dark scheme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #e6e6e6;
+    --muted: #9ca3af;
+  }
+}
+
+/* Base styling overrides */
+@layer base {
+  html, body {
+    height: 100%;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    color: var(--foreground);
+    margin: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
+
+/* Utility classes */
+.hero-overlay {
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(250,246,244,0.6));
+  backdrop-filter: blur(2px);
+}
+
+.lead {
+  font-size: 1.125rem;
+  color: var(--muted);
+}
+
+img, picture, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
