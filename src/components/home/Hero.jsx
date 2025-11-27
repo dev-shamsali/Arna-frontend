@@ -125,7 +125,7 @@ export default function Hero() {
       </div>
 
       {/* Bottom Fade - Responsive Height */}
-      <div className="absolute bottom-0 left-0 w-full h-20 sm:h-28 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" style={{ zIndex: 1 }} />
+      <div className="absolute bottom-0 left-0 w-full h-20 sm:h-28 bg-linear-to-t from-black/60 to-transparent pointer-events-none" style={{ zIndex: 1 }} />
 
       {/* SEO JSON-LD */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{
