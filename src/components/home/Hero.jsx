@@ -115,7 +115,7 @@ export default function Hero() {
             </Link>
 
             <Link 
-              href="/#contact" 
+              href="/contact" 
               className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 border-2 border-white/70 text-white rounded-md bg-white/10 hover:bg-white/20 transition-all text-sm sm:text-base font-medium"
             >
               Contact Us
