@@ -3,9 +3,10 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Search, User, Heart, ShoppingCart, ChevronDown } from 'lucide-react'
 
-export default function Navbar() {
+export default function Navbar({ solid = false }) {
   const [scrolled, setScrolled] = useState(false)
   const [productsDropdown, setProductsDropdown] = useState(false)
+  const showSolid = solid || scrolled;
 
   // Handle scroll effect
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled
+        showSolid
           ? 'bg-white shadow-md'
           : 'bg-transparent'
       }`}
@@ -45,7 +46,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center">
             <span
               className={`text-2xl sm:text-3xl font-serif tracking-wider transition-colors duration-300 ${
-                scrolled ? 'text-black' : 'text-white'
+                showSolid ? 'text-black' : 'text-white'
               }`}
             >
               ARNA
@@ -57,7 +58,7 @@ export default function Navbar() {
             <Link
               href="/"
               className={`text-sm font-medium tracking-wide transition-colors duration-300 hover:opacity-70 ${
-                scrolled ? 'text-black' : 'text-white'
+                showSolid ? 'text-black' : 'text-white'
               }`}
             >
               HOME
@@ -66,74 +67,25 @@ export default function Navbar() {
             <Link
               href="/about"
               className={`text-sm font-medium tracking-wide transition-colors duration-300 hover:opacity-70 ${
-                scrolled ? 'text-black' : 'text-white'
+                showSolid ? 'text-black' : 'text-white'
               }`}
             >
               ABOUT US
             </Link>
 
-            {/* Products Dropdown */}
-            <div
-              className="relative"
-              onClick={(e) => {
-                e.stopPropagation()
-                setProductsDropdown(!productsDropdown)
-              }}
+               <Link
+              href="/products"
+              className={`text-sm font-medium tracking-wide transition-colors duration-300 hover:opacity-70 ${
+               showSolid ? 'text-black' : 'text-white'
+              }`}
             >
-              <button
-                className={`flex items-center gap-1 text-sm font-medium tracking-wide transition-colors duration-300 hover:opacity-70 ${
-                  scrolled ? 'text-black' : 'text-white'
-                }`}
-              >
-                PRODUCTS
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-200 ${
-                    productsDropdown ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-
-              {/* Dropdown Menu */}
-              {productsDropdown && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
-                  <Link
-                    href="/products/facewash"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                  >
-                    Face Wash
-                  </Link>
-                  <Link
-                    href="/products/shampoo"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                  >
-                    Shampoo
-                  </Link>
-                  <Link
-                    href="/products/moisturizer"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                  >
-                    Moisturizer
-                  </Link>
-                  <Link
-                    href="/products/serum"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                  >
-                    Serum
-                  </Link>
-                  <Link
-                    href="/products/sunscreen"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                  >
-                    Sunscreen
-                  </Link>
-                </div>
-              )}
-            </div>
+              OUR PRODUCTS
+            </Link>
 
             <Link
               href="/contact"
               className={`text-sm font-medium tracking-wide transition-colors duration-300 hover:opacity-70 ${
-                scrolled ? 'text-black' : 'text-white'
+               showSolid ? 'text-black' : 'text-white'
               }`}
             >
               CONTACT
@@ -145,7 +97,7 @@ export default function Navbar() {
             {/* Search Icon */}
             <button
               className={`transition-colors duration-300 hover:opacity-70 ${
-                scrolled ? 'text-black' : 'text-white'
+               showSolid ? 'text-black' : 'text-white'
               }`}
               aria-label="Search"
             >
@@ -156,7 +108,7 @@ export default function Navbar() {
             <Link
               href="/signin"
               className={`transition-colors duration-300 hover:opacity-70 ${
-                scrolled ? 'text-black' : 'text-white'
+               showSolid ? 'text-black' : 'text-white'
               }`}
               aria-label="Sign In"
             >
@@ -167,7 +119,7 @@ export default function Navbar() {
             <Link
               href="/wishlist"
               className={`transition-colors duration-300 hover:opacity-70 ${
-                scrolled ? 'text-black' : 'text-white'
+                showSolid ? 'text-black' : 'text-white'
               }`}
               aria-label="Wishlist"
             >
@@ -178,7 +130,7 @@ export default function Navbar() {
             <Link
               href="/cart"
               className={`transition-colors duration-300 hover:opacity-70 ${
-                scrolled ? 'text-black' : 'text-white'
+                showSolid ? 'text-black' : 'text-white'
               }`}
               aria-label="Cart"
             >
@@ -188,7 +140,7 @@ export default function Navbar() {
             {/* Mobile Menu Button */}
             <button
               className={`md:hidden transition-colors duration-300 ${
-                scrolled ? 'text-black' : 'text-white'
+                showSolid ? 'text-black' : 'text-white'
               }`}
               aria-label="Menu"
             >
