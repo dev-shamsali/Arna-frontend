@@ -18,6 +18,7 @@ export default function About() {
           priority
           sizes="100vw"
           style={{ objectFit: 'cover', objectPosition: 'center' }}
+          quality={85}
         />
       </div>
 

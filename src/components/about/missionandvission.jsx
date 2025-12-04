@@ -33,7 +33,8 @@ function SectionImage({ src, alt, priority = false, badge }) {
           sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           loading={priority ? 'eager' : 'lazy'}
-          quality={90}
+          quality={85}
+          priority={priority}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </div>

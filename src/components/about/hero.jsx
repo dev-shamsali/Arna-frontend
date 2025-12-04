@@ -17,6 +17,7 @@ export default function AboutHero() {
         sizes="100vw"
         style={{ objectFit: 'cover', objectPosition: 'center' }}
         className="z-0"
+        quality={85}
       />
 
       {/* Darker Overlay for better contrast */}

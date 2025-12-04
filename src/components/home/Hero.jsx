@@ -12,21 +12,22 @@ export default function Hero() {
     if (!video) return
 
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    if (mq.matches) return
+    if (mq.matches) {
+      setVideoError(true)
+      return
+    }
 
     const playVideo = async () => {
       try {
         video.muted = true
         await video.play()
-        console.log('Video playing successfully')
       } catch (err) {
         console.error('Video playback failed:', err)
         setVideoError(true)
       }
     }
 
-    const handleError = (e) => {
-      console.error('Video error:', e)
+    const handleError = () => {
       setVideoError(true)
     }
 
@@ -35,13 +36,11 @@ export default function Hero() {
     if (video.readyState >= 3) {
       playVideo()
     } else {
-      video.addEventListener('loadeddata', playVideo)
-      video.addEventListener('canplay', playVideo)
+      video.addEventListener('loadeddata', playVideo, { once: true })
+      video.addEventListener('canplay', playVideo, { once: true })
     }
 
     return () => {
-      video.removeEventListener('loadeddata', playVideo)
-      video.removeEventListener('canplay', playVideo)
       video.removeEventListener('error', handleError)
     }
   }, [])
@@ -66,7 +65,7 @@ export default function Hero() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           aria-hidden="true"
         >
           <source src="/videos/arna-hero.mp4" type="video/mp4" />

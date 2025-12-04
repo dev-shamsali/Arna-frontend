@@ -13,7 +13,10 @@ const products = [
 
 export default function ProductGrid() {
   return (
-    <section className="px-6 py-16 bg-white">
+    <section 
+      className="px-6 py-16 bg-white" 
+      style={{ '--brand': BRAND }}
+    >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
@@ -31,7 +34,7 @@ export default function ProductGrid() {
               viewport={{ once: true, amount: 0.18 }}
               transition={{ delay: i * 0.06, duration: 0.6, ease: 'easeOut' }}
               whileHover={{ scale: 1.02, y: -6 }}
-              className="group relative flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-[0_8px_30px_rgba(10,122,78,0.06)] will-change-transform transition"
+              className="product-grid-group relative flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-[0_8px_30px_rgba(10,122,78,0.06)] will-change-transform transition"
               style={{ minHeight: 420 }} // consistent card height so titles never cut
             >
               {/* Image area */}
@@ -45,6 +48,8 @@ export default function ProductGrid() {
                       sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
                       style={{ objectFit: 'contain', objectPosition: 'center' }}
                       priority={i < 2}
+                      quality={85}
+                      loading={i < 2 ? 'eager' : 'lazy'}
                     />
                   </div>
                 ) : (
@@ -56,16 +61,18 @@ export default function ProductGrid() {
                       sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
                       style={{ objectFit: 'cover', objectPosition: 'center' }}
                       priority={i < 2}
+                      quality={85}
+                      loading={i < 2 ? 'eager' : 'lazy'}
                     />
                   </div>
                 )}
 
                 {/* Price badge */}
                 <div
-                  className="absolute top-4 right-4 px-3 py-1 rounded-md bg-white/95 border border-gray-100 text-sm font-medium shadow-sm transition-colors"
+                  className="absolute top-4 right-4 px-3 py-1 rounded-md bg-white/95 border border-gray-100 text-sm font-medium shadow-sm transition-colors price-badge"
                   style={{ color: BRAND }}
                 >
-                  <span className="group-hover:text-(--brand)">{p.price}</span>
+                  <span>{p.price}</span>
                 </div>
 
                 {/* subtle green glow on hover */}
@@ -83,10 +90,10 @@ export default function ProductGrid() {
               <div className="p-5 flex flex-col flex-1">
                 <div>
                   <h3
-                    className="text-lg font-semibold text-slate-800 mb-1 transition-colors"
+                    className="text-lg font-semibold text-slate-800 mb-1 transition-colors product-title"
                     style={{ transitionProperty: 'color, transform' }}
                   >
-                    <span className="group-hover:text-(--brand)">{p.name}</span>
+                    <span>{p.name}</span>
                   </h3>
                   <p className="text-sm text-gray-500 mb-4">{p.desc}</p>
                 </div>
@@ -151,19 +158,6 @@ export default function ProductGrid() {
           </Link>
         </div>
       </div>
-
-      {/* small style helper: set CSS var for brand so inline group-hover color util works */}
-      <style jsx>{`
-        :root {
-          --brand: ${BRAND};
-        }
-        .group:hover h3 span {
-          color: var(--brand);
-        }
-        .group:hover .price-badge {
-          color: var(--brand);
-        }
-      `}</style>
     </section>
   )
 }

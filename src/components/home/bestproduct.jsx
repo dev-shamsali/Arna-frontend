@@ -204,6 +204,7 @@ export default function BestProductHighlight() {
                       sizes="260px"
                       className="object-contain drop-shadow-2xl"
                       priority
+                      quality={90}
                     />
                   </div>
                 </motion.div>
@@ -319,6 +320,7 @@ export default function BestProductHighlight() {
                   sizes="(min-width: 640px) 280px, 240px"
                   className="object-contain drop-shadow-2xl"
                   priority
+                  quality={90}
                 />
               </div>
             </motion.div>
