@@ -147,7 +147,7 @@ export default function MissionVision() {
             {/* Image */}
             <div className="order-2 lg:order-1">
               <SectionImage
-                src="/about/mission.jpg"
+                src="/about/mission.png"
                 alt="ARNA Mission - Herbal skincare products backed by nature"
                 priority={true}
                 badge={{ icon: Target, text: 'Our Mission' }}
@@ -229,7 +229,7 @@ export default function MissionVision() {
             {/* Image */}
             <div className="order-2 lg:order-2">
               <SectionImage
-                src="/about/vision.jpg"
+                src="/about/vission.png"
                 alt="ARNA Vision - India's most trusted herbal skincare brand"
                 badge={{ icon: Eye, text: 'Our Vision' }}
               />
