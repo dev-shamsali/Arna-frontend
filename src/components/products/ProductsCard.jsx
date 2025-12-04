@@ -6,7 +6,7 @@ export default function ProductCard({ product }) {
   const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
 
   return (
-    <div className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-2xl hover:shadow-[#0A7A4E]/10 transition-all duration-500 hover:-translate-y-2">
+    <div className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-2xl hover:shadow-[#0A7A4E]/10 transition-all duration-500 hover:-translate-y-2 h-full flex flex-col">
 
       <div className="relative bg-[#F4F4F4] aspect-square overflow-hidden">
         <Image
@@ -32,7 +32,7 @@ export default function ProductCard({ product }) {
         )}
       </div>
 
-      <div className="p-5 md:p-6 flex flex-col h-full">
+      <div className="p-5 md:p-6 flex flex-col">
         <h3 className="font-serif text-xl md:text-2xl text-gray-800 mb-2 group-hover:text-[#0A7A4E] transition-colors">
           {product.name}
         </h3>
@@ -49,7 +49,7 @@ export default function ProductCard({ product }) {
           </span>
         </div>
 
-        <button className="w-full bg-[#0A7A4E] hover:bg-[#0A7A4E]/90 text-white py-3 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-lg group-hover:shadow-[#0A7A4E]/30">
+        <button className="mt-auto w-full bg-[#0A7A4E] hover:bg-[#0A7A4E]/90 text-white py-3 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-lg group-hover:shadow-[#0A7A4E]/30">
           <ShoppingCart className="w-4 h-4" />
           Add to Cart
         </button>
