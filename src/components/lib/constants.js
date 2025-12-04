@@ -29,7 +29,6 @@ export const products = [
             badge: 'Bestseller',
             benefit: 'Gentle cleansing with neem extract',
             image: '/products/avocado-moisturizer.png',
-            bestseller: true
         },
         {
             id: 4,
@@ -37,6 +36,7 @@ export const products = [
             category: 'moisturizers',
             mrp: 349,
             price: 149,
+            badge: 'Bestseller',
             benefit: 'Broad spectrum protection',
             image: '/products/shea-butter-moisturizer.png',
             bestseller: true
@@ -50,7 +50,6 @@ export const products = [
             badge: 'Bestseller',
             benefit: 'Multi-purpose soothing gel',
             image: '/products/sunscreen-SPF50+.png',
-            bestseller: true
         },
         {
             id: 6,
