@@ -162,7 +162,7 @@ export const products = [
            {
             id: 17,
             name: 'Berry Body Wash',
-            category: 'soaps',
+            category: 'body-wash',
             mrp: 199,
             price: 149,
             badge: 'New',
