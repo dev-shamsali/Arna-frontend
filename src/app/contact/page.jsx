@@ -2,6 +2,7 @@ import ContactPage from '@/components/contact/contactForm'
 import Navbar from '@/components/layout/navbar'
 import Location from '@/components/contact/location'
 import React from 'react'
+import Footer from '@/components/layout/footer'
 
 const page = () => {
   return (
@@ -9,6 +10,7 @@ const page = () => {
         <Navbar/>
       <ContactPage/>
       <Location/>
+      <Footer/>
     </div>
   )
 }

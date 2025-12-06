@@ -9,6 +9,7 @@ const page = () => {
         <ProductsPage/>
         <Footer />
         </div>
+        
   )
 }
 
