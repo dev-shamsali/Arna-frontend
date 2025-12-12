@@ -1,10 +1,12 @@
 "use client";
 import React, { useState, useMemo, useEffect } from 'react';
 import { Leaf, Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
-import { categories, problems, products } from "../lib/constants"
+import { categories, problems } from "../lib/constants"
+import { getAllProducts } from '../lib/services/product.service';
 import BestSellers from './BestSellers';
 import ProductCard from './ProductsCard';
 const ProductsPage = () => {
+    const products = getAllProducts();
     const [activeCategory, setActiveCategory] = useState('all');
     const [activeProblem, setActiveProblem] = useState(null);
     const [visibleCount, setVisibleCount] = useState(5);

@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Search, User, Heart, ShoppingCart, ChevronDown } from 'lucide-react'
-
+import { usePathname } from 'next/navigation';
 export default function Navbar({ solid = false }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -10,7 +10,13 @@ export default function Navbar({ solid = false }) {
   const mobileRef = useRef(null)
   const burgerRef = useRef(null)
 
-  const showSolid = solid || scrolled
+  const pathname = usePathname();
+
+// Only solid on /products/[slug]
+const isProductSlug =
+  pathname.startsWith("/products/") && pathname.split("/").length === 3;
+
+const showSolid = isProductSlug || scrolled;
 
   // scroll effect
   useEffect(() => {

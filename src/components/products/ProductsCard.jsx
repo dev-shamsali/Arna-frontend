@@ -1,14 +1,17 @@
 "use client";
 import Image from "next/image";
 import { ShoppingCart, Star, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export default function ProductCard({ product }) {
   const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
 
   return (
+    // Added h-full to ensure card takes full height of grid cell
     <div className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-2xl hover:shadow-[#0A7A4E]/10 transition-all duration-500 hover:-translate-y-2 h-full flex flex-col">
 
-      <div className="relative bg-[#F4F4F4] aspect-square overflow-hidden">
+      {/* Image Section - Fixed height */}
+      <div className="relative bg-[#F4F4F4] aspect-square overflow-hidden flex-shrink-0">
         <Image
           src={product.image}
           alt={product.name}
@@ -32,15 +35,23 @@ export default function ProductCard({ product }) {
         )}
       </div>
 
-      <div className="p-5 md:p-6 flex flex-col">
-        <h3 className="font-serif text-xl md:text-2xl text-gray-800 mb-2 group-hover:text-[#0A7A4E] transition-colors">
+      {/* Content Section - Flexible height with flex-1 to grow and push button down */}
+      <div className="p-5 md:p-6 flex flex-col flex-1">
+        
+        {/* Product Name - Fixed height with line clamp */}
+        <h3 className="font-serif text-xl md:text-2xl text-gray-800 mb-2 group-hover:text-[#0A7A4E] transition-colors line-clamp-2 min-h-[3.5rem]">
           {product.name}
         </h3>
 
-        <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">
+        {/* Product Benefit - Fixed height with line clamp */}
+        <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed min-h-[2.5rem]">
           {product.benefit}
         </p>
 
+        {/* Spacer - This grows to fill available space, pushing button to bottom */}
+        <div className="flex-1"></div>
+
+        {/* Pricing Section - Fixed at bottom */}
         <div className="flex items-baseline gap-3 mb-4">
           <span className="text-2xl font-bold text-[#0A7A4E]">₹{product.price}</span>
           <span className="text-sm text-gray-400 line-through">₹{product.mrp}</span>
@@ -49,10 +60,14 @@ export default function ProductCard({ product }) {
           </span>
         </div>
 
-        <button className="mt-auto w-full bg-[#0A7A4E] hover:bg-[#0A7A4E]/90 text-white py-3 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-lg group-hover:shadow-[#0A7A4E]/30">
+        {/* CTA Button - Always at the bottom due to flex-1 spacer above */}
+        <Link
+          href={`/products/${product.slug}`}
+          className="w-full bg-[#0A7A4E] hover:bg-[#0A7A4E]/90 text-white py-3 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-lg group-hover:shadow-[#0A7A4E]/30 cursor-pointer"
+        >
           <ShoppingCart className="w-4 h-4" />
           Add to Cart
-        </button>
+        </Link>
       </div>
     </div>
   );
