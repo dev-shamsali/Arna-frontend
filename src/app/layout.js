@@ -1,7 +1,9 @@
 import "./globals.css";
 import { Inter, Playfair_Display } from "next/font/google";
-import Navbar from "@/components/layout/navbar";
+import ConditionalNavbar from "@/components/layout/ConditionalNavbar";
 import Footer from "@/components/layout/footer";
+import { CartProvider } from "@/components/cart/CartContext";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -24,12 +26,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="antialiased">
-        <Navbar />
-         <main className="flex-1">
-          {children}
-        </main>
-        <Footer />  
+        <CartProvider>
+          <ConditionalNavbar />
 
+          <main className="flex-1">
+            {children}
+          </main>
+
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

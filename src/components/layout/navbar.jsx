@@ -2,7 +2,9 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Search, User, Heart, ShoppingCart, ChevronDown } from 'lucide-react'
-import { usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation'
+import { useCart } from '@/components/cart/CartContext' // Add this import
+
 export default function Navbar({ solid = false }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -10,13 +12,18 @@ export default function Navbar({ solid = false }) {
   const mobileRef = useRef(null)
   const burgerRef = useRef(null)
 
-  const pathname = usePathname();
+  const pathname = usePathname()
+  const { cartItems } = useCart() // Add this hook
 
-// Only solid on /products/[slug]
-const isProductSlug =
-  pathname.startsWith("/products/") && pathname.split("/").length === 3;
+  // Calculate total items in cart
+  const cartCount = cartItems.reduce((sum, item) => sum + item.qty, 0)
 
-const showSolid = isProductSlug || scrolled;
+  // Only solid on /products/[slug]
+  const isProductSlug =
+    pathname.startsWith("/products/") && pathname.split("/").length === 3
+  const onCartPage = pathname === '/cart'
+
+  const showSolid = onCartPage || isProductSlug || scrolled
 
   // scroll effect
   useEffect(() => {
@@ -65,7 +72,6 @@ const showSolid = isProductSlug || scrolled;
   const toggleMobile = () => {
     setMobileOpen((v) => !v)
     if (mobileOpen) {
-      // closing: also close nested
       setProductsOpenMobile(false)
     }
   }
@@ -159,14 +165,20 @@ const showSolid = isProductSlug || scrolled;
               <Heart className="w-5 h-5" />
             </Link>
 
+            {/* Cart with Badge */}
             <Link
               href="/cart"
-              className={`transition-colors duration-300 hover:opacity-70 ${
+              className={`relative transition-colors duration-300 hover:opacity-70 ${
                 showSolid ? 'text-black' : 'text-white'
               }`}
-              aria-label="Cart"
+              aria-label={`Cart with ${cartCount} items`}
             >
               <ShoppingCart className="w-5 h-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-emerald-600 text-white text-[10px] font-semibold px-1">
+                  {cartCount > 99 ? '99+' : cartCount}
+                </span>
+              )}
             </Link>
 
             {/* Mobile Burger */}
@@ -179,7 +191,6 @@ const showSolid = isProductSlug || scrolled;
                 showSolid ? 'text-black focus:ring-black/30' : 'text-white focus:ring-white/30'
               }`}
             >
-              {/* Hamburger icon with smooth animation to X */}
               <span className="sr-only">Toggle menu</span>
               <div className="w-6 h-6 relative">
                 <span
@@ -206,8 +217,7 @@ const showSolid = isProductSlug || scrolled;
         </div>
       </div>
 
-      {/* Mobile panel (slide down) */}
-      {/* Backdrop */}
+      {/* Mobile panel */}
       <div
         className={`md:hidden fixed inset-0 z-40 transition-opacity duration-300 pointer-events-none ${
           mobileOpen ? 'opacity-40 bg-black/40 pointer-events-auto' : 'opacity-0'
@@ -228,7 +238,6 @@ const showSolid = isProductSlug || scrolled;
             mobileOpen ? 'translate-y-0' : '-translate-y-2'
           }`}
         >
-          {/* Mobile Links */}
           <nav className="flex flex-col gap-2">
             <Link
               href="/"
@@ -246,7 +255,6 @@ const showSolid = isProductSlug || scrolled;
               ABOUT US
             </Link>
 
-            {/* Products with nested menu */}
             <div>
               <button
                 onClick={() => setProductsOpenMobile((v) => !v)}
@@ -288,7 +296,7 @@ const showSolid = isProductSlug || scrolled;
               CONTACT
             </Link>
 
-            {/* CTA Icons in mobile menu */}
+            {/* Mobile menu icons with cart count */}
             <div className="mt-3 flex items-center gap-4">
               <Link href="/signin" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-sm">
                 <User className="w-4 h-4" /> Sign in
@@ -296,8 +304,14 @@ const showSolid = isProductSlug || scrolled;
               <Link href="/wishlist" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-sm">
                 <Heart className="w-4 h-4" /> Wishlist
               </Link>
-              <Link href="/cart" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-sm">
-                <ShoppingCart className="w-4 h-4" /> Cart
+              <Link href="/cart" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-sm relative">
+                <ShoppingCart className="w-4 h-4" /> 
+                Cart
+                {cartCount > 0 && (
+                  <span className="ml-1 px-1.5 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-semibold">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
             </div>
           </nav>
