@@ -1,135 +1,283 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+
+import { useLayoutEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { gsap } from 'gsap'
+
+const slides = [
+  {
+    image: '/home/hero/hero-2.jpg',
+    title: 'Powered by Botanical Actives',
+    text: 'Infused with plant-based extracts that nurture and strengthen your skin.',
+  },
+  {
+    image: '/home/hero/hero-3.jpg',
+    title: 'Nature Meets Modern Care',
+    text: 'Thoughtfully crafted formulas that balance tradition and science.',
+  },
+  {
+    image: '/home/hero/hero-4.jpg',
+    title: 'Fresh. Clean. Balanced.',
+    text: 'Minimal, effective skincare designed for everyday confidence.',
+  },
+  {
+    image: '/home/hero/hero-5.jpg',
+    title: 'Honest Skincare You Can Trust',
+    text: 'No harsh chemicals. No shortcuts. Just clean, conscious beauty.',
+  },
+]
 
 export default function Hero() {
-  const videoRef = useRef(null)
-  const [videoError, setVideoError] = useState(false)
+  const containerRef = useRef(null)
+  const slidesRef = useRef([])
+  const titleRef = useRef(null)
+  const textRef = useRef(null)
+  const buttonsRef = useRef(null)
+  const timelineRef = useRef(null)
+  const [active, setActive] = useState(0)
+  const [loaded, setLoaded] = useState(false)
 
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
+  useLayoutEffect(() => {
+    if (!loaded) return
 
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-    if (mq.matches) {
-      setVideoError(true)
-      return
+    // Kill any existing timeline
+    if (timelineRef.current) {
+      timelineRef.current.kill()
     }
 
-    const playVideo = async () => {
-      try {
-        video.muted = true
-        await video.play()
-      } catch (err) {
-        console.error('Video playback failed:', err)
-        setVideoError(true)
+    // Initial setup - Set all slides in their starting positions
+    slidesRef.current.forEach((el, i) => {
+      if (el) {
+        gsap.set(el, {
+          x: i === 0 ? '0%' : '100%',
+          opacity: 1,
+          visibility: 'visible',
+          zIndex: i === 0 ? 10 : 1,
+          force3D: true,
+        })
       }
-    }
+    })
 
-    const handleError = () => {
-      setVideoError(true)
-    }
+    // Initial text fade in
+    gsap.set([titleRef.current, textRef.current, buttonsRef.current], { opacity: 0, y: 30 })
+    
+    const initialTextTl = gsap.timeline()
+    initialTextTl.to([titleRef.current, textRef.current, buttonsRef.current], {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      stagger: 0.15,
+      ease: 'power2.out',
+      delay: 0.3,
+    })
 
-    video.addEventListener('error', handleError)
+    // Create main carousel timeline
+    const tl = gsap.timeline({ 
+      repeat: -1,
+      delay: 3.5, // Wait before starting the loop
+      paused: false,
+    })
 
-    if (video.readyState >= 3) {
-      playVideo()
-    } else {
-      video.addEventListener('loadeddata', playVideo, { once: true })
-      video.addEventListener('canplay', playVideo, { once: true })
-    }
+    timelineRef.current = tl
+
+    // Build timeline for all slides
+    slides.forEach((_, i) => {
+      const current = i
+      const next = (i + 1) % slides.length
+
+      // Hold current slide
+      tl.addLabel(`slide${i}`)
+        .to({}, { duration: 4 })
+
+        // Fade out text
+        .to([titleRef.current, textRef.current, buttonsRef.current], {
+          opacity: 0,
+          y: -20,
+          duration: 0.6,
+          ease: 'power2.in',
+        }, '>')
+
+        // Prepare next slide (position it off-screen to the right)
+        .set(slidesRef.current[next], {
+          x: '100%',
+          opacity: 1,
+          visibility: 'visible',
+          zIndex: 10,
+        }, '<0.1')
+
+        // Slide current out to left, next in from right (synchronized)
+        .to(slidesRef.current[current], {
+          x: '-100%',
+          duration: 1.4,
+          ease: 'power2.inOut',
+        }, '>')
+        .to(slidesRef.current[next], {
+          x: '0%',
+          duration: 1.4,
+          ease: 'power2.inOut',
+        }, '<')
+
+        // Update active index at the midpoint of slide transition
+        .call(() => {
+          setActive(next)
+        }, null, '<0.7')
+
+        // Reset current slide's z-index after it's off-screen
+        .set(slidesRef.current[current], {
+          zIndex: 1,
+        }, '>')
+
+        // Fade in new text
+        .set([titleRef.current, textRef.current, buttonsRef.current], { y: 20 }, '<-0.2')
+        .to([titleRef.current, textRef.current, buttonsRef.current], {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.15,
+          ease: 'power2.out',
+        }, '<0.2')
+    })
 
     return () => {
-      video.removeEventListener('error', handleError)
+      initialTextTl.kill()
+      if (timelineRef.current) {
+        timelineRef.current.kill()
+      }
     }
-  }, [])
+  }, [loaded])
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Arna Skin Care",
-    "description": "Arna Skin Care offers pure, natural, botanical skin products crafted from true nature for a healthy glow."
+  // Loading state
+  if (!loaded) {
+    return (
+      <section className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-emerald-900/30 via-green-800/20 to-black/40">
+        <div className="absolute inset-0 w-full h-full">
+          <div className="relative w-full h-full">
+            <Image
+              src={slides[0].image}
+              alt={slides[0].title}
+              fill
+              priority
+              loading="eager"
+              fetchPriority="high"
+              quality={90}
+              sizes="100vw"
+              className="object-cover"
+              onLoad={() => setLoaded(true)}
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAB//2Q=="
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-green-900/45 via-emerald-800/30 to-black/40" />
+          </div>
+        </div>
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <div className="w-12 h-12 border-4 border-green-400 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      </section>
+    )
   }
 
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-gray-900">
-
-      {/* Background Video - Full Screen */}
-      {!videoError && (
-        <video
-          ref={videoRef}
-          className="absolute top-0 left-0 w-full h-full object-cover min-w-full min-h-full"
-          style={{ zIndex: 0 }}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          aria-hidden="true"
-        >
-          <source src="/videos/arna-hero.mp4" type="video/mp4" />
-          <source src="/videos/arna-hero.webm" type="video/webm" />
-        </video>
-      )}
-
-      {/* Lighter Overlay - 40% opacity, no blur */}
-      <div className="absolute inset-0 bg-black/40" style={{ zIndex: 1 }} />
-
-      {/* Content - Responsive Padding */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-center relative" style={{ zIndex: 2 }}>
-        <div className="max-w-4xl text-center w-full px-4">
-
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.8 }}
-            className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white leading-tight"
+    <section 
+      ref={containerRef}
+      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-emerald-900/30 via-green-800/20 to-black/40"
+    >
+      {/* BACKGROUND SLIDES */}
+      <div className="absolute inset-0 w-full h-full">
+        {slides.map((slide, i) => (
+          <div
+            key={i}
+            ref={(el) => (slidesRef.current[i] = el)}
+            className="absolute top-0 left-0 w-full h-full"
+            style={{ 
+              willChange: 'transform',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
+            }}
           >
-            ARNA — Pure. Natural. Honest.
-          </motion.h1>
+            <div className="relative w-full h-full">
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                fill
+                priority={i === 0}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                fetchPriority={i === 0 ? 'high' : 'auto'}
+                quality={90}
+                sizes="100vw"
+                className="object-cover"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAB//2Q=="
+              />
+              {/* Gradient overlays */}
+              <div className="absolute inset-0 bg-gradient-to-br from-green-900/45 via-emerald-800/30 to-black/40" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent" />
+            </div>
+          </div>
+        ))}
+      </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45, duration: 0.8 }}
-            className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-white/95 max-w-2xl mx-auto leading-relaxed"
-          >
-            ARNA Skin Care products are crafted from true nature — 
-            pure botanicals, clean ingredients, and timeless rituals 
-            that nourish your skin every day.
-          </motion.p>
+      {/* Decorative accents */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-radial from-green-400/10 to-transparent blur-3xl pointer-events-none z-[5]" />
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.7, duration: 0.6 }}
-            className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
-          >
-            <Link 
-              href="/products" 
-              className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 bg-white text-black rounded-md shadow-lg hover:opacity-95 transition-opacity text-sm sm:text-base font-medium"
+      {/* CONTENT */}
+      <div className="relative z-20 h-full flex items-center">
+        <div className="container mx-auto px-6 md:px-12">
+          <div className="max-w-4xl text-white">
+            {/* Title */}
+            <h1
+              ref={titleRef}
+              className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight font-bold tracking-tight mb-5 drop-shadow-lg"
             >
-              Our Products
-            </Link>
+              {slides[active]?.title}
+            </h1>
 
-            <Link 
-              href="/contact" 
-              className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-3.5 border-2 border-white/70 text-white rounded-md bg-white/10 hover:bg-white/20 transition-all text-sm sm:text-base font-medium"
+            {/* Text */}
+            <p
+              ref={textRef}
+              className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-2xl leading-relaxed mb-10 font-light drop-shadow-md"
             >
-              Contact Us
-            </Link>
-          </motion.div>
+              {slides[active]?.text}
+            </p>
+
+            {/* CTA Buttons */}
+            <div ref={buttonsRef} className="flex flex-wrap gap-4 mb-12">
+              <Link
+                href="/products"
+                className="group px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-green-500/50 hover:scale-105 hover:-translate-y-0.5"
+              >
+                Explore Products
+                <span className="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </Link>
+              <Link
+                href="/about"
+                className="group px-8 py-4 border-2 border-white/80 text-white font-semibold rounded-lg hover:bg-white hover:text-green-900 transition-all duration-300 backdrop-blur-sm hover:scale-105 hover:-translate-y-0.5"
+              >
+                Our Philosophy
+                <span className="inline-block ml-2 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
+
+            {/* Slide indicators */}
+            <div className="flex gap-3">
+              {slides.map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-1 rounded-full transition-all duration-500 ${
+                    i === active
+                      ? 'w-12 bg-green-400 shadow-md shadow-green-400/50'
+                      : 'w-8 bg-white/40 hover:bg-white/60'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Bottom Fade - Responsive Height */}
-      <div className="absolute bottom-0 left-0 w-full h-20 sm:h-28 bg-linear-to-t from-black/60 to-transparent pointer-events-none" style={{ zIndex: 1 }} />
-
-      {/* SEO JSON-LD */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify(jsonLd)
-      }} />
+      {/* Bottom gradient */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/30 to-transparent pointer-events-none z-[5]" />
     </section>
   )
 }
