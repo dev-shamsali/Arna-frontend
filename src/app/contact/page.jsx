@@ -10,7 +10,7 @@ const page = () => {
         <Navbar/>
       <ContactPage/>
       <Location/>
-      <Footer/>
+      {/* <Footer/> */}
     </div>
   )
 }

@@ -14,7 +14,7 @@ export default function Home() {
       <BestProduct/>
       <About/>
       <ProductGrid/>
-      <Footer/>
+      {/* <Footer/> */}
     </main>
   )
 }

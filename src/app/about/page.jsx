@@ -15,7 +15,7 @@ export default function Home() {
     <AboutHero/>
     <MissionVision/>
     <WhyChooseUs/>
-    <Footer/>
+    {/* <Footer/> */}
     </main>
   )
 }

@@ -112,24 +112,24 @@ export default function Navbar({ solid = false }) {
           {/* Logo - Responsive sizing */}
           <Link href="/" className="flex items-center z-50 flex-shrink-0" onClick={closeMobileMenu}>
             {/* Replace with your actual logo image */}
-            {/* <Image 
-              src="/logo.png" 
+            <Image 
+              src="/logo1.png" 
               alt="ARNA Logo" 
               width={120} 
               height={40}
               className={`h-8 sm:h-10 w-auto transition-all duration-300 ${
                 showSolid ? 'brightness-100' : 'brightness-0 invert'
               }`}
-            /> */}
+            />
             
             {/* Text logo fallback */}
-            <span
+            {/* <span
               className={`text-xl sm:text-2xl md:text-3xl font-serif tracking-wider transition-colors duration-300 ${
                 showSolid ? 'text-black' : 'text-white'
               }`}
             >
               ARNA
-            </span>
+            </span> */}
           </Link>
 
           {/* Desktop Links */}
