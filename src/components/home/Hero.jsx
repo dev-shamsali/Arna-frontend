@@ -61,7 +61,7 @@ export default function Hero() {
 
     // Initial text fade in
     gsap.set([titleRef.current, textRef.current, buttonsRef.current], { opacity: 0, y: 30 })
-    
+
     const initialTextTl = gsap.timeline()
     initialTextTl.to([titleRef.current, textRef.current, buttonsRef.current], {
       opacity: 1,
@@ -73,7 +73,7 @@ export default function Hero() {
     })
 
     // Create main carousel timeline
-    const tl = gsap.timeline({ 
+    const tl = gsap.timeline({
       repeat: -1,
       delay: 3.5, // Wait before starting the loop
       paused: false,
@@ -178,7 +178,7 @@ export default function Hero() {
   }
 
   return (
-    <section 
+    <section
       ref={containerRef}
       className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-emerald-900/30 via-green-800/20 to-black/40"
     >
@@ -189,7 +189,7 @@ export default function Hero() {
             key={i}
             ref={(el) => (slidesRef.current[i] = el)}
             className="absolute top-0 left-0 w-full h-full"
-            style={{ 
+            style={{
               willChange: 'transform',
               backfaceVisibility: 'hidden',
               WebkitBackfaceVisibility: 'hidden',
@@ -222,13 +222,13 @@ export default function Hero() {
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-radial from-green-400/10 to-transparent blur-3xl pointer-events-none z-[5]" />
 
       {/* CONTENT */}
-      <div className="relative z-20 h-full flex items-center">
+      <div className="relative z-20 h-full flex items-center pt-20 md:pt-24">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="max-w-4xl text-white">
+          <div className="max-w-3xl text-white">
             {/* Title */}
             <h1
               ref={titleRef}
-              className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight font-bold tracking-tight mb-5 drop-shadow-lg"
+              className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight font-medium tracking-tight mb-4 drop-shadow-lg"
             >
               {slides[active]?.title}
             </h1>
@@ -236,23 +236,23 @@ export default function Hero() {
             {/* Text */}
             <p
               ref={textRef}
-              className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-2xl leading-relaxed mb-10 font-light drop-shadow-md"
+              className="text-base sm:text-lg md:text-xl text-white/90 max-w-xl leading-relaxed mb-8 font-light drop-shadow-md"
             >
               {slides[active]?.text}
             </p>
 
             {/* CTA Buttons */}
-            <div ref={buttonsRef} className="flex flex-wrap gap-4 mb-12">
+            <div ref={buttonsRef} className="flex flex-wrap gap-4 mb-10">
               <Link
                 href="/products"
-                className="group px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-green-500/50 hover:scale-105 hover:-translate-y-0.5"
+                className="group px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-green-500/50 hover:scale-105 hover:-translate-y-0.5"
               >
                 Explore Products
                 <span className="inline-block ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
               <Link
                 href="/about"
-                className="group px-8 py-4 border-2 border-white/80 text-white font-semibold rounded-lg hover:bg-white hover:text-green-900 transition-all duration-300 backdrop-blur-sm hover:scale-105 hover:-translate-y-0.5"
+                className="group px-6 py-3 border-2 border-white/80 text-white font-semibold rounded-lg hover:bg-white hover:text-green-900 transition-all duration-300 backdrop-blur-sm hover:scale-105 hover:-translate-y-0.5"
               >
                 Our Philosophy
                 <span className="inline-block ml-2 opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-1">→</span>
@@ -264,11 +264,10 @@ export default function Hero() {
               {slides.map((_, i) => (
                 <div
                   key={i}
-                  className={`h-1 rounded-full transition-all duration-500 ${
-                    i === active
-                      ? 'w-12 bg-green-400 shadow-md shadow-green-400/50'
-                      : 'w-8 bg-white/40 hover:bg-white/60'
-                  }`}
+                  className={`h-1 rounded-full transition-all duration-500 ${i === active
+                    ? 'w-12 bg-green-400 shadow-md shadow-green-400/50'
+                    : 'w-8 bg-white/40 hover:bg-white/60'
+                    }`}
                 />
               ))}
             </div>
