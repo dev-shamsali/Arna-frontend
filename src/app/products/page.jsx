@@ -5,11 +5,11 @@ import Footer from '@/components/layout/footer'
 const page = () => {
   return (
     <div>
-        <Navbar />
-        <ProductsPage/>
-        {/* <Footer /> */}
-        </div>
-        
+      <Navbar />
+      <ProductsPage />
+      <Footer />
+    </div>
+
   )
 }
 

@@ -7,10 +7,10 @@ import Footer from '@/components/layout/footer'
 const page = () => {
   return (
     <div>
-        <Navbar/>
-      <ContactPage/>
-      <Location/>
-      {/* <Footer/> */}
+      <Navbar />
+      <ContactPage />
+      <Location />
+      <Footer />
     </div>
   )
 }

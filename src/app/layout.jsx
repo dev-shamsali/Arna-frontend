@@ -1,8 +1,9 @@
 import "./globals.css";
 import { Inter, Playfair_Display } from "next/font/google";
 import ConditionalNavbar from "@/components/layout/ConditionalNavbar";
-import Footer from "@/components/layout/footer";
+
 import { CartProvider } from "@/components/cart/CartContext";
+import Footer from "@/components/layout/footer";
 
 /* Fonts */
 const inter = Inter({

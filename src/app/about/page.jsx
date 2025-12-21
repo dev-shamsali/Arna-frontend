@@ -11,11 +11,11 @@ import Navbar from "@/components/layout/navbar";
 export default function Home() {
   return (
     <main>
-    <Navbar/>
-    <AboutHero/>
-    <MissionVision/>
-    <WhyChooseUs/>
-    {/* <Footer/> */}
+      <Navbar />
+      <AboutHero />
+      <MissionVision />
+      <WhyChooseUs />
+      <Footer />
     </main>
   )
 }

@@ -9,12 +9,12 @@ import Navbar from '@/components/layout/navbar'
 export default function Home() {
   return (
     <main>
-      <Navbar/>
+      <Navbar />
       <Hero />
-      <BestProduct/>
-      <About/>
-      <ProductGrid/>
-      {/* <Footer/> */}
+      <BestProduct />
+      <About />
+      <ProductGrid />
+      <Footer />
     </main>
   )
 }

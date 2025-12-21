@@ -1,137 +1,325 @@
 'use client'
-import { useEffect, useRef } from 'react'
-import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { motion, useReducedMotion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const features = [
-  { 
-    id: 1, 
-    title: 'Eco-Friendly', 
-    text: 'Plastic-free, compostable packaging for sustainable beauty.',
-    icon: 'leaf',
-    stat: '100%'
+const productCards = [
+  {
+    id: 1,
+    title: 'Moisturizer',
+    category: 'Daily Hydration',
+    keyIngredient: 'Hyaluronic Acid'
   },
-  { 
-    id: 2, 
-    title: '24HR Protection', 
-    text: 'Clinically proven formula for all-day freshness.',
-    icon: 'shield',
-    stat: '24h'
+  {
+    id: 2,
+    title: 'Night Cream',
+    category: 'Overnight Repair',
+    keyIngredient: 'Retinol 0.5%'
   },
-  { 
-    id: 3, 
-    title: 'Fast Delivery', 
-    text: 'Direct to your doorstep with flexible subscription.',
-    icon: 'delivery',
-    stat: '2-3d'
+  {
+    id: 3,
+    title: 'Sunscreen SPF 50+',
+    category: 'UV Protection',
+    keyIngredient: 'Zinc Oxide'
   },
-  { 
-    id: 4, 
-    title: 'Plant-Powered', 
-    text: 'Natural ingredients, free from harsh chemicals.',
-    icon: 'plant',
-    stat: '100%'
+  {
+    id: 4,
+    title: 'Vitamin C Serum',
+    category: 'Brightening Treatment',
+    keyIngredient: 'L-Ascorbic Acid 15%'
   },
-  { 
-    id: 5, 
-    title: 'Expert Tested', 
-    text: 'Dermatologically approved for sensitive skin.',
-    icon: 'certified',
-    stat: 'Tested'
-  },
-  { 
-    id: 6, 
-    title: 'Long Lasting', 
-    text: 'Premium formula that lasts months with daily use.',
-    icon: 'clock',
-    stat: '3+ mo'
-  },
+  {
+    id: 5,
+    title: 'Cleansing Bar',
+    category: 'Gentle Purification',
+    keyIngredient: 'Tea Tree Oil'
+  }
 ]
 
-const FeatureIcon = ({ type }) => {
-  const icons = {
-    leaf: (
+const topFeatures = [
+  {
+    title: 'Natural Ingredients',
+    subtitle: 'Plant-based actives',
+    icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
       </svg>
-    ),
-    shield: (
+    )
+  },
+  {
+    title: 'Fragrance Free',
+    subtitle: 'Sensitive skin safe',
+    icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
-    ),
-    delivery: (
+    )
+  },
+  {
+    title: 'Clinically Tested',
+    subtitle: 'Dermatologist approved',
+    icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
       </svg>
-    ),
-    plant: (
+    )
+  },
+  {
+    title: 'Clean Formulation',
+    subtitle: 'Paraben-free certified',
+    icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
-    ),
-    certified: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-      </svg>
-    ),
-    clock: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
+    )
   }
-  
-  return icons[type] || icons.leaf
+]
+
+// Uniform Size Card Component
+const UniformCard3D = ({ product, cardRef }) => {
+  const router = useRouter()
+  const [rotateX, setRotateX] = useState(0)
+  const [rotateY, setRotateY] = useState(0)
+  const [isHovered, setIsHovered] = useState(false)
+  const shouldReduceMotion = useReducedMotion()
+
+  const handleMouseMove = (e) => {
+    if (shouldReduceMotion) return
+
+    const card = e.currentTarget
+    const rect = card.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+
+    const rotateXValue = ((y - centerY) / centerY) * -10
+    const rotateYValue = ((x - centerX) / centerX) * 10
+
+    setRotateX(rotateXValue)
+    setRotateY(rotateYValue)
+  }
+
+  const handleMouseLeave = () => {
+    setRotateX(0)
+    setRotateY(0)
+    setIsHovered(false)
+  }
+
+  const handleClick = () => {
+    router.push('/products')
+  }
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+      className="group cursor-pointer"
+      style={{
+        perspective: '1500px',
+        transformStyle: 'preserve-3d'
+      }}
+      whileHover={{ scale: shouldReduceMotion ? 1 : 1.03 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
+    >
+      <div
+        className="relative rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl border border-slate-200/50 transition-all duration-500"
+        style={{
+          height: '280px',
+          transform: shouldReduceMotion
+            ? 'none'
+            : `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${isHovered ? '20px' : '0px'})`,
+          transformStyle: 'preserve-3d',
+          transition: 'transform 0.1s ease-out, box-shadow 0.5s ease'
+        }}
+      >
+        {/* White Background */}
+        <div
+          className="absolute inset-0 bg-white"
+          style={{
+            transform: 'translateZ(-10px)',
+            transformStyle: 'preserve-3d'
+          }}
+        />
+
+        {/* Dark Green Gradient Overlay on Hover */}
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-emerald-800 via-green-700 to-emerald-900 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            transform: 'translateZ(1px)',
+            transformStyle: 'preserve-3d'
+          }}
+        />
+
+        {/* Shimmer Effect */}
+        <div
+          className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+          style={{
+            transform: `translateZ(5px) translateX(${rotateY * 2}px) translateY(${rotateX * 2}px)`,
+            transformStyle: 'preserve-3d'
+          }}
+        />
+
+        {/* Top Accent Line */}
+        <div
+          className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-600/60 to-green-600/60 group-hover:from-emerald-400 group-hover:to-green-400 transition-all duration-500"
+          style={{
+            transform: 'translateZ(12px)',
+            transformStyle: 'preserve-3d'
+          }}
+        />
+
+        {/* Card Content - Fixed Height Layout */}
+        <div className="relative p-6 h-full flex flex-col justify-between">
+
+          {/* Category badge */}
+          <div
+            className="inline-flex items-center gap-2 w-fit"
+            style={{
+              transform: 'translateZ(18px)',
+              transformStyle: 'preserve-3d'
+            }}
+          >
+            <div className="w-2 h-2 rounded-full bg-emerald-600 group-hover:bg-emerald-300 transition-colors duration-500" />
+            <span className="text-[9px] uppercase tracking-[0.18em] text-slate-600 group-hover:text-white font-semibold transition-colors duration-500">
+              {product.category}
+            </span>
+          </div>
+
+          {/* Product title - Centered */}
+          <div
+            className="flex-1 flex items-center justify-center"
+            style={{
+              transform: 'translateZ(22px)',
+              transformStyle: 'preserve-3d'
+            }}
+          >
+            <h3 className="text-xl md:text-2xl font-semibold text-slate-900 group-hover:text-white text-center leading-tight tracking-tight transition-colors duration-500">
+              {product.title}
+            </h3>
+          </div>
+
+          {/* Key ingredient badge and arrow */}
+          <div
+            className="pt-4 border-t border-slate-200/60 group-hover:border-emerald-400/40 transition-colors duration-500"
+            style={{
+              transform: 'translateZ(20px)',
+              transformStyle: 'preserve-3d'
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[8px] uppercase tracking-wider text-slate-500 group-hover:text-emerald-200 font-semibold mb-1 transition-colors duration-500">
+                  Key Active
+                </p>
+                <p className="text-xs font-medium text-emerald-700 group-hover:text-white transition-colors duration-500">
+                  {product.keyIngredient}
+                </p>
+              </div>
+
+              {/* Arrow Icon */}
+              <div
+                className="w-10 h-10 rounded-full bg-emerald-100 group-hover:bg-white/20 flex items-center justify-center transition-all duration-500"
+                style={{
+                  transform: isHovered ? 'translateZ(10px)' : 'translateZ(5px)',
+                  transformStyle: 'preserve-3d'
+                }}
+              >
+                <svg
+                  className="w-5 h-5 text-emerald-700 group-hover:text-white group-hover:translate-x-1 transition-all duration-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Shadow */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-slate-900/5 to-transparent group-hover:from-emerald-950/30 pointer-events-none transition-colors duration-500"
+          style={{
+            transform: 'translateZ(-5px)',
+            transformStyle: 'preserve-3d'
+          }}
+        />
+
+        {/* Corner Glow */}
+        <div
+          className="absolute top-0 right-0 w-32 h-32 bg-gradient-radial from-emerald-400/0 to-transparent opacity-0 group-hover:opacity-30 blur-2xl transition-opacity duration-700 pointer-events-none"
+          style={{
+            transform: 'translateZ(3px)',
+            transformStyle: 'preserve-3d'
+          }}
+        />
+      </div>
+    </motion.div>
+  )
 }
 
-export default function BestProductHighlight() {
+export default function ArnaProductShowcase() {
   const sectionRef = useRef(null)
-  const productRef = useRef(null)
-  const featuresRef = useRef([])
+  const heroContentRef = useRef(null)
+  const featureRefs = useRef([])
+  const cardRefs = useRef([])
   const shouldReduceMotion = useReducedMotion()
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      if (shouldReduceMotion) return
+    if (shouldReduceMotion) return
 
-      gsap.from(productRef.current, {
-        scale: 0.85,
+    const ctx = gsap.context(() => {
+      gsap.from(heroContentRef.current, {
+        scale: 0.95,
         opacity: 0,
-        y: 30,
         duration: 1,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top 70%',
-        },
+        }
       })
 
-      gsap.to(productRef.current, {
-        y: -12,
-        duration: 3.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      })
-
-      featuresRef.current.forEach((feature, index) => {
+      featureRefs.current.forEach((feature, index) => {
         if (feature) {
           gsap.from(feature, {
-            y: 30,
+            y: 20,
             opacity: 0,
-            duration: 0.7,
-            delay: 0.2 + index * 0.08,
+            duration: 0.6,
+            delay: 0.1 + index * 0.08,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: sectionRef.current,
               start: 'top 70%',
-            },
+            }
+          })
+        }
+      })
+
+      cardRefs.current.forEach((card, index) => {
+        if (card) {
+          gsap.from(card, {
+            y: 60,
+            opacity: 0,
+            duration: 0.9,
+            delay: 0.3 + index * 0.15,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+            }
           })
         }
       })
@@ -141,217 +329,150 @@ export default function BestProductHighlight() {
   }, [shouldReduceMotion])
 
   return (
-    <section 
-      ref={sectionRef} 
-      className="w-full relative py-12 md:py-16 lg:py-20 overflow-hidden bg-white"
+    <section
+      ref={sectionRef}
+      className="w-full relative py-16 md:py-20 lg:py-24 overflow-hidden bg-white"
     >
-      {/* Subtle background texture [web:26] */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-50/50 via-white to-slate-50/30" />
+      {/* Enhanced Background with Dark Green Gradients */}
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-white to-green-50 pointer-events-none" />
+
+      {/* Radial gradient overlays for depth */}
+      <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-gradient-radial from-emerald-100/40 via-transparent to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-green-100/40 via-transparent to-transparent blur-3xl pointer-events-none" />
+
+      {/* Subtle dark green accent areas */}
+      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-radial from-emerald-200/20 via-emerald-100/10 to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-gradient-radial from-green-200/20 via-green-100/10 to-transparent blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Minimal Professional Header [web:16] */}
-        <motion.div
-          initial={{ opacity: 0, y: -15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-10 md:mb-12"
-        >
-          <div className="inline-block mb-3">
-            <span className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-semibold">
-              Premium Skincare
-            </span>
-          </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-slate-900 tracking-tight">
-            Why Choose{' '}
-            <span className="font-semibold">Arna</span>
-          </h2>
-          <p className="mt-3 text-sm text-slate-600 max-w-xl mx-auto font-light">
-            Science-backed formulations crafted with nature's finest ingredients
-          </p>
-        </motion.div>
 
-        {/* Main Grid Layout - Professional & Compact [web:25] */}
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center max-w-6xl mx-auto">
-          
-          {/* Left Features - Desktop Only */}
-          <div className="hidden lg:block lg:col-span-4 space-y-5">
-            {features.slice(0, 3).map((feature, index) => (
-              <motion.div
-                key={feature.id}
-                ref={(el) => (featuresRef.current[index] = el)}
-                whileHover={{ x: 5 }}
-                transition={{ duration: 0.3 }}
-                className="group"
-              >
-                <div className="flex items-start gap-3 p-4 rounded-lg border border-slate-100 hover:border-emerald-200 hover:shadow-md hover:shadow-emerald-50 transition-all duration-300 bg-white">
-                  <div className="shrink-0 mt-0.5">
-                    <div className="w-10 h-10 rounded-lg bg-slate-50 group-hover:bg-emerald-50 flex items-center justify-center text-slate-600 group-hover:text-emerald-600 transition-all duration-300 border border-slate-200 group-hover:border-emerald-200">
-                      <FeatureIcon type={feature.icon} />
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-semibold text-slate-900 mb-1 leading-tight">
-                      {feature.title}
-                    </h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      {feature.text}
-                    </p>
-                  </div>
+        {/* Feature Badges */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 mb-12 md:mb-16">
+          {topFeatures.map((feature, index) => (
+            <motion.div
+              key={index}
+              ref={(el) => (featureRefs.current[index] = el)}
+              whileHover={{ y: -3, scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+              className="group"
+            >
+              <div className="flex flex-col items-center text-center p-5 md:p-6 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200/60 hover:border-emerald-300 hover:shadow-md hover:shadow-emerald-100/40 transition-all duration-300">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-slate-100 group-hover:bg-gradient-to-br group-hover:from-emerald-100 group-hover:to-green-100 flex items-center justify-center text-slate-700 group-hover:text-emerald-700 transition-all duration-300 mb-3">
+                  {feature.icon}
                 </div>
-              </motion.div>
-            ))}
+                <h3 className="text-xs md:text-sm font-semibold text-slate-900 mb-1 tracking-tight">
+                  {feature.title}
+                </h3>
+                <p className="text-[9px] md:text-[10px] text-slate-500 font-light">
+                  {feature.subtitle}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Compact Main Layout with Tighter Spacing */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-center mb-8 md:mb-12">
+
+          {/* LEFT CARD */}
+          <div className="lg:col-span-3 hidden lg:block">
+            <UniformCard3D
+              product={productCards[0]}
+              cardRef={(el) => (cardRefs.current[0] = el)}
+            />
           </div>
 
-          {/* Center Product [web:16][web:26] */}
-          <div className="lg:col-span-4 flex items-center justify-center">
-            <div ref={productRef} className="relative">
-              <motion.div
-                whileHover={{ scale: 1.04 }}
-                transition={{ duration: 0.4 }}
-                className="relative"
-              >
-                {/* Subtle shadow effect */}
-                <div className="absolute -inset-8 bg-gradient-to-b from-emerald-100/20 via-transparent to-slate-100/30 rounded-full blur-2xl" />
-                
-                <div className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] lg:w-[320px] lg:h-[320px]">
-                  <Image
-                    src="/products/vitamin-c-serum.png"
-                    alt="Arna Vitamin C Serum"
-                    fill
-                    sizes="(min-width: 1024px) 320px, (min-width: 640px) 300px, 260px"
-                    className="object-contain drop-shadow-xl"
-                    priority
-                    quality={95}
-                  />
-                </div>
-              </motion.div>
+          {/* CENTER CONTENT - Smaller Heading */}
+          <motion.div
+            ref={heroContentRef}
+            className="lg:col-span-6 text-center py-6 md:py-8 flex items-center"
+            style={{ minHeight: '280px' }}
+          >
+            <div className="w-full">
+              <div className="inline-block mb-3">
+                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.35em] text-emerald-700 font-bold">
+                  Premium Skincare
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-slate-900 mb-3 tracking-tight leading-tight">
+                Professional
+                <br />
+                <span className="font-semibold bg-gradient-to-r from-emerald-800 via-green-700 to-emerald-600 bg-clip-text text-transparent">
+                  Collection
+                </span>
+              </h2>
+              <p className="text-xs md:text-sm text-slate-600 max-w-lg mx-auto font-light leading-relaxed">
+                Clinically-proven formulations crafted with precision and care
+              </p>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right Features - Desktop Only */}
-          <div className="hidden lg:block lg:col-span-4 space-y-5">
-            {features.slice(3, 6).map((feature, index) => (
-              <motion.div
-                key={feature.id}
-                ref={(el) => (featuresRef.current[index + 3] = el)}
-                whileHover={{ x: -5 }}
-                transition={{ duration: 0.3 }}
-                className="group"
-              >
-                <div className="flex items-start gap-3 flex-row-reverse text-right p-4 rounded-lg border border-slate-100 hover:border-emerald-200 hover:shadow-md hover:shadow-emerald-50 transition-all duration-300 bg-white">
-                  <div className="shrink-0 mt-0.5">
-                    <div className="w-10 h-10 rounded-lg bg-slate-50 group-hover:bg-emerald-50 flex items-center justify-center text-slate-600 group-hover:text-emerald-600 transition-all duration-300 border border-slate-200 group-hover:border-emerald-200">
-                      <FeatureIcon type={feature.icon} />
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-semibold text-slate-900 mb-1 leading-tight">
-                      {feature.title}
-                    </h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      {feature.text}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Mobile/Tablet Grid [web:25] */}
-          <div className="lg:hidden col-span-full grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.id}
-                ref={(el) => (featuresRef.current[index] = el)}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.07, duration: 0.5 }}
-                className="group"
-              >
-                <div className="flex items-start gap-3 p-4 rounded-lg border border-slate-100 hover:border-emerald-200 hover:shadow-md hover:shadow-emerald-50 transition-all duration-300 bg-white h-full">
-                  <div className="shrink-0 mt-0.5">
-                    <div className="w-9 h-9 rounded-lg bg-slate-50 group-hover:bg-emerald-50 flex items-center justify-center text-slate-600 group-hover:text-emerald-600 transition-all duration-300 border border-slate-200 group-hover:border-emerald-200">
-                      <FeatureIcon type={feature.icon} />
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-semibold text-slate-900 mb-1 leading-tight">
-                      {feature.title}
-                    </h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">
-                      {feature.text}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+          {/* RIGHT CARD */}
+          <div className="lg:col-span-3 hidden lg:block">
+            <UniformCard3D
+              product={productCards[1]}
+              cardRef={(el) => (cardRefs.current[1] = el)}
+            />
           </div>
         </div>
 
-        {/* Professional CTA Section [web:28] */}
+        {/* Bottom Row - 3 Cards with Tighter Spacing */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 mb-12 md:mb-16 max-w-6xl mx-auto">
+          {productCards.slice(2, 5).map((product, index) => (
+            <UniformCard3D
+              key={product.id}
+              product={product}
+              cardRef={(el) => (cardRefs.current[index + 2] = el)}
+            />
+          ))}
+        </div>
+
+        {/* Mobile cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 mb-12 md:mb-16 lg:hidden max-w-2xl mx-auto">
+          <UniformCard3D
+            product={productCards[0]}
+            cardRef={(el) => (cardRefs.current[5] = el)}
+          />
+          <UniformCard3D
+            product={productCards[1]}
+            cardRef={(el) => (cardRefs.current[6] = el)}
+          />
+        </div>
+
+        {/* CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.7 }}
-          className="mt-10 md:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
+          transition={{ delay: 0.6, duration: 0.7 }}
+          className="text-center"
         >
           <Link
             href="/products"
-            className="group relative inline-flex items-center justify-center px-8 py-3 rounded-md bg-slate-900 text-white text-sm font-medium shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto"
+            className="group relative inline-flex items-center justify-center px-12 py-4 rounded-full bg-gradient-to-r from-emerald-800 to-green-700 text-white text-sm md:text-base font-semibold shadow-lg hover:shadow-2xl hover:shadow-emerald-500/40 transition-all duration-500 overflow-hidden"
           >
-            <span className="absolute inset-0 bg-emerald-700 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            <span className="relative z-10 flex items-center gap-2">
-              Explore Products
-              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            <span className="absolute inset-0 bg-gradient-to-r from-green-700 to-emerald-900 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+            <span className="relative z-10 flex items-center gap-2 tracking-wide">
+              Explore All Products
+              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </span>
           </Link>
 
-          <Link
-            href="/#contact"
-            className="group inline-flex items-center justify-center px-8 py-3 rounded-md border-2 border-slate-300 text-slate-700 text-sm font-medium hover:border-slate-900 hover:bg-slate-50 transition-all duration-300 w-full sm:w-auto"
-          >
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 md:gap-8 text-[10px] md:text-xs text-slate-500 font-light">
             <span className="flex items-center gap-2">
-              Contact Us
-              <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
+              <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full" />
+              Clinically Tested
             </span>
-          </Link>
-        </motion.div>
-
-        {/* Trust Indicators - Professional [web:16] */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.7, duration: 0.7 }}
-          className="mt-10 pt-8 border-t border-slate-200 flex flex-wrap items-center justify-center gap-8 text-xs text-slate-500"
-        >
-          <div className="flex items-center gap-2">
-            <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            <span className="font-medium">Dermatologist Approved</span>
-          </div>
-          <div className="hidden sm:block w-px h-4 bg-slate-300" />
-          <div className="flex items-center gap-2">
-            <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            <span className="font-medium">Cruelty Free</span>
-          </div>
-          <div className="hidden sm:block w-px h-4 bg-slate-300" />
-          <div className="flex items-center gap-2">
-            <svg className="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            <span className="font-medium">100% Vegan</span>
+            <span className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full" />
+              Cruelty Free
+            </span>
+            <span className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full" />
+              Sustainable
+            </span>
           </div>
         </motion.div>
       </div>
