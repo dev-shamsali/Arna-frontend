@@ -112,7 +112,7 @@ export default function Navbar({ solid = false }) {
           <Link href="/" className="flex items-center z-50 flex-shrink-0" onClick={closeMobileMenu}>
             <Image
               src="/logo1.png"
-              alt="ARNA Logo"
+              alt=""
               width={120}
               height={40}
               className={`h-8 sm:h-9 transition-all duration-300 ${showSolid ? 'brightness-100' : 'brightness-0 invert'
