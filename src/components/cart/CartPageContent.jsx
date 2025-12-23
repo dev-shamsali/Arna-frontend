@@ -1,10 +1,10 @@
 // src/components/cart/CartPageContent.jsx
 "use client";
 import { useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { useCart } from "./CartContext";
 import CartItemRow from "./CartItemRow";
 import ProductGrid from "../home/ProductGrid";
-import { useRouter } from "next/navigation";
 
 export default function CartPageContent() {
   const router = useRouter();
@@ -22,8 +22,8 @@ export default function CartPageContent() {
 
   return (
     <>
-      {/* CART SECTION - Force white background, override dark mode */}
-      <div className="min-h-screen bg-white">
+      {/* Force light theme here */}
+      <div className="min-h-screen bg-white text-gray-900">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 pt-20 sm:pt-24 lg:pt-28 pb-8 sm:pb-10">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
@@ -40,7 +40,9 @@ export default function CartPageContent() {
           </p>
 
           {cartItems.length === 0 ? (
-            <p className="text-sm sm:text-base text-gray-900">Your cart is empty.</p>
+            <p className="text-sm sm:text-base text-gray-900">
+              Your cart is empty.
+            </p>
           ) : (
             <div className="grid gap-4 lg:gap-6 lg:grid-cols-[3fr,2fr]">
               {/* LEFT: items list */}
