@@ -6,7 +6,9 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+
 gsap.registerPlugin(ScrollTrigger)
+
 
 const productCards = [
   {
@@ -40,6 +42,7 @@ const productCards = [
     keyIngredient: 'Tea Tree Oil'
   }
 ]
+
 
 const topFeatures = [
   {
@@ -80,7 +83,8 @@ const topFeatures = [
   }
 ]
 
-// Uniform Size Card Component
+
+// Uniform Size Card Component with Light to Dark Green Gradient
 const UniformCard3D = ({ product, cardRef }) => {
   const router = useRouter()
   const [rotateX, setRotateX] = useState(0)
@@ -88,23 +92,29 @@ const UniformCard3D = ({ product, cardRef }) => {
   const [isHovered, setIsHovered] = useState(false)
   const shouldReduceMotion = useReducedMotion()
 
+
   const handleMouseMove = (e) => {
     if (shouldReduceMotion) return
+
 
     const card = e.currentTarget
     const rect = card.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
 
+
     const centerX = rect.width / 2
     const centerY = rect.height / 2
+
 
     const rotateXValue = ((y - centerY) / centerY) * -10
     const rotateYValue = ((x - centerX) / centerX) * 10
 
+
     setRotateX(rotateXValue)
     setRotateY(rotateYValue)
   }
+
 
   const handleMouseLeave = () => {
     setRotateX(0)
@@ -112,9 +122,11 @@ const UniformCard3D = ({ product, cardRef }) => {
     setIsHovered(false)
   }
 
+
   const handleClick = () => {
     router.push('/products')
   }
+
 
   return (
     <motion.div
@@ -151,14 +163,24 @@ const UniformCard3D = ({ product, cardRef }) => {
           }}
         />
 
-        {/* Dark Green Gradient Overlay on Hover */}
+        {/* Light Green Gradient (Base Layer) */}
         <div
-          className="absolute inset-0 bg-gradient-to-br from-emerald-800 via-green-700 to-emerald-900 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-green-100 to-emerald-200 transition-opacity duration-500"
           style={{
             transform: 'translateZ(1px)',
             transformStyle: 'preserve-3d'
           }}
         />
+
+        {/* Dark Green Gradient Overlay (Appears on Hover) */}
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-emerald-800 via-green-700 to-emerald-900 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            transform: 'translateZ(2px)',
+            transformStyle: 'preserve-3d'
+          }}
+        />
+
 
         {/* Shimmer Effect */}
         <div
@@ -169,6 +191,7 @@ const UniformCard3D = ({ product, cardRef }) => {
           }}
         />
 
+
         {/* Top Accent Line */}
         <div
           className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-600/60 to-green-600/60 group-hover:from-emerald-400 group-hover:to-green-400 transition-all duration-500"
@@ -178,8 +201,10 @@ const UniformCard3D = ({ product, cardRef }) => {
           }}
         />
 
+
         {/* Card Content - Fixed Height Layout */}
         <div className="relative p-6 h-full flex flex-col justify-between">
+
 
           {/* Category badge */}
           <div
@@ -195,6 +220,7 @@ const UniformCard3D = ({ product, cardRef }) => {
             </span>
           </div>
 
+
           {/* Product title - Centered */}
           <div
             className="flex-1 flex items-center justify-center"
@@ -207,6 +233,7 @@ const UniformCard3D = ({ product, cardRef }) => {
               {product.title}
             </h3>
           </div>
+
 
           {/* Key ingredient badge and arrow */}
           <div
@@ -225,6 +252,7 @@ const UniformCard3D = ({ product, cardRef }) => {
                   {product.keyIngredient}
                 </p>
               </div>
+
 
               {/* Arrow Icon */}
               <div
@@ -248,6 +276,7 @@ const UniformCard3D = ({ product, cardRef }) => {
           </div>
         </div>
 
+
         {/* Bottom Shadow */}
         <div
           className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-slate-900/5 to-transparent group-hover:from-emerald-950/30 pointer-events-none transition-colors duration-500"
@@ -256,6 +285,7 @@ const UniformCard3D = ({ product, cardRef }) => {
             transformStyle: 'preserve-3d'
           }}
         />
+
 
         {/* Corner Glow */}
         <div
@@ -270,6 +300,7 @@ const UniformCard3D = ({ product, cardRef }) => {
   )
 }
 
+
 export default function ArnaProductShowcase() {
   const sectionRef = useRef(null)
   const heroContentRef = useRef(null)
@@ -277,8 +308,10 @@ export default function ArnaProductShowcase() {
   const cardRefs = useRef([])
   const shouldReduceMotion = useReducedMotion()
 
+
   useEffect(() => {
     if (shouldReduceMotion) return
+
 
     const ctx = gsap.context(() => {
       gsap.from(heroContentRef.current, {
@@ -291,6 +324,7 @@ export default function ArnaProductShowcase() {
           start: 'top 70%',
         }
       })
+
 
       featureRefs.current.forEach((feature, index) => {
         if (feature) {
@@ -307,6 +341,7 @@ export default function ArnaProductShowcase() {
           })
         }
       })
+
 
       cardRefs.current.forEach((card, index) => {
         if (card) {
@@ -325,8 +360,10 @@ export default function ArnaProductShowcase() {
       })
     }, sectionRef)
 
+
     return () => ctx.revert()
   }, [shouldReduceMotion])
+
 
   return (
     <section
@@ -336,15 +373,19 @@ export default function ArnaProductShowcase() {
       {/* Enhanced Background with Dark Green Gradients */}
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-white to-green-50 pointer-events-none" />
 
+
       {/* Radial gradient overlays for depth */}
       <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-gradient-radial from-emerald-100/40 via-transparent to-transparent blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-green-100/40 via-transparent to-transparent blur-3xl pointer-events-none" />
+
 
       {/* Subtle dark green accent areas */}
       <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-radial from-emerald-200/20 via-emerald-100/10 to-transparent blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-gradient-radial from-green-200/20 via-green-100/10 to-transparent blur-3xl pointer-events-none" />
 
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
 
         {/* Feature Badges */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 mb-12 md:mb-16">
@@ -371,8 +412,10 @@ export default function ArnaProductShowcase() {
           ))}
         </div>
 
+
         {/* Compact Main Layout with Tighter Spacing */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-center mb-8 md:mb-12">
+
 
           {/* LEFT CARD */}
           <div className="lg:col-span-3 hidden lg:block">
@@ -381,6 +424,7 @@ export default function ArnaProductShowcase() {
               cardRef={(el) => (cardRefs.current[0] = el)}
             />
           </div>
+
 
           {/* CENTER CONTENT - Smaller Heading */}
           <motion.div
@@ -407,6 +451,7 @@ export default function ArnaProductShowcase() {
             </div>
           </motion.div>
 
+
           {/* RIGHT CARD */}
           <div className="lg:col-span-3 hidden lg:block">
             <UniformCard3D
@@ -415,6 +460,7 @@ export default function ArnaProductShowcase() {
             />
           </div>
         </div>
+
 
         {/* Bottom Row - 3 Cards with Tighter Spacing */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 mb-12 md:mb-16 max-w-6xl mx-auto">
@@ -427,6 +473,7 @@ export default function ArnaProductShowcase() {
           ))}
         </div>
 
+
         {/* Mobile cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 mb-12 md:mb-16 lg:hidden max-w-2xl mx-auto">
           <UniformCard3D
@@ -438,6 +485,7 @@ export default function ArnaProductShowcase() {
             cardRef={(el) => (cardRefs.current[6] = el)}
           />
         </div>
+
 
         {/* CTA Section */}
         <motion.div
@@ -459,6 +507,7 @@ export default function ArnaProductShowcase() {
               </svg>
             </span>
           </Link>
+
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-6 md:gap-8 text-[10px] md:text-xs text-slate-500 font-light">
             <span className="flex items-center gap-2">
