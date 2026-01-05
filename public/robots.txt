@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+Disallow: /cart
+Disallow: /checkout
+Disallow: /account
+Disallow: /login
+Disallow: /register
+
+Sitemap: https://arnaskincare.in/sitemap.xml
