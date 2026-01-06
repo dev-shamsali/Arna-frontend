@@ -67,7 +67,7 @@ const ProductsPage = () => {
             {/* Hero Header */}
             <section
                 className="relative bg-cover bg-center bg-no-repeat py-16 md:py-24 px-4"
-                style={{ backgroundImage: "url('/hero.jpg')" }}
+                style={{ backgroundImage: "url('/hero.png')" }}
             >
                 <div className="absolute inset-0  backdrop-blur-sm"></div>
 
