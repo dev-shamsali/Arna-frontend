@@ -6,15 +6,14 @@ import { motion } from 'framer-motion'
 const BRAND = '#0a7a4e'
 
 const products = [
-  { id: 1, name: 'Night Fairness Cream', img: '/products/night-fairness-cream.png', price: '₹499', desc: 'Brightening night formula with saffron', fit: 'cover' },
   { id: 2, name: 'Shea Butter Moisturizer', img: '/products/shea-butter-moisturizer.png', price: '₹1,499', desc: 'Rich hydration with natural shea', fit: 'cover' },
   { id: 3, name: 'Sunscreen SPF 50+', img: '/products/sunscreen-SPF50+.png', price: '₹749', desc: 'Lightweight protection, non-greasy', fit: 'contain' },
 ]
 
 export default function ProductGrid() {
   return (
-    <section 
-      className="px-6 py-16 bg-white" 
+    <section
+      className="px-6 py-16 bg-white"
       style={{ '--brand': BRAND }}
     >
       <div className="max-w-6xl mx-auto">
