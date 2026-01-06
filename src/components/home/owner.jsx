@@ -227,12 +227,12 @@ const OurStory = () => {
                         variants={imageVariants}
                         className="relative order-2 md:order-1"
                     >
-                        <div className="relative h-[350px] sm:h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl shadow-emerald-900/50 group">
+                        <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl shadow-emerald-900/50 group">
                             <Image
-                                src="/images/founders.jpg"
+                                src="/home/founder.png"
                                 alt="Arman and Naaz - Founders of Arna Skincare"
                                 fill
-                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                className="object-cover object-center md:object-[50%_25%] transition-transform duration-700 group-hover:scale-110"
                                 priority
                             />
                             {/* Overlay Badge */}
