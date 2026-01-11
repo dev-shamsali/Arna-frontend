@@ -30,7 +30,9 @@
 
 /* Base styling overrides */
 @layer base {
-  html, body {
+
+  html,
+  body {
     height: 100%;
     background: var(--background);
     color: var(--foreground);
@@ -39,7 +41,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-serif);
     color: var(--foreground);
     margin: 0;
@@ -51,7 +58,10 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.001ms !important;
       transition-duration: 0.001ms !important;
       animation-iteration-count: 1 !important;
@@ -61,7 +71,7 @@
 
 /* Utility classes */
 .hero-overlay {
-  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(250,246,244,0.6));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(250, 246, 244, 0.6));
   backdrop-filter: blur(2px);
 }
 
@@ -70,7 +80,9 @@
   color: var(--muted);
 }
 
-img, picture, video {
+img,
+picture,
+video {
   max-width: 100%;
   height: auto;
   display: block;
@@ -80,6 +92,44 @@ img, picture, video {
 .product-grid-group:hover .product-title span {
   color: var(--brand, #0a7a4e);
 }
+
 .product-grid-group:hover .price-badge {
   color: var(--brand, #0a7a4e);
+}
+
+/* === Intro Loader Animations (ARNA – cinematic) === */
+@layer utilities {
+  .arna-enter {
+    animation: arnaEnter 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .arna-exit {
+    animation: arnaExit 2s ease forwards;
+  }
+
+  @keyframes arnaEnter {
+    0% {
+      opacity: 0;
+      transform: scale(0.92) translateY(20px);
+      filter: blur(6px);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes arnaExit {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(1.05);
+      visibility: hidden;
+    }
+  }
 }
