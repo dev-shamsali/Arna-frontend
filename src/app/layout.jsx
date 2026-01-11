@@ -33,7 +33,7 @@ export const metadata = {
       { url: "/favicon_io/favicon.ico" },
       { url: "/favicon_io/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon_io/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/logo.png" }, // fallback brand icon
+      { url: "/logo.png" },
     ],
     apple: "/favicon_io/apple-touch-icon.png",
   },
@@ -65,10 +65,16 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
-        {/* Preload logo for faster brand rendering */}
-        <link rel="preload" as="image" href="/logo.png" />
+        {/* 🔥 CRITICAL: Preload intro logo (PNG, max priority) */}
+        <link
+          rel="preload"
+          as="image"
+          href="/logo1.png"
+          type="image/png"
+          fetchpriority="high"
+        />
 
-        {/* Organization schema (makes Google show your logo) */}
+        {/* Organization schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -82,7 +88,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Website schema (improves visibility and search actions) */}
+        {/* Website schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
