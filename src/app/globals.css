@@ -133,3 +133,23 @@ video {
     }
   }
 }
+
+/* Continuous marquee */
+@keyframes testimonial-marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.testimonial-marquee {
+  animation: testimonial-marquee 40s linear infinite;
+  will-change: transform;
+}
+
+.testimonial-marquee.pause {
+  animation-play-state: paused;
+}

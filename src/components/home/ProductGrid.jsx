@@ -6,8 +6,8 @@ import { motion } from 'framer-motion'
 const BRAND = '#0a7a4e'
 
 const products = [
-  { id: 2, name: 'Shea Butter Moisturizer', img: '/products/shea-butter-moisturizer.png', price: '₹1,499', desc: 'Rich hydration with natural shea', fit: 'cover' },
-  { id: 3, name: 'Sunscreen SPF 50+', img: '/products/sunscreen-SPF50+.png', price: '₹749', desc: 'Lightweight protection, non-greasy', fit: 'contain' },
+  { id: 2, name: 'Shea Butter Moisturizer', img: '/products/shea-butter-moisturizer.png', price: '₹199', desc: 'Rich hydration with natural shea', fit: 'cover' },
+  { id: 3, name: 'Sunscreen SPF 50+', img: '/products/sunscreen-SPF50+.png', price: '₹349', desc: 'Lightweight protection, non-greasy', fit: 'contain' },
 ]
 
 export default function ProductGrid() {
