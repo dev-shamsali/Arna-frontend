@@ -2,11 +2,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Leaf, Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { categories, problems } from "../lib/constants"
-import { getAllProducts } from '../lib/services/product.service';
+import { useGetProductsQuery } from '@/redux/slices/cmsSlice';
 import BestSellers from './BestSellers';
 import ProductCard from './ProductsCard';
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+
 const ProductsPage = () => {
-    const products = getAllProducts();
     const [activeCategory, setActiveCategory] = useState('all');
     const [activeProblem, setActiveProblem] = useState(null);
     const [visibleCount, setVisibleCount] = useState(5);
@@ -16,34 +18,71 @@ const ProductsPage = () => {
     const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);
     const [isPriceExpanded, setIsPriceExpanded] = useState(true);
 
+    const { data, isLoading, isError } = useGetProductsQuery({
+        category: activeCategory !== "all" ? activeCategory : undefined,
+    });
+    
+    // Transform products to add full image URLs
+    const products = useMemo(() => {
+        const rawProducts = data?.data ?? [];
+        console.log('🔍 Raw API Response:', data);
+        console.log('🔍 API_BASE_URL:', API_BASE_URL);
+        
+        const transformed = rawProducts.map(product => {
+            const fullImageUrl = product.image?.startsWith('http') 
+                ? product.image 
+                : `${API_BASE_URL}${product.image}`;
+            
+            console.log('🖼️ Transforming product:', {
+                name: product.name,
+                originalImage: product.image,
+                fullImageUrl: fullImageUrl
+            });
+            
+            return {
+                ...product,
+                id: product._id || product.id,
+                image: fullImageUrl,
+                displayPrice: product.salePrice || product.price,
+                mrp: product.price,
+                price: product.salePrice || product.price,
+                badge: product.isBestSeller ? 'Bestseller' : (product.isNewArrival ? 'New' : null)
+            };
+        });
+        
+        console.log('✅ Transformed products:', transformed);
+        return transformed;
+    }, [data?.data]);
+
     const priceRangeOptions = [
         { id: 'under200', label: 'Under ₹200', min: 0, max: 200 },
-        { id: '300-500', label: '₹300 - ₹500', min: 300, max: 500 },
+        { id: '200-500', label: '₹200 - ₹500', min: 200, max: 500 },
         { id: '500-1000', label: '₹500 - ₹1000', min: 500, max: 1000 },
-        { id: 'above1500', label: 'Above ₹1500', min: 1500, max: 10000 }
+        { id: '1000-5000', label: '₹1000 - ₹5000', min: 1000, max: 5000 },
+        { id: 'above5000', label: 'Above ₹5000', min: 5000, max: 100000 }
     ];
 
     const filteredProducts = useMemo(() => {
         let filtered = activeCategory === "all"
             ? products
-            : products.filter(p => p.category === activeCategory);
+            : products.filter(p => {
+                const productCategory = p.category || 'uncategorized';
+                return productCategory === activeCategory;
+            });
 
         // Apply price filter
         if (selectedPriceRanges.length > 0) {
             filtered = filtered.filter(p => {
                 return selectedPriceRanges.some(rangeId => {
                     const range = priceRangeOptions.find(r => r.id === rangeId);
-                    return p.price >= range.min && p.price <= range.max;
+                    const productPrice = p.displayPrice;
+                    return productPrice >= range.min && productPrice <= range.max;
                 });
             });
         }
 
         return filtered;
-    }, [activeCategory, selectedPriceRanges]);
-
-    const bestSellers = useMemo(() => {
-        return products.filter(p => p.bestseller);
-    }, []);
+    }, [activeCategory, selectedPriceRanges, products]);
 
     useEffect(() => {
         setVisibleCount(5);
@@ -62,6 +101,25 @@ const ProductsPage = () => {
         setActiveCategory('all');
     };
 
+    const bestSellers = useMemo(() => {
+        return products.filter(p => p.isBestSeller);
+    }, [products]);
+
+    // Debug logging
+    useEffect(() => {
+        console.log('Raw data:', data);
+        console.log('Transformed products:', products);
+        console.log('Filtered products:', filteredProducts);
+    }, [data, products, filteredProducts]);
+
+    if (isLoading) {
+        return <div className="p-8 text-center">Loading products…</div>;
+    }
+
+    if (isError) {
+        return <div className="p-8 text-center text-red-500">Failed to load products</div>;
+    }
+
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Header */}
@@ -69,12 +127,12 @@ const ProductsPage = () => {
                 className="relative bg-cover bg-center bg-no-repeat py-16 md:py-24 px-4"
                 style={{ backgroundImage: "url('/hero.png')" }}
             >
-                <div className="absolute inset-0  backdrop-blur-sm"></div>
+                <div className="absolute inset-0 backdrop-blur-sm"></div>
 
                 <div className="relative max-w-7xl mx-auto text-center">
                     <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-2 rounded-full mb-6 shadow-sm">
                         <Leaf className="w-4 h-4 text-[#0A7A4E]" />
-                        <span className="text-sm text-[#0A7A4E] font-medium">30 Premium Products Available</span>
+                        <span className="text-sm text-[#0A7A4E] font-medium">{products.length} Premium Products Available</span>
                     </div>
 
                     <h1 className="font-serif text-4xl md:text-6xl text-[#0A7A4E] mb-4">
@@ -90,7 +148,6 @@ const ProductsPage = () => {
                     </div>
                 </div>
             </section>
-
 
             {/* Mobile Filter Toggle Button */}
             <div className="lg:hidden sticky top-0 z-50 bg-white border-b border-gray-200 px-4 py-3">
@@ -290,8 +347,7 @@ const ProductsPage = () => {
                             <div className="flex justify-center mt-8">
                                 <button
                                     onClick={() => setVisibleCount(prev => prev + 6)}
-                                    className="px-6 py-3 rounded-full bg-[#0A7A4E] text-white font-medium
-                   hover:bg-[#0A7A4E]/90 transition-all shadow-md cursor-pointer"
+                                    className="px-6 py-3 rounded-full bg-[#0A7A4E] text-white font-medium hover:bg-[#0A7A4E]/90 transition-all shadow-md cursor-pointer"
                                 >
                                     Load More
                                 </button>

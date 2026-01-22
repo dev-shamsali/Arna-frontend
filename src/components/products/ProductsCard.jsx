@@ -4,11 +4,27 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart, Star, Sparkles } from "lucide-react";
 import { useCart } from "@/components/cart/CartContext";
+import { useEffect } from "react";
 
 export default function ProductCard({ product }) {
   const { addToCart, updateQty, cartItems } = useCart();
 
-  const discount = Math.round(((product.mrp - product.price) / product.mrp) * 100);
+  // Debug logging
+  useEffect(() => {
+    console.log('ProductCard received:', {
+      name: product.name,
+      image: product.image,
+      price: product.price,
+      mrp: product.mrp,
+      id: product.id,
+      slug: product.slug
+    });
+  }, [product]);
+
+  const discount = product.mrp && product.price 
+    ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
+    : 0;
+    
   const existing = cartItems.find((p) => p.id === product.id);
   const qtyInCart = existing?.qty || 0;
 
@@ -27,6 +43,14 @@ export default function ProductCard({ product }) {
           className="object-cover"
           quality={85}
           loading="lazy"
+          onError={(e) => {
+            console.error('Image failed to load:', product.image);
+            // Optionally set a fallback image
+            // e.currentTarget.src = '/placeholder.png';
+          }}
+          onLoad={() => {
+            console.log('Image loaded successfully:', product.image);
+          }}
         />
 
         {product.badge && (
@@ -52,15 +76,21 @@ export default function ProductCard({ product }) {
         </Link>
 
         <p className="text-sm text-gray-600 mb-3 line-clamp-2 leading-relaxed">
-          {product.benefit}
+          {product.benefit || product.description || 'Premium quality product'}
         </p>
 
         <div className="flex items-baseline gap-3 mb-4">
-          <span className="text-2xl font-bold text-[#0A7A4E]">₹{product.price}</span>
-          <span className="text-sm text-gray-400 line-through">₹{product.mrp}</span>
-          <span className="text-xs font-semibold text-[#C9A86A] bg-[#C9A86A]/10 px-2 py-1 rounded">
-            {discount}% OFF
+          <span className="text-2xl font-bold text-[#0A7A4E]">
+            ₹{product.price || product.displayPrice}
           </span>
+          {product.mrp && product.mrp !== product.price && (
+            <>
+              <span className="text-sm text-gray-400 line-through">₹{product.mrp}</span>
+              <span className="text-xs font-semibold text-[#C9A86A] bg-[#C9A86A]/10 px-2 py-1 rounded">
+                {discount}% OFF
+              </span>
+            </>
+          )}
         </div>
 
         <div className="mt-auto flex flex-col gap-3">

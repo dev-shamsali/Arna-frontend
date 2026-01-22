@@ -1,10 +1,11 @@
 import './globals.css'
 import { Inter, Playfair_Display } from 'next/font/google'
-
+import ReduxProvide from "@/redux/store/provider"
 import ConditionalNavbar from '@/components/layout/ConditionalNavbar'
 import { CartProvider } from '@/components/cart/CartContext'
 // import Footer from '@/components/layout/footer'
 import IntroGate from '@/components/ui/IntroGate'
+import ReduxProvider from '@/redux/store/provider'
 
 /* Fonts */
 const inter = Inter({
@@ -88,6 +89,7 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className="antialiased min-h-screen flex flex-col">
+        <ReduxProvider>
         <IntroGate>
           <CartProvider>
             <ConditionalNavbar />
@@ -95,6 +97,7 @@ export default function RootLayout({ children }) {
             {/* <Footer /> */}
           </CartProvider>
         </IntroGate>
+        </ReduxProvider>
       </body>
     </html>
   )
