@@ -1,11 +1,10 @@
 import './globals.css'
 import { Inter, Playfair_Display } from 'next/font/google'
-import ReduxProvide from "@/redux/store/provider"
 import ConditionalNavbar from '@/components/layout/ConditionalNavbar'
 import { CartProvider } from '@/components/cart/CartContext'
 // import Footer from '@/components/layout/footer'
 import IntroGate from '@/components/ui/IntroGate'
-import ReduxProvider from '@/redux/store/provider'
+import ReduxProvider from '@/redux/provider'
 
 /* Fonts */
 const inter = Inter({

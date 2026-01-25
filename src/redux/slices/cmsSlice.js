@@ -1,38 +1,32 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { apiSlice } from "./apiSlice";
 
-export const cmsApi = createApi({
-  reducerPath: "cmsApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_BACKEND_API,
-  }),
+export const cmsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
 
-    /* -------------------------
-       HERO SECTION
-    ------------------------- */
+    /* HERO */
     getHero: builder.query({
       query: () => "/cms/hero",
+      providesTags: ["CMS"],
     }),
 
-    /* -------------------------
-       ABOUT US
-    ------------------------- */
+    /* ABOUT */
     getAbout: builder.query({
       query: () => "/cms/about",
+      providesTags: ["CMS"],
     }),
 
-    /* -------------------------
-       PRODUCTS (PUBLIC)
-    ------------------------- */
+    /* PRODUCTS */
     getProducts: builder.query({
       query: (params = {}) => ({
         url: "/products/getall",
         params,
       }),
+      providesTags: ["PRODUCT"],
     }),
 
     getProduct: builder.query({
       query: (slug) => `/products/${slug}`,
+      providesTags: ["PRODUCT"],
     }),
   }),
 });

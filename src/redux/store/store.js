@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { cmsApi } from "../slices/cmsSlice";
+import { apiSlice } from "../slices/apiSlice";
 
 export const store = configureStore({
   reducer: {
-    [cmsApi.reducerPath]: cmsApi.reducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(cmsApi.middleware),
+    getDefaultMiddleware().concat(apiSlice.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
