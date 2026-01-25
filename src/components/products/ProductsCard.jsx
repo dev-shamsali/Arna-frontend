@@ -35,7 +35,7 @@ export default function ProductCard({ product }) {
         href={`/products/${product.slug}`}
         className="relative bg-[#F4F4F4] aspect-square overflow-hidden block"
       >
-        <Image
+        <img
           src={product.image}
           alt={product.name}
           fill
