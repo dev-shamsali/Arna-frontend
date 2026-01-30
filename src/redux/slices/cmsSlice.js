@@ -2,19 +2,49 @@ import { apiSlice } from "./apiSlice";
 
 export const cmsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-
-    /* HERO */
-    getHero: builder.query({
+    /* HOME HERO */
+    getHomeHero: builder.query({
       query: () => "/cms/hero",
       providesTags: ["CMS"],
     }),
-
-    /* ABOUT */
-    getAbout: builder.query({
-      query: () => "/cms/about",
-      providesTags: ["CMS"],
+    saveHomeHero: builder.mutation({
+      query: (formData) => ({
+        url: "/cms/hero",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["CMS"],
     }),
-
+    
+    /* ABOUT US */
+    getAboutUs: builder.query({
+      query: () => "/about",
+      providesTags: ["AboutUs"],
+    }),
+    saveAboutUs: builder.mutation({
+      query: (formData) => ({
+        url: "/about",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["AboutUs"],
+    }),
+    updateAboutUs: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/about/${id}`,
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: ["AboutUs"],
+    }),
+    deleteAboutUs: builder.mutation({
+      query: (id) => ({
+        url: `/about/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["AboutUs"],
+    }),
+    
     /* PRODUCTS */
     getProducts: builder.query({
       query: (params = {}) => ({
@@ -23,7 +53,6 @@ export const cmsApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["PRODUCT"],
     }),
-
     getProduct: builder.query({
       query: (slug) => `/products/${slug}`,
       providesTags: ["PRODUCT"],
@@ -32,8 +61,12 @@ export const cmsApi = apiSlice.injectEndpoints({
 });
 
 export const {
-  useGetHeroQuery,
-  useGetAboutQuery,
+  useGetHomeHeroQuery,
+  useSaveHomeHeroMutation,
+  useGetAboutUsQuery,
+  useSaveAboutUsMutation,
+  useUpdateAboutUsMutation,
+  useDeleteAboutUsMutation,
   useGetProductsQuery,
   useGetProductQuery,
 } = cmsApi;

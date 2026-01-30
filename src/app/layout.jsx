@@ -2,6 +2,7 @@ import './globals.css'
 import { Inter, Playfair_Display } from 'next/font/google'
 import ConditionalNavbar from '@/components/layout/ConditionalNavbar'
 import { CartProvider } from '@/components/cart/CartContext'
+import { WishlistProvider } from '@/components/wishlist/WishlistContext' // ← Add this
 // import Footer from '@/components/layout/footer'
 import IntroGate from '@/components/ui/IntroGate'
 import ReduxProvider from '@/redux/provider'
@@ -34,7 +35,6 @@ export const metadata = {
       { url: '/favicon_io/favicon.ico' },
       { url: '/favicon_io/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
       { url: '/favicon_io/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      // { url: '/logo.png' },
     ],
     apple: '/favicon_io/apple-touch-icon.png',
   },
@@ -63,7 +63,6 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
-        {/* Preload logo for loader */}
         <link
           rel="preload"
           as="image"
@@ -72,7 +71,6 @@ export default function RootLayout({ children }) {
           fetchPriority="high"
         />
 
-        {/* Organization schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -89,13 +87,15 @@ export default function RootLayout({ children }) {
 
       <body className="antialiased min-h-screen flex flex-col">
         <ReduxProvider>
-        <IntroGate>
-          <CartProvider>
-            <ConditionalNavbar />
-            <main className="flex-1">{children}</main>
-            {/* <Footer /> */}
-          </CartProvider>
-        </IntroGate>
+          <IntroGate>
+            <CartProvider>
+              <WishlistProvider> {/* ← Add this wrapper */}
+                <ConditionalNavbar />
+                <main className="flex-1">{children}</main>
+                {/* <Footer /> */}
+              </WishlistProvider> {/* ← Close here */}
+            </CartProvider>
+          </IntroGate>
         </ReduxProvider>
       </body>
     </html>
