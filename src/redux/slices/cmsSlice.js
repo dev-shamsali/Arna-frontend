@@ -57,6 +57,13 @@ export const cmsApi = apiSlice.injectEndpoints({
       query: (slug) => `/products/${slug}`,
       providesTags: ["PRODUCT"],
     }),
+
+    getPopupPromo: builder.query({
+      query: () => "/promos/popup",
+      providesTags: ["PromoPopup"],
+      keepUnusedDataFor: 60, // cache for 60s (optional but good)
+    }),
+
   }),
 });
 
@@ -69,4 +76,5 @@ export const {
   useDeleteAboutUsMutation,
   useGetProductsQuery,
   useGetProductQuery,
+  useGetPopupPromoQuery,
 } = cmsApi;

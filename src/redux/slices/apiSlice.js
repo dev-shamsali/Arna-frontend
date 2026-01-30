@@ -5,6 +5,6 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BACKEND_API,
   }),
-  tagTypes: ["CMS", "AboutUs","PRODUCT"],
+  tagTypes: ["CMS", "PRODUCT","PromoPopup","AboutUs"],
   endpoints: () => ({}),
 });
