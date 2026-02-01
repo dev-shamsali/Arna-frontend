@@ -48,7 +48,7 @@ export default function Hero() {
         title: slide.title,
         text: slide.description
       }))
-
+      console.log("Here is the backend slies", backendSlides);
       // Use backend slides if available, otherwise fallback to defaults
       setCurrentSlides(backendSlides.length > 0 ? backendSlides : DEFAULT_SLIDES)
     }
@@ -175,10 +175,12 @@ export default function Hero() {
                 alt={slide.title}
                 fill
                 priority={i === 0}
-                quality={90}
+                unoptimized
                 className="object-cover"
-                onLoad={() => i === 0 && setLoaded(true)}
+                onLoad={() => setLoaded(true)}
+                onError={() => setLoaded(true)}
               />
+
               <div className="absolute inset-0 bg-gradient-to-br from-green-900/45 via-emerald-800/30 to-black/40" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             </div>
