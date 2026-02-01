@@ -122,37 +122,32 @@ const PromoPopupModal = () => {
                     {/* Close Button */}
                     <button
                         onClick={handleClose}
+                        aria-label="Close modal"
                         style={{
                             position: 'absolute',
                             top: '16px',
                             right: '16px',
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: '50%',
+                            padding: 0,
                             border: 'none',
-                            outline: 'none',                 // ✅ remove focus outline
+                            background: 'transparent',   // ✅ no background
+                            outline: 'none',
                             boxShadow: 'none',
-                            backgroundColor: 'rgba(0, 0, 0, 0.1)',
                             cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
                             zIndex: 10,
-                            transition: 'background-color 0.2s',
+                            WebkitAppearance: 'none',
+                            appearance: 'none',
                         }}
-                        onMouseEnter={(e) => (e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.2)')}
-                        onMouseLeave={(e) => (e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.1)')}
-                        aria-label="Close modal"
                     >
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
                             <path
                                 d="M12 4L4 12M4 4L12 12"
-                                stroke="currentColor"
+                                stroke="#111827"
                                 strokeWidth="2"
                                 strokeLinecap="round"
                             />
                         </svg>
                     </button>
+
 
                     {/* STANDARD Promo Type */}
                     {promoType === 'STANDARD' && (
