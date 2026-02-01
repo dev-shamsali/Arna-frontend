@@ -36,7 +36,7 @@ const PromoPopupModal = () => {
     }, [isOpen, confettiShown]);
 
     // Don't render if no promo or showAsPopup is false
-    if (isLoading || isError || !promo || !promo.showAsPopup || !promo.isActive) {
+    if (isLoading || isError || !promo || !promo.showAsPopup || !promo.isActive || !isOpen) {
         return null;
     }
 
@@ -81,15 +81,6 @@ const PromoPopupModal = () => {
         if (e.target === e.currentTarget) {
             handleClose();
         }
-    };
-
-    /**
-     * Handle CTA button click
-     * Can be customized based on business logic
-     */
-    const handleCTA = () => {
-        // Add your CTA logic here (e.g., navigate to shop, apply code, etc.)
-        handleClose();
     };
 
     return (
@@ -139,6 +130,8 @@ const PromoPopupModal = () => {
                             height: '32px',
                             borderRadius: '50%',
                             border: 'none',
+                            outline: 'none',                 // ✅ remove focus outline
+                            boxShadow: 'none',
                             backgroundColor: 'rgba(0, 0, 0, 0.1)',
                             cursor: 'pointer',
                             display: 'flex',
@@ -282,26 +275,6 @@ const PromoPopupModal = () => {
                                 </button>
                             </div>
 
-                            {/* CTA Button */}
-                            <button
-                                onClick={handleCTA}
-                                style={{
-                                    width: '100%',
-                                    padding: '16px',
-                                    backgroundColor: '#111827',
-                                    color: '#ffffff',
-                                    border: 'none',
-                                    borderRadius: '12px',
-                                    fontSize: '16px',
-                                    fontWeight: '600',
-                                    cursor: 'pointer',
-                                    transition: 'background-color 0.2s',
-                                }}
-                                onMouseEnter={(e) => (e.target.style.backgroundColor = '#1F2937')}
-                                onMouseLeave={(e) => (e.target.style.backgroundColor = '#111827')}
-                            >
-                                {ctaText || 'Shop Now'}
-                            </button>
                         </div>
                     )}
 
