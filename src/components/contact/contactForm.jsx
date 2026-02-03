@@ -13,7 +13,6 @@ import {
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
-    company: "",
     phone: "",
     email: "",
     subject: "",
@@ -69,8 +68,7 @@ export default function ContactPage() {
                   SEND US A MESSAGE
                 </h2>
                 <div className="space-y-4 sm:space-y-5">
-                  {/* Name and Company */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Name*/}
                     <div>
                       <label className="block text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-gray-700 mb-1.5 sm:mb-2">
                         YOUR NAME
@@ -81,23 +79,22 @@ export default function ContactPage() {
                         placeholder="Abdul Aziz"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-xs sm:text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-700 transition"
+                        className="
+      w-full
+      border border-gray-300
+      rounded
+      px-3 py-2
+      text-xs sm:text-sm
+      bg-white
+      text-gray-900
+      placeholder-gray-400
+      focus:outline-none
+      focus:ring-1
+      focus:ring-green-700
+      transition
+    "
                       />
                     </div>
-                    <div>
-                      <label className="block text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-gray-700 mb-1.5 sm:mb-2">
-                        COMPANY
-                      </label>
-                      <input
-                        type="text"
-                        name="company"
-                        placeholder="Optional"
-                        value={formData.company}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-xs sm:text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-700 transition"
-                      />
-                    </div>
-                  </div>
 
                   {/* Phone and Email */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -111,7 +108,20 @@ export default function ContactPage() {
                         placeholder="+91 90827 42221"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-xs sm:text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-700 transition"
+                        className="
+    w-full
+    border border-gray-300
+    rounded
+    px-3 py-2
+    text-xs sm:text-sm
+    bg-white
+    text-gray-900
+    placeholder-gray-400
+    focus:outline-none
+    focus:ring-1
+    focus:ring-green-700
+    transition
+  "
                       />
                     </div>
                     <div>
@@ -124,7 +134,20 @@ export default function ContactPage() {
                         placeholder="arnaskincare7@gmail.com"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-xs sm:text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-700 transition"
+                        className="
+    w-full
+    border border-gray-300
+    rounded
+    px-3 py-2
+    text-xs sm:text-sm
+    bg-white
+    text-gray-900
+    placeholder-gray-400
+    focus:outline-none
+    focus:ring-1
+    focus:ring-green-700
+    transition
+  "
                       />
                     </div>
                   </div>
@@ -159,7 +182,20 @@ export default function ContactPage() {
                       value={formData.message}
                       onChange={handleChange}
                       rows={5}
-                      className="w-full border border-gray-300 rounded px-3 py-2 text-xs sm:text-sm bg-white focus:outline-none focus:ring-1 focus:ring-green-700 transition resize-none"
+                      className="
+    w-full
+    border border-gray-300
+    rounded
+    px-3 py-2
+    text-xs sm:text-sm
+    bg-white
+    text-gray-900
+    placeholder-gray-400
+    focus:outline-none
+    focus:ring-1
+    focus:ring-green-700
+    transition
+  "
                     />
                   </div>
 
@@ -258,7 +294,7 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-      </div>  
+      </div>
     </div>
   );
 }
