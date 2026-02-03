@@ -9,8 +9,11 @@ import {
   Mail,
   Phone,
 } from "lucide-react";
-
+import { useCreateTicketMutation } from "@/redux/slices/ticketsSlice";
 export default function ContactPage() {
+  const [createTicket, { isLoading, isSuccess, error }] =
+    useCreateTicketMutation();
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -18,6 +21,13 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
+
+  const isDisabled =
+    !formData.name ||
+    !formData.email ||
+    !formData.subject ||
+    !formData.message;
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,9 +37,25 @@ export default function ContactPage() {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log(formData);
+  const handleSubmit = async () => {
+    try {
+      await createTicket(formData).unwrap();
+
+      alert("Your message has been sent successfully!");
+
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch (err) {
+      console.error("Ticket submit error:", err);
+      alert(err?.data?.message || "Failed to send message");
+    }
   };
+
 
   return (
     <div className="min-h-screen bg-white">
@@ -69,17 +95,17 @@ export default function ContactPage() {
                 </h2>
                 <div className="space-y-4 sm:space-y-5">
                   {/* Name*/}
-                    <div>
-                      <label className="block text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-gray-700 mb-1.5 sm:mb-2">
-                        YOUR NAME
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder="Abdul Aziz"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="
+                  <div>
+                    <label className="block text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-gray-700 mb-1.5 sm:mb-2">
+                      YOUR NAME
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Abdul Aziz"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="
       w-full
       border border-gray-300
       rounded
@@ -93,8 +119,8 @@ export default function ContactPage() {
       focus:ring-green-700
       transition
     "
-                      />
-                    </div>
+                    />
+                  </div>
 
                   {/* Phone and Email */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -202,10 +228,17 @@ export default function ContactPage() {
                   {/* Submit Button */}
                   <button
                     onClick={handleSubmit}
-                    className="w-full bg-green-700 text-white font-semibold py-2.5 sm:py-3 rounded hover:bg-green-800 transition duration-300 uppercase tracking-wide text-xs sm:text-sm mt-4 sm:mt-6"
+                    disabled={isDisabled || isLoading}
+                    className={`w-full font-semibold py-2.5 sm:py-3 rounded uppercase tracking-wide text-xs sm:text-sm mt-4 sm:mt-6 transition
+    ${isLoading
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-green-700 hover:bg-green-800 text-white"
+                      }
+  `}
                   >
-                    Send Message
+                    {isLoading ? "Sending..." : "Send Message"}
                   </button>
+
                 </div>
               </div>
 
