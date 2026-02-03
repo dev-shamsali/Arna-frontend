@@ -1,4 +1,4 @@
-"use client";
+import { Package } from "lucide-react";
 
 export default function OrdersSection() {
   // later you can replace this with RTK Query or API call
@@ -8,7 +8,7 @@ export default function OrdersSection() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900">
+        <h2 className="text-xl font-serif font-bold text-gray-900">
           Your Orders
         </h2>
         <p className="text-sm text-gray-500">
@@ -19,26 +19,16 @@ export default function OrdersSection() {
       {/* Orders list */}
       {orders.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-gray-200 border-dashed p-10 text-center bg-gray-50">
-          <svg
-            className="mx-auto h-12 w-12 text-gray-400 mb-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1}
-              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-4V7m8 10v3m0 0l-8 4m8-4l-8-4"
-            />
-          </svg>
+          <div className="p-4 bg-gray-100 rounded-full mb-4">
+            <Package className="h-8 w-8 text-gray-400" />
+          </div>
           <p className="text-lg font-medium text-gray-900 mb-2">
             No orders yet
           </p>
           <p className="text-sm text-gray-500">
             You haven't placed any orders yet.
           </p>
-          <button className="mt-6 px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium">
+          <button className="mt-6 px-6 py-2.5 bg-[var(--arna-accent)] hover:bg-[#08633d] text-white rounded-lg transition-colors font-medium shadow-sm">
             Start Shopping
           </button>
         </div>
@@ -60,7 +50,7 @@ export default function OrdersSection() {
                 </div>
 
                 <div className="flex items-center justify-end">
-                  <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                  <span className="px-3 py-1 rounded-full text-sm font-medium bg-[var(--arna-accent)]/10 text-[var(--arna-accent)]">
                     {order.status}
                   </span>
                 </div>

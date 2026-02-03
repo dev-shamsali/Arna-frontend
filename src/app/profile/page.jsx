@@ -6,8 +6,8 @@ import React from 'react'
 const page = () => {
   return (
     <div>
-        <Navbar/>
-      <AccountPage/>
+      <Navbar solid />
+      <AccountPage />
       <Footer />
 
     </div>

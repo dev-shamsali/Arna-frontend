@@ -24,7 +24,7 @@ export default function Navbar({ solid = false }) {
   const isProductSlug =
     pathname.startsWith("/products/") && pathname.split("/").length === 3
   const onCartPage = pathname === '/cart'
-  const showSolid = onCartPage || isProductSlug || scrolled
+  const showSolid = onCartPage || isProductSlug || scrolled || solid
 
 
   // Scroll effect
