@@ -4,11 +4,11 @@ import Navbar from "./navbar";
 
 export default function ConditionalNavbar() {
   const pathname = usePathname();
-  
-  // Hide navbar on checkout page
-  if (pathname === '/checkout') {
+
+  // Hide navbar on pages that manage their own navbar
+  if (['/checkout', '/login', '/signup', '/profile'].includes(pathname)) {
     return null;
   }
-  
+
   return <Navbar />;
 }
