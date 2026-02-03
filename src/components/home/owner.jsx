@@ -64,7 +64,7 @@ const OurStory = () => {
 
         const particlesMaterial = new THREE.PointsMaterial({
             size: 0.035,
-            color: 0x10b981,
+            color: 0xb77f6b,
             transparent: true,
             opacity: 0.45
         })
@@ -73,7 +73,7 @@ const OurStory = () => {
         scene.add(particlesMesh)
 
         scene.add(new THREE.AmbientLight(0xffffff, 0.6))
-        const light = new THREE.PointLight(0x10b981, 1)
+        const light = new THREE.PointLight(0xb77f6b, 1)
         light.position.set(5, 5, 5)
         scene.add(light)
 
@@ -113,14 +113,14 @@ const OurStory = () => {
             />
 
             {/* BACKGROUND */}
-            <div className="absolute inset-0 z-10 bg-gradient-to-br from-black via-emerald-950 to-black" />
-            <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-transparent to-emerald-950/70" />
+            <div className="absolute inset-0 z-10 bg-gradient-to-br from-[#1c1917] via-[#2d2421] to-[#1c1917]" />
+            <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-transparent to-[#2d2421]/70" />
             <div
                 className="absolute inset-0 z-10 opacity-30"
                 style={{
                     background: `
-            radial-gradient(circle at 20% 30%, rgba(16,185,129,0.18), transparent 55%),
-            radial-gradient(circle at 80% 70%, rgba(5,150,105,0.22), transparent 55%)
+            radial-gradient(circle at 20% 30%, rgba(183,127,107,0.15), transparent 55%),
+            radial-gradient(circle at 80% 70%, rgba(197,160,89,0.1), transparent 55%)
           `
                 }}
             />
@@ -136,17 +136,17 @@ const OurStory = () => {
                 >
                     <h2
                         id="our-story-heading"
-                        className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-gradient-to-r from-emerald-200 via-green-100 to-emerald-300 bg-clip-text mb-4"
+                        className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-gradient-to-r from-[#d1a394] via-white to-[#b77f6b] bg-clip-text mb-4"
                     >
                         Our Story
                     </h2>
-                    <div className="h-1 w-24 mx-auto bg-gradient-to-r from-emerald-500 to-green-400 rounded-full" />
+                    <div className="h-1 w-24 mx-auto bg-gradient-to-r from-[#b77f6b] to-[#c5a059] rounded-full" />
                 </motion.div>
 
                 {/* GRID */}
                 <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
                     {/* IMAGE */}
-                    <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl shadow-emerald-900/50">
+                    <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-xl border border-stone-200">
                         <Image
                             src="/home/founder.png"
                             alt="Arman and Naaz - Founders of ARNA Skin Care"
@@ -163,16 +163,16 @@ const OurStory = () => {
                             variants={itemVariants}
                             initial="hidden"
                             animate={isInView ? 'visible' : 'hidden'}
-                            className="bg-white/5 backdrop-blur-md p-6 rounded-xl border-l-4 border-emerald-500"
+                            className="bg-white/5 backdrop-blur-md p-6 rounded-xl border-l-4 border-[#b77f6b]"
                         >
-                            <h3 className="text-xl md:text-2xl font-bold text-emerald-100 mb-3">
+                            <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
                                 The Birth of ARNA
                             </h3>
-                            <p className="text-emerald-50/95 leading-relaxed text-sm md:text-base">
-                                A decade ago, my wife <span className="font-semibold text-emerald-300">Naaz</span> and
-                                I, <span className="font-semibold text-emerald-300">Arman</span>, embarked on a journey
+                            <p className="text-white/80 leading-relaxed text-sm md:text-base">
+                                A decade ago, my wife <span className="font-semibold text-[#b77f6b]">Naaz</span> and
+                                I, <span className="font-semibold text-[#b77f6b]">Arman</span>, embarked on a journey
                                 together as partners. From our names emerged{' '}
-                                <span className="font-bold text-emerald-200">ARNA</span> — a blend of <span className="font-semibold text-emerald-300">AR</span>man and <span className="font-semibold text-emerald-300">NA</span>az, symbolizing our united vision for natural beauty.
+                                <span className="font-bold text-[#b77f6b]/90">ARNA</span> — a blend of <span className="font-semibold text-[#b77f6b]">AR</span>man and <span className="font-semibold text-[#b77f6b]">NA</span>az, symbolizing our united vision for natural beauty.
                             </p>
                         </motion.div>
 
@@ -183,18 +183,18 @@ const OurStory = () => {
                             animate={isInView ? 'visible' : 'hidden'}
                             className="space-y-3"
                         >
-                            <h3 className="text-xl md:text-2xl font-bold text-emerald-100">
+                            <h3 className="text-xl md:text-2xl font-bold text-white">
                                 Our Philosophy
                             </h3>
-                            <p className="text-emerald-50/90 text-sm md:text-base">
+                            <p className="text-white/80 text-sm md:text-base">
                                 At ARNA Skin Care, we believe in the power of nature combined with
                                 personalized care. Our commitment is built on three pillars:
                             </p>
 
-                            <ul className="space-y-2 text-emerald-50/90 text-sm md:text-base">
-                                <li><span className="text-emerald-300 font-semibold">Quality:</span> 100% herbal ingredients</li>
-                                <li><span className="text-emerald-300 font-semibold">Customization:</span> Tailored skincare</li>
-                                <li><span className="text-emerald-300 font-semibold">Value:</span> Premium care at fair prices</li>
+                            <ul className="space-y-2 text-white/80 text-sm md:text-base">
+                                <li><span className="text-[#b77f6b] font-semibold">Quality:</span> 100% herbal ingredients</li>
+                                <li><span className="text-[#b77f6b] font-semibold">Customization:</span> Tailored skincare</li>
+                                <li><span className="text-[#b77f6b] font-semibold">Value:</span> Premium care at fair prices</li>
                             </ul>
                         </motion.div>
 
@@ -203,14 +203,14 @@ const OurStory = () => {
                             variants={itemVariants}
                             initial="hidden"
                             animate={isInView ? 'visible' : 'hidden'}
-                            className="bg-emerald-900/40 p-5 rounded-xl border border-emerald-500/20"
+                            className="bg-white/5 p-5 rounded-xl border border-white/10"
                         >
-                            <h4 className="text-emerald-200 font-bold mb-3">Our Natural Solutions</h4>
+                            <h4 className="text-[#c5a059] font-bold mb-3">Our Natural Solutions</h4>
                             <div className="flex flex-wrap gap-2">
                                 {['Glowing Skin', 'Healthy Hair', 'D-Tan Body Care'].map(item => (
                                     <span
                                         key={item}
-                                        className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-full text-xs md:text-sm font-medium"
+                                        className="px-4 py-2 bg-gradient-to-r from-[#b77f6b] to-[#8e5d4d] text-white rounded-full text-xs md:text-sm font-medium shadow-lg shadow-[#b77f6b]/20"
                                     >
                                         {item}
                                     </span>

@@ -97,11 +97,11 @@ export default function Navbar({ solid = false }) {
       {showSolid && (
         <>
           {/* Left gradient edge */}
-          <div className="absolute left-0 top-0 bottom-0 w-34 bg-gradient-to-r from-[#006A4E]/20 via-[#254636]/10 to-transparent pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-34 bg-gradient-to-r from-[#b77f6b]/20 via-[#2d2421]/10 to-transparent pointer-events-none" />
 
 
           {/* Right gradient edge */}
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#006A4E]/20 via-[#254636]/10 to-transparent pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#b77f6b]/20 via-[#2d2421]/10 to-transparent pointer-events-none" />
         </>
       )}
 
@@ -201,7 +201,7 @@ export default function Navbar({ solid = false }) {
             >
               <ShoppingCart className="w-5 h-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-[#006A4E] text-white text-[10px] font-semibold px-1 shadow-md">
+                <span className="absolute -top-2 -right-2 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-[#b77f6b] text-white text-[10px] font-semibold px-1 shadow-md">
                   {cartCount > 99 ? '99+' : cartCount}
                 </span>
               )}
@@ -248,7 +248,7 @@ export default function Navbar({ solid = false }) {
         aria-hidden={!mobileOpen}
       >
         {/* Gradient border effect for mobile menu */}
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#006A4E] via-[#254636] to-[#006A4E]" />
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#b77f6b] via-[#d1a394] to-[#b77f6b]" />
 
 
         <div className="p-6">
@@ -274,7 +274,7 @@ export default function Navbar({ solid = false }) {
             <Link
               href="/"
               onClick={closeMobileMenu}
-              className="py-3 px-4 text-sm font-medium text-gray-800 hover:bg-[#006A4E]/5 rounded-md transition-colors"
+              className="py-3 px-4 text-sm font-medium text-gray-800 hover:bg-[#b77f6b]/5 rounded-md transition-colors"
             >
               HOME
             </Link>
@@ -283,7 +283,7 @@ export default function Navbar({ solid = false }) {
             <Link
               href="/about"
               onClick={closeMobileMenu}
-              className="py-3 px-4 text-sm font-medium text-gray-800 hover:bg-[#006A4E]/5 rounded-md transition-colors"
+              className="py-3 px-4 text-sm font-medium text-gray-800 hover:bg-[#b77f6b]/5 rounded-md transition-colors"
             >
               ABOUT US
             </Link>
@@ -293,7 +293,7 @@ export default function Navbar({ solid = false }) {
             <Link
               href="/products"
               onClick={closeMobileMenu}
-              className="py-3 px-4 text-sm font-medium text-gray-800 hover:bg-[#006A4E]/5 rounded-md transition-colors"
+              className="py-3 px-4 text-sm font-medium text-gray-800 hover:bg-[#b77f6b]/5 rounded-md transition-colors"
             >
               OUR PRODUCTS
             </Link>
@@ -302,7 +302,7 @@ export default function Navbar({ solid = false }) {
             <Link
               href="/contact"
               onClick={closeMobileMenu}
-              className="py-3 px-4 text-sm font-medium text-gray-800 hover:bg-[#006A4E]/5 rounded-md transition-colors"
+              className="py-3 px-4 text-sm font-medium text-gray-800 hover:bg-[#b77f6b]/5 rounded-md transition-colors"
             >
               CONTACT
             </Link>
@@ -345,14 +345,14 @@ export default function Navbar({ solid = false }) {
               <Link
                 href="/cart"
                 onClick={closeMobileMenu}
-                className="flex items-center justify-between py-2 px-4 text-sm text-gray-800 hover:bg-[#006A4E]/5 rounded-md transition-colors"
+                className="flex items-center justify-between py-2 px-4 text-sm text-gray-800 hover:bg-[#b77f6b]/5 rounded-md transition-colors"
               >
                 <div className="flex items-center gap-3">
                   <ShoppingCart className="w-5 h-5" />
                   <span>Cart</span>
                 </div>
                 {cartCount > 0 && (
-                  <span className="px-2 py-1 rounded-full bg-[#006A4E] text-white text-xs font-semibold">
+                  <span className="px-2 py-1 rounded-full bg-[#b77f6b] text-white text-xs font-semibold">
                     {cartCount}
                   </span>
                 )}

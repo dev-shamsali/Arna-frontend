@@ -2,6 +2,8 @@
 
 import Navbar from '@/components/layout/navbar'
 import Hero from '@/components/home/Hero'
+import TrustBar from '@/components/home/TrustBar'
+import ShopByConcern from '@/components/home/ShopByConcern'
 import BestProduct from '@/components/home/bestproduct'
 import About from '@/components/home/about'
 import ProductGrid from '@/components/home/ProductGrid'
@@ -15,6 +17,8 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
+      <TrustBar />
+      <ShopByConcern />
       <BestProduct />
       <About />
       <ProductGrid />

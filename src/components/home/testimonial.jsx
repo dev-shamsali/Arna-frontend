@@ -119,22 +119,22 @@ export default function Testimonials() {
     }, [])
 
     return (
-        <section className="relative overflow-hidden bg-white py-20">
+        <section className="relative overflow-hidden bg-[#f8f5f2] py-20">
             <canvas
                 ref={canvasRef}
-                className="absolute inset-0 -z-10 pointer-events-none"
+                className="absolute inset-0 z-0 pointer-events-none opacity-40"
             />
 
-            <div className="max-w-6xl mx-auto px-4">
-                {/* Header unchanged */}
+            <div className="max-w-6xl mx-auto px-4 relative z-10">
+                {/* Header */}
                 <div className="text-center mb-14">
-                    <p className="text-xs tracking-[0.25em] text-emerald-500 uppercase mb-2">
-                        Reviews
+                    <p className="text-xs tracking-[0.25em] text-[#b77f6b] uppercase mb-2 font-semibold">
+                        Kind Words
                     </p>
-                    <h2 className="text-4xl font-bold text-gray-900 mb-3">
+                    <h2 className="text-4xl font-serif font-bold text-[#1c1917] mb-3">
                         What Our Customers Say
                     </h2>
-                    <p className="text-gray-500 max-w-2xl mx-auto">
+                    <p className="text-stone-500 max-w-2xl mx-auto font-light">
                         Real stories from people who trusted ARNA Skin Care.
                     </p>
                 </div>
@@ -152,41 +152,40 @@ export default function Testimonials() {
                             ${paused ? 'pause' : ''}
                         `}
                         style={{
-                            perspective: '1200px'
+                            perspective: '2000px'
                         }}
                     >
                         {loopItems.map((t, i) => (
                             <motion.article
                                 key={i}
                                 whileHover={{
-                                    z: 40,
-                                    scale: 1.04,
-                                    rotateX: -6,
-                                    rotateY: 6,
-                                    translateZ: 60,
+                                    scale: 1.02,
+                                    rotateX: -2,
+                                    rotateY: 2,
+                                    translateZ: 15,
                                     boxShadow:
-                                        '0 30px 70px rgba(15,23,42,0.25)'
+                                        '0 20px 40px rgba(0,0,0,0.08)'
                                 }}
                                 transition={{
                                     type: 'spring',
-                                    stiffness: 260,
-                                    damping: 18
+                                    stiffness: 400,
+                                    damping: 30
                                 }}
                                 className="
                                     relative
                                     w-[280px] md:w-[320px]
                                     shrink-0
                                     rounded-2xl
-                                    border border-emerald-50
-                                    bg-white/90
-                                    backdrop-blur
+                                    border border-stone-200/60
+                                    bg-white/95
+                                    backdrop-blur-md
                                     p-6
-                                    shadow-[0_18px_45px_rgba(15,23,42,0.07)]
                                     transform-gpu
+                                    transition-shadow
                                 "
                             >
-                                <div className="mb-3 flex items-center gap-2 text-emerald-500 text-sm">
-                                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-lg">
+                                <div className="mb-3 flex items-center gap-2 text-[#b77f6b] text-sm">
+                                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-stone-50 text-lg">
                                         “
                                     </span>
                                     <span className="text-[11px] uppercase tracking-[0.2em]">
@@ -194,24 +193,24 @@ export default function Testimonials() {
                                     </span>
                                 </div>
 
-                                <p className="text-gray-700 text-sm leading-relaxed mb-3 line-clamp-5">
+                                <p className="text-stone-700 text-sm leading-relaxed mb-3 line-clamp-5 font-light">
                                     {t.text}
                                 </p>
 
-                                <p className="text-xs font-medium text-emerald-600 mb-4">
+                                <p className="text-xs font-medium text-[#b77f6b] mb-4">
                                     {t.highlight}
                                 </p>
 
-                                <div className="mt-auto flex items-center justify-between pt-3 border-t border-emerald-50">
+                                <div className="mt-auto flex items-center justify-between pt-3 border-t border-stone-100">
                                     <div>
-                                        <p className="text-sm font-semibold text-gray-900">
+                                        <p className="text-sm font-semibold text-stone-900">
                                             {t.name}
                                         </p>
-                                        <p className="text-[11px] text-gray-500">
+                                        <p className="text-[11px] text-stone-500">
                                             {t.role}
                                         </p>
                                     </div>
-                                    <span className="text-xs font-semibold text-emerald-700">
+                                    <span className="text-xs font-semibold text-[#c5a059]">
                                         ★ 4.9 / 5
                                     </span>
                                 </div>

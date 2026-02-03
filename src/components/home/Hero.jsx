@@ -150,8 +150,8 @@ export default function Hero() {
 
   if (isLoading && !loaded) {
     return (
-      <section className="relative h-screen w-full bg-emerald-950 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+      <section className="relative h-screen w-full bg-[#1c1917] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-[#b77f6b] border-t-transparent rounded-full animate-spin"></div>
       </section>
     )
   }
@@ -159,7 +159,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-emerald-900/30 via-green-800/20 to-black/40"
+      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#1c1917]/40 via-[#2d2421]/20 to-[#000]/40"
     >
       <div className="absolute inset-0 w-full h-full">
         {currentSlides.map((slide, i) => (
@@ -181,8 +181,8 @@ export default function Hero() {
                 onError={() => setLoaded(true)}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-br from-green-900/45 via-emerald-800/30 to-black/40" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#1c1917]/40 via-transparent to-black/50" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
             </div>
           </div>
         ))}
@@ -208,13 +208,13 @@ export default function Hero() {
             <div ref={buttonsRef} className="flex flex-wrap gap-4 mb-12">
               <Link
                 href="/products"
-                className="group px-8 py-4 bg-emerald-600 text-white font-bold rounded-xl transition-all hover:bg-emerald-500 hover:scale-105 shadow-xl hover:shadow-emerald-500/20"
+                className="group px-8 py-4 bg-[#b77f6b] text-white font-bold rounded-xl transition-all hover:bg-[#8e5d4d] hover:scale-105 shadow-xl hover:shadow-[#b77f6b]/20"
               >
                 Explore Products →
               </Link>
               <Link
                 href="/about"
-                className="group px-8 py-4 border-2 border-white/80 text-white font-bold rounded-xl hover:bg-white hover:text-emerald-900 transition-all backdrop-blur-sm hover:scale-105"
+                className="group px-8 py-4 border-2 border-white/80 text-white font-bold rounded-xl hover:bg-white hover:text-[#1c1917] transition-all backdrop-blur-sm hover:scale-105"
               >
                 Our Philosophy
               </Link>
@@ -225,7 +225,7 @@ export default function Hero() {
                 <div
                   key={i}
                   className={`h-1 rounded-full transition-all duration-700 ${i === active
-                    ? 'w-16 bg-emerald-400 shadow-lg shadow-emerald-400/50'
+                    ? 'w-16 bg-[#b77f6b] shadow-lg shadow-[#b77f6b]/50'
                     : 'w-8 bg-white/30'
                     }`}
                 />

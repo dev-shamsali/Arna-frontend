@@ -8,6 +8,8 @@ import {
   Linkedin,
 } from "lucide-react";
 
+import Link from "next/link";
+
 const Footer = () => {
   const [whatsappHovered, setWhatsappHovered] = useState(false);
 
@@ -50,114 +52,115 @@ const Footer = () => {
       </motion.a>
 
       {/* Footer */}
-      <footer className="relative w-full overflow-hidden bg-black">
-        {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-emerald-950 to-black" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-emerald-950/70" />
+      <footer className="relative w-full overflow-hidden bg-[#1c1917]">
+        {/* Background Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1c1917] via-[#2d2421] to-[#1c1917]" />
+
+        {/* Subtle Brand Glow */}
         <div
-          className="absolute inset-0 opacity-25"
+          className="absolute inset-0 opacity-20"
           style={{
             background: `
-              radial-gradient(circle at 20% 30%, rgba(16,185,129,0.18), transparent 55%),
-              radial-gradient(circle at 80% 70%, rgba(5,150,105,0.22), transparent 55%)
+              radial-gradient(circle at 20% 30%, rgba(183,127,107,0.15), transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(197,160,89,0.1), transparent 50%)
             `,
           }}
         />
 
-        <div className="relative z-10 text-white py-12 md:py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 text-white/90 py-16 md:py-24">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
             {/* Main Footer Content */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
 
-              {/* Brand */}
-              <div>
-                <h3 className="font-serif text-2xl mb-4">ARNA</h3>
-                <p className="text-white/80 text-sm leading-relaxed">
-                  Pure, safe, and effective skincare & haircare solutions inspired by Ayurveda and modern science.
+              {/* Brand Section */}
+              <div className="space-y-6">
+                <Link href="/" className="inline-block">
+                  <h3 className="font-serif text-3xl tracking-widest text-[#b77f6b]">ARNA</h3>
+                </Link>
+                <p className="text-white/60 text-sm leading-relaxed max-w-sm">
+                  Elevating your natural beauty through the perfect harmony of ancient wisdom and modern skincare science.
                 </p>
+                {/* Contact Detail Snippet */}
+                <div className="space-y-4">
+                  <p className="text-xs text-[#c5a059] uppercase tracking-widest">Inquiries</p>
+                  <div className="flex flex-col gap-2">
+                    <a href="mailto:hello@arnaskincare.com" className="text-sm hover:text-[#b77f6b] transition-colors">hello@arnaskincare.com</a>
+                    <a href="tel:+918850925827" className="text-sm hover:text-[#b77f6b] transition-colors font-medium">+91 8850925827</a>
+                  </div>
+                </div>
               </div>
 
-              {/* Shop */}
+              {/* Navigation Column 1 */}
               <div>
-                <h4 className="font-semibold text-lg mb-4">Shop Categories</h4>
-                <ul className="space-y-2 text-sm">
-                  <li><a href="/products?category=skincare" className="text-white/80 hover:text-emerald-300">• Skincare</a></li>
-                  <li><a href="/products?category=haircare" className="text-white/80 hover:text-emerald-300">• Haircare</a></li>
-                  <li><a href="/products?filter=bestsellers" className="text-white/80 hover:text-emerald-300">• Best Sellers</a></li>
-                  <li><a href="/products?filter=new" className="text-white/80 hover:text-emerald-300">• New Arrivals</a></li>
+                <h4 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c5a059] mb-8">Shop</h4>
+                <ul className="space-y-4 text-sm font-light">
+                  <li><a href="/products?category=skincare" className="text-white/60 hover:text-[#b77f6b] transition-all">• Skincare Essentials</a></li>
+                  <li><a href="/products?category=haircare" className="text-white/60 hover:text-[#b77f6b] transition-all">• Haircare Rituals</a></li>
+                  <li><a href="/products?filter=bestsellers" className="text-white/60 hover:text-[#b77f6b] transition-all">• Signature Bestsellers</a></li>
+                  <li><a href="/products?filter=new" className="text-white/60 hover:text-[#b77f6b] transition-all">• New Collections</a></li>
                 </ul>
               </div>
 
-              {/* Support */}
+              {/* Navigation Column 2 */}
               <div>
-                <h4 className="font-semibold text-lg mb-4">Customer Support</h4>
-                <ul className="space-y-2 text-sm">
-                  <li><a href="/contact" className="text-white/80 hover:text-emerald-300">• Contact Us</a></li>
-                  <li><a href="/faq" className="text-white/80 hover:text-emerald-300">• FAQs</a></li>
-                  <li><a href="/shipping" className="text-white/80 hover:text-emerald-300">• Shipping Info</a></li>
-                  <li><a href="/returns" className="text-white/80 hover:text-emerald-300">• Returns</a></li>
+                <h4 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c5a059] mb-8">Client Care</h4>
+                <ul className="space-y-4 text-sm font-light">
+                  <li><a href="/contact" className="text-white/60 hover:text-[#b77f6b] transition-all">• Contact Us</a></li>
+                  <li><a href="/faq" className="text-white/60 hover:text-[#b77f6b] transition-all">• Frequently Asked Questions</a></li>
+                  <li><a href="/shipping" className="text-white/60 hover:text-[#b77f6b] transition-all">• Shipping & Delivery</a></li>
+                  <li><a href="/returns" className="text-white/60 hover:text-[#b77f6b] transition-all">• Returns & Exchanges</a></li>
                 </ul>
               </div>
 
-              {/* Connect */}
-              <div>
-                <h4 className="font-semibold text-lg mb-4">Connect With Us</h4>
-
-                {/* Social Icons */}
-                <div className="flex gap-4 mb-6">
-                  <a
-                    href="https://facebook.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-emerald-500 flex items-center justify-center transition-all"
-                  >
-                    <Facebook className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-emerald-500 flex items-center justify-center transition-all"
-                  >
-                    <Instagram className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="https://linkedin.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-white/10 hover:bg-emerald-500 flex items-center justify-center transition-all"
-                  >
-                    <Linkedin className="w-5 h-5" />
-                  </a>
+              {/* Social & Newsletter Concept */}
+              <div className="space-y-8">
+                <div>
+                  <h4 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#c5a059] mb-6">Follow Our Journey</h4>
+                  <div className="flex gap-4">
+                    {[
+                      { Icon: Facebook, href: "https://facebook.com" },
+                      { Icon: Instagram, href: "https://instagram.com" },
+                      { Icon: Linkedin, href: "https://linkedin.com" }
+                    ].map((social, idx) => (
+                      <motion.a
+                        key={idx}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ y: -3 }}
+                        className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#b77f6b]/20 hover:border-[#b77f6b] transition-all duration-300"
+                      >
+                        <social.Icon className="w-5 h-5 text-white/80" />
+                      </motion.a>
+                    ))}
+                  </div>
                 </div>
 
-                <p className="text-xs text-white/60 mb-2">Contact us:</p>
-                <a
-                  href="tel:+918850925827"
-                  className="text-sm text-emerald-300 hover:text-white font-medium"
-                >
-                  +91 8850925827
-                </a>
+                <div className="pt-4">
+                  <p className="text-xs text-white/40 italic">
+                    Pure, herbal, and mindfully crafted in India.
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Policies */}
-            <div className="border-t border-white/10 pt-6 pb-6">
-              <div className="flex flex-wrap justify-center gap-4 text-xs md:text-sm">
-                <a href="/privacy-policy" className="text-white/70 hover:text-emerald-300">Privacy Policy</a>
-                <span className="text-white/30">|</span>
-                <a href="/terms-conditions" className="text-white/70 hover:text-emerald-300">Terms & Conditions</a>
-                <span className="text-white/30">|</span>
-                <a href="/refund-policy" className="text-white/70 hover:text-emerald-300">Refund Policy</a>
-                <span className="text-white/30">|</span>
-                <a href="/shipping-policy" className="text-white/70 hover:text-emerald-300">Shipping Policy</a>
-              </div>
-            </div>
+            {/* Bottom Bar */}
+            <div className="border-t border-white/5 pt-10">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                {/* Policy Links */}
+                <div className="flex flex-wrap justify-center md:justify-start gap-x-8 gap-y-4 text-[11px] uppercase tracking-widest text-white/40">
+                  <a href="/privacy-policy" className="hover:text-[#c5a059] transition-colors">Privacy</a>
+                  <a href="/terms-conditions" className="hover:text-[#c5a059] transition-colors">Terms</a>
+                  <a href="/refund-policy" className="hover:text-[#c5a059] transition-colors">Refunds</a>
+                  <a href="/shipping-policy" className="hover:text-[#c5a059] transition-colors">Shipping</a>
+                </div>
 
-            {/* Copyright */}
-            <div className="border-t border-white/10 pt-6 text-center text-sm text-white/60">
-              © 2024 ARNA. All rights reserved. | Made with nature's care 🌿
+                {/* Copyright */}
+                <div className="text-[11px] uppercase tracking-[0.2em] text-white/30">
+                  © 2024 ARNA. All rights reserved. | Made with nature's care 🌿
+                </div>
+              </div>
             </div>
 
           </div>

@@ -107,8 +107,8 @@ const UniformCard3D = ({ product, cardRef }) => {
     const centerY = rect.height / 2
 
 
-    const rotateXValue = ((y - centerY) / centerY) * -10
-    const rotateYValue = ((x - centerX) / centerX) * 10
+    const rotateXValue = ((y - centerY) / centerY) * -4
+    const rotateYValue = ((x - centerX) / centerX) * 4
 
 
     setRotateX(rotateXValue)
@@ -149,7 +149,7 @@ const UniformCard3D = ({ product, cardRef }) => {
           height: '280px',
           transform: shouldReduceMotion
             ? 'none'
-            : `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${isHovered ? '20px' : '0px'})`,
+            : `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${isHovered ? '10px' : '0px'})`,
           transformStyle: 'preserve-3d',
           transition: 'transform 0.1s ease-out, box-shadow 0.5s ease'
         }}
@@ -163,18 +163,18 @@ const UniformCard3D = ({ product, cardRef }) => {
           }}
         />
 
-        {/* Light Green Gradient (Base Layer) */}
+        {/* Base Layer */}
         <div
-          className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-green-100 to-emerald-200 transition-opacity duration-500"
+          className="absolute inset-0 bg-gradient-to-br from-stone-50 via-stone-100 to-stone-200 transition-opacity duration-500"
           style={{
             transform: 'translateZ(1px)',
             transformStyle: 'preserve-3d'
           }}
         />
 
-        {/* Dark Green Gradient Overlay (Appears on Hover) */}
+        {/* Dark Accent Overlay (Appears on Hover) */}
         <div
-          className="absolute inset-0 bg-gradient-to-br from-emerald-800 via-green-700 to-emerald-900 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          className="absolute inset-0 bg-gradient-to-br from-[#1c1917] via-[#2d2421] to-[#1c1917] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           style={{
             transform: 'translateZ(2px)',
             transformStyle: 'preserve-3d'
@@ -194,7 +194,7 @@ const UniformCard3D = ({ product, cardRef }) => {
 
         {/* Top Accent Line */}
         <div
-          className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-600/60 to-green-600/60 group-hover:from-emerald-400 group-hover:to-green-400 transition-all duration-500"
+          className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#b77f6b]/60 to-[#d1a394]/60 group-hover:from-[#b77f6b] group-hover:to-[#d1a394] transition-all duration-500"
           style={{
             transform: 'translateZ(12px)',
             transformStyle: 'preserve-3d'
@@ -214,8 +214,8 @@ const UniformCard3D = ({ product, cardRef }) => {
               transformStyle: 'preserve-3d'
             }}
           >
-            <div className="w-2 h-2 rounded-full bg-emerald-600 group-hover:bg-emerald-300 transition-colors duration-500" />
-            <span className="text-[9px] uppercase tracking-[0.18em] text-slate-600 group-hover:text-white font-semibold transition-colors duration-500">
+            <div className="w-2 h-2 rounded-full bg-[#b77f6b] group-hover:bg-[#d1a394] transition-colors duration-500" />
+            <span className="text-[9px] uppercase tracking-[0.18em] text-stone-600 group-hover:text-white font-semibold transition-colors duration-500">
               {product.category}
             </span>
           </div>
@@ -237,7 +237,7 @@ const UniformCard3D = ({ product, cardRef }) => {
 
           {/* Key ingredient badge and arrow */}
           <div
-            className="pt-4 border-t border-slate-200/60 group-hover:border-emerald-400/40 transition-colors duration-500"
+            className="pt-4 border-t border-stone-200/60 group-hover:border-stone-400/40 transition-colors duration-500"
             style={{
               transform: 'translateZ(20px)',
               transformStyle: 'preserve-3d'
@@ -245,10 +245,10 @@ const UniformCard3D = ({ product, cardRef }) => {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[8px] uppercase tracking-wider text-slate-500 group-hover:text-emerald-200 font-semibold mb-1 transition-colors duration-500">
+                <p className="text-[8px] uppercase tracking-wider text-stone-500 group-hover:text-orange-200 font-semibold mb-1 transition-colors duration-500">
                   Key Active
                 </p>
-                <p className="text-xs font-medium text-emerald-700 group-hover:text-white transition-colors duration-500">
+                <p className="text-xs font-medium text-[#b77f6b] group-hover:text-white transition-colors duration-500">
                   {product.keyIngredient}
                 </p>
               </div>
@@ -256,14 +256,14 @@ const UniformCard3D = ({ product, cardRef }) => {
 
               {/* Arrow Icon */}
               <div
-                className="w-10 h-10 rounded-full bg-emerald-100 group-hover:bg-white/20 flex items-center justify-center transition-all duration-500"
+                className="w-10 h-10 rounded-full bg-stone-100 group-hover:bg-white/20 flex items-center justify-center transition-all duration-500"
                 style={{
                   transform: isHovered ? 'translateZ(10px)' : 'translateZ(5px)',
                   transformStyle: 'preserve-3d'
                 }}
               >
                 <svg
-                  className="w-5 h-5 text-emerald-700 group-hover:text-white group-hover:translate-x-1 transition-all duration-500"
+                  className="w-5 h-5 text-[#b77f6b] group-hover:text-white group-hover:translate-x-1 transition-all duration-500"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -279,7 +279,7 @@ const UniformCard3D = ({ product, cardRef }) => {
 
         {/* Bottom Shadow */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-slate-900/5 to-transparent group-hover:from-emerald-950/30 pointer-events-none transition-colors duration-500"
+          className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-stone-900/5 to-transparent group-hover:from-stone-950/30 pointer-events-none transition-colors duration-500"
           style={{
             transform: 'translateZ(-5px)',
             transformStyle: 'preserve-3d'
@@ -289,7 +289,7 @@ const UniformCard3D = ({ product, cardRef }) => {
 
         {/* Corner Glow */}
         <div
-          className="absolute top-0 right-0 w-32 h-32 bg-gradient-radial from-emerald-400/0 to-transparent opacity-0 group-hover:opacity-30 blur-2xl transition-opacity duration-700 pointer-events-none"
+          className="absolute top-0 right-0 w-32 h-32 bg-gradient-radial from-[#b77f6b]/0 to-transparent opacity-0 group-hover:opacity-30 blur-2xl transition-opacity duration-700 pointer-events-none"
           style={{
             transform: 'translateZ(3px)',
             transformStyle: 'preserve-3d'
@@ -368,15 +368,15 @@ export default function ArnaProductShowcase() {
   return (
     <section
       ref={sectionRef}
-      className="w-full relative py-16 md:py-20 lg:py-24 overflow-hidden bg-white"
+      className="w-full relative py-16 md:py-20 lg:py-24 overflow-hidden bg-[#f8f5f2]"
     >
-      {/* Enhanced Background with Dark Green Gradients */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 via-white to-green-50 pointer-events-none" />
+      {/* Enhanced Background with Brand Gradients */}
+      <div className="absolute inset-0 bg-gradient-to-br from-stone-50 via-white to-stone-100 pointer-events-none" />
 
 
       {/* Radial gradient overlays for depth */}
-      <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-gradient-radial from-emerald-100/40 via-transparent to-transparent blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-green-100/40 via-transparent to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-gradient-radial from-[#b77f6b]/10 via-transparent to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-[#c5a059]/10 via-transparent to-transparent blur-3xl pointer-events-none" />
 
 
       {/* Subtle dark green accent areas */}
@@ -387,30 +387,6 @@ export default function ArnaProductShowcase() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
 
-        {/* Feature Badges */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 mb-12 md:mb-16">
-          {topFeatures.map((feature, index) => (
-            <motion.div
-              key={index}
-              ref={(el) => (featureRefs.current[index] = el)}
-              whileHover={{ y: -3, scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-              className="group"
-            >
-              <div className="flex flex-col items-center text-center p-5 md:p-6 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200/60 hover:border-emerald-300 hover:shadow-md hover:shadow-emerald-100/40 transition-all duration-300">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-slate-100 group-hover:bg-gradient-to-br group-hover:from-emerald-100 group-hover:to-green-100 flex items-center justify-center text-slate-700 group-hover:text-emerald-700 transition-all duration-300 mb-3">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xs md:text-sm font-semibold text-slate-900 mb-1 tracking-tight">
-                  {feature.title}
-                </h3>
-                <p className="text-[9px] md:text-[10px] text-slate-500 font-light">
-                  {feature.subtitle}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
 
 
         {/* Compact Main Layout with Tighter Spacing */}
@@ -434,14 +410,14 @@ export default function ArnaProductShowcase() {
           >
             <div className="w-full">
               <div className="inline-block mb-3">
-                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.35em] text-emerald-700 font-bold">
+                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.35em] text-[#b77f6b] font-bold">
                   Premium Skincare
                 </span>
               </div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-slate-900 mb-3 tracking-tight leading-tight">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-stone-900 mb-3 tracking-tight leading-tight">
                 Professional
                 <br />
-                <span className="font-semibold bg-gradient-to-r from-emerald-800 via-green-700 to-emerald-600 bg-clip-text text-transparent">
+                <span className="font-semibold bg-gradient-to-r from-[#b77f6b] via-[#d1a394] to-[#b77f6b] bg-clip-text text-transparent">
                   Collection
                 </span>
               </h2>
@@ -497,9 +473,9 @@ export default function ArnaProductShowcase() {
         >
           <Link
             href="/products"
-            className="group relative inline-flex items-center justify-center px-12 py-4 rounded-full bg-gradient-to-r from-emerald-800 to-green-700 text-white text-sm md:text-base font-semibold shadow-lg hover:shadow-2xl hover:shadow-emerald-500/40 transition-all duration-500 overflow-hidden"
+            className="group relative inline-flex items-center justify-center px-12 py-4 rounded-full bg-gradient-to-r from-[#b77f6b] to-[#8e5d4d] text-white text-sm md:text-base font-semibold shadow-lg hover:shadow-2xl hover:shadow-[#b77f6b]/40 transition-all duration-500 overflow-hidden"
           >
-            <span className="absolute inset-0 bg-gradient-to-r from-green-700 to-emerald-900 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+            <span className="absolute inset-0 bg-gradient-to-r from-[#8e5d4d] to-[#b77f6b] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             <span className="relative z-10 flex items-center gap-2 tracking-wide">
               Explore All Products
               <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -509,20 +485,6 @@ export default function ArnaProductShowcase() {
           </Link>
 
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 md:gap-8 text-[10px] md:text-xs text-slate-500 font-light">
-            <span className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full" />
-              Clinically Tested
-            </span>
-            <span className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full" />
-              Cruelty Free
-            </span>
-            <span className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full" />
-              Sustainable
-            </span>
-          </div>
         </motion.div>
       </div>
     </section>

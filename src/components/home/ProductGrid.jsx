@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
-const BRAND = '#0a7a4e'
+const BRAND = '#b77f6b'
 
 const products = [
   { id: 2, name: 'Shea Butter Moisturizer', img: '/products/shea-butter-moisturizer.png', price: '₹199', desc: 'Rich hydration with natural shea', fit: 'cover' },
@@ -12,15 +12,12 @@ const products = [
 
 export default function ProductGrid() {
   return (
-    <section
-      className="px-6 py-16 bg-white"
-      style={{ '--brand': BRAND }}
-    >
+    <section className="py-16 md:py-24 bg-[#f8f5f2]">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <h2 className="text-4xl font-serif font-semibold text-[#072e1a]">Bestsellers</h2>
-          <p className="mt-3 text-gray-600">Our most-loved picks — effective, safe and sustainably formulated.</p>
+          <h2 className="text-4xl font-serif font-semibold text-[#1c1917]">Bestsellers</h2>
+          <p className="mt-3 text-stone-600">Our most-loved picks — effective, safe and sustainably formulated.</p>
         </div>
 
         {/* Grid */}
@@ -33,7 +30,7 @@ export default function ProductGrid() {
               viewport={{ once: true, amount: 0.18 }}
               transition={{ delay: i * 0.06, duration: 0.6, ease: 'easeOut' }}
               whileHover={{ scale: 1.02, y: -6 }}
-              className="product-grid-group relative flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-[0_8px_30px_rgba(10,122,78,0.06)] will-change-transform transition"
+              className="product-grid-group relative flex flex-col rounded-2xl overflow-hidden bg-white border border-stone-100 shadow-[0_8px_30px_rgba(183,127,107,0.06)] will-change-transform transition"
               style={{ minHeight: 420 }} // consistent card height so titles never cut
             >
               {/* Image area */}
@@ -74,12 +71,11 @@ export default function ProductGrid() {
                   <span>{p.price}</span>
                 </div>
 
-                {/* subtle green glow on hover */}
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity"
+                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity"
                   style={{
-                    background: 'linear-gradient(180deg, rgba(10,122,78,0.04) 0%, rgba(10,122,78,0.08) 100%)',
+                    background: 'linear-gradient(180deg, rgba(183,127,107,0.04) 0%, rgba(183,127,107,0.08) 100%)',
                     mixBlendMode: 'overlay',
                   }}
                 />
@@ -107,7 +103,7 @@ export default function ProductGrid() {
                     className="inline-flex items-center justify-center px-4 py-2 rounded-md text-white font-semibold text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
                     style={{
                       backgroundColor: BRAND,
-                      boxShadow: '0 10px 30px rgba(10,122,78,0.18)',
+                      boxShadow: '0 10px 30px rgba(183,127,107,0.18)',
                       minWidth: 120,
                     }}
                     aria-label={`View ${p.name}`}
@@ -144,7 +140,7 @@ export default function ProductGrid() {
           <Link
             href="/products"
             className="px-8 py-3 rounded-xl text-white font-semibold shadow-lg transform transition"
-            style={{ backgroundColor: BRAND, boxShadow: '0 12px 40px rgba(10,122,78,0.2)' }}
+            style={{ backgroundColor: BRAND, boxShadow: '0 12px 40px rgba(183,127,107,0.2)' }}
           >
             See All Products
           </Link>

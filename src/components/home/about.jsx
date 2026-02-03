@@ -53,7 +53,7 @@ export default function About() {
 
     const material = new THREE.PointsMaterial({
       size: 0.035,
-      color: 0x22c55e,
+      color: 0xb77f6b,
       transparent: true,
       opacity: 0.45
     })
@@ -62,7 +62,7 @@ export default function About() {
     scene.add(particles)
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.7))
-    const light = new THREE.PointLight(0x22c55e, 1)
+    const light = new THREE.PointLight(0xb77f6b, 1)
     light.position.set(5, 5, 5)
     scene.add(light)
 
@@ -106,7 +106,7 @@ export default function About() {
         relative w-full overflow-hidden
         py-24 md:py-32
         bg-gradient-to-br
-        from-black via-emerald-950 to-black
+        from-[#1c1917] via-[#2d2421] to-[#1c1917]
         text-white
       "
     >
@@ -123,8 +123,8 @@ export default function About() {
         className="absolute inset-0 z-10 opacity-40"
         style={{
           background: `
-            radial-gradient(circle at 20% 30%, rgba(16,185,129,0.18), transparent 55%),
-            radial-gradient(circle at 80% 70%, rgba(5,150,105,0.25), transparent 55%)
+            radial-gradient(circle at 20% 30%, rgba(183,127,107,0.15), transparent 55%),
+            radial-gradient(circle at 80% 70%, rgba(197,160,89,0.1), transparent 55%)
           `
         }}
       />
@@ -135,7 +135,7 @@ export default function About() {
           variants={fadeUp}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="text-sm tracking-[0.3em] text-emerald-400 uppercase mb-4"
+          className="text-sm tracking-[0.3em] text-[#b77f6b] uppercase mb-4"
         >
           About Us
         </motion.p>
@@ -149,7 +149,7 @@ export default function About() {
           className="
             font-serif font-bold
             text-4xl md:text-5xl lg:text-6xl
-            bg-gradient-to-r from-white via-emerald-100 to-emerald-300
+            bg-gradient-to-r from-white via-[#d1a394] to-[#b77f6b]
             bg-clip-text text-transparent
             leading-tight
           "
@@ -164,7 +164,7 @@ export default function About() {
           transition={{ delay: 0.25 }}
           className="
     mt-8 text-sm sm:text-base md:text-lg
-    text-emerald-50/95
+    text-white/90
     leading-relaxed
     bg-white/5 backdrop-blur-md
     p-6 rounded-2xl
@@ -183,11 +183,11 @@ export default function About() {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           transition={{ delay: 0.4 }}
-          className="mt-5 text-emerald-200/95 text-sm sm:text-base md:text-lg"
+          className="mt-5 text-white/80 text-sm sm:text-base md:text-lg"
         >
           We're committed to giving your skin the love it deserves while keeping
           everything 100% herbal, safe, and effective — all at prices that won't
-          hurt your pocket. Choose ARNA. <span className="font-semibold text-emerald-300">
+          hurt your pocket. Choose ARNA. <span className="font-semibold text-[#b77f6b]">
             Created by Nature.
           </span>
         </motion.p>
@@ -205,9 +205,9 @@ export default function About() {
             href="/products"
             className="
               px-6 py-3 rounded-lg
-              bg-gradient-to-r from-emerald-500 to-green-600
-              shadow-lg shadow-emerald-500/40
-              hover:shadow-emerald-500/70
+              bg-gradient-to-r from-[#b77f6b] to-[#8e5d4d]
+              shadow-lg shadow-[#b77f6b]/30
+              hover:shadow-[#b77f6b]/50
               transition-all
               font-medium
             "
@@ -219,9 +219,9 @@ export default function About() {
             href="/#contact"
             className="
               px-6 py-3 rounded-lg
-              border border-emerald-400/60
+              border border-[#b77f6b]/40
               bg-white/5 backdrop-blur
-              hover:bg-emerald-500/20
+              hover:bg-[#b77f6b]/10
               transition-all
               font-medium
             "
