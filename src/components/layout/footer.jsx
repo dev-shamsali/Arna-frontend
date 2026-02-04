@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  MessageCircle,
   Facebook,
   Instagram,
   Linkedin,
 } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 
 import Link from "next/link";
 
@@ -36,7 +36,7 @@ const Footer = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >
-            <MessageCircle className="w-7 h-7 md:w-8 md:h-8 text-white" />
+            <FaWhatsapp className="w-7 h-7 md:w-8 md:h-8 text-white" />
           </motion.div>
 
           {whatsappHovered && (
