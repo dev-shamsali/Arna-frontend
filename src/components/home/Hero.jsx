@@ -174,7 +174,7 @@ export default function Hero() {
 
   if (isLoading && !loaded) {
     return (
-      <section className="relative h-screen w-full bg-[#14532d] flex items-center justify-center">
+      <section className="relative h-screen w-full bg-[#1a4d32] flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-[#b77f6b] border-t-transparent rounded-full animate-spin"></div>
       </section>
     )
@@ -183,7 +183,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#0a2e1a] via-[#14532d] to-[#0a2e1a]"
+      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#0d3a24] via-[#1a4d32] to-[#0d3a24]"
     >
       <div className="absolute inset-0 w-full h-full">
         {currentSlides.map((slide, i) => (

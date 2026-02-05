@@ -113,7 +113,7 @@ const OurStory = () => {
             />
 
             {/* BACKGROUND */}
-            <div className="absolute inset-0 z-10 bg-gradient-to-br from-[#0a2e1a] via-[#14532d] to-[#0a2e1a]" />
+            <div className="absolute inset-0 z-10 bg-gradient-to-br from-[#0d3a24] via-[#1a4d32] to-[#0d3a24]" />
             <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
             <div
                 className="absolute inset-0 z-10 opacity-30"
