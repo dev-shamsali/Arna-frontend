@@ -52,9 +52,9 @@ const Footer = () => {
       </motion.a>
 
       {/* Footer */}
-      <footer className="relative w-full overflow-hidden bg-[#1a4d32]">
+      <footer className="relative w-full overflow-hidden bg-[#1e5e3f]">
         {/* Background Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0d3a24] via-[#1a4d32] to-[#0d3a24]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#14422c] via-[#1e5e3f] to-[#14422c]" />
 
         {/* Subtle Brand Glow */}
         <div

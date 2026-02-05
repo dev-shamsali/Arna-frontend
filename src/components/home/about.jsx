@@ -106,7 +106,7 @@ export default function About() {
         relative w-full overflow-hidden
         py-16 md:py-32
         bg-gradient-to-br
-        from-[#0d3a24] via-[#1a4d32] to-[#0d3a24]
+        from-[#14422c] via-[#1e5e3f] to-[#14422c]
         text-white
       "
     >
