@@ -150,7 +150,7 @@ export default function Hero() {
 
   if (isLoading && !loaded) {
     return (
-      <section className="relative h-screen w-full bg-[#1c1917] flex items-center justify-center">
+      <section className="relative h-screen w-full bg-[#14532d] flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-[#b77f6b] border-t-transparent rounded-full animate-spin"></div>
       </section>
     )
@@ -159,7 +159,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#1c1917]/40 via-[#2d2421]/20 to-[#000]/40"
+      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#0a2e1a] via-[#14532d] to-[#0a2e1a]"
     >
       <div className="absolute inset-0 w-full h-full">
         {currentSlides.map((slide, i) => (
@@ -181,7 +181,7 @@ export default function Hero() {
                 onError={() => setLoaded(true)}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1c1917]/40 via-transparent to-black/50" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#0a2e1a]/40 via-transparent to-black/50" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
             </div>
           </div>

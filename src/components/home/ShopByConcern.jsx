@@ -39,7 +39,7 @@ const CONCERNS = [
 
 export default function ShopByConcern() {
     return (
-        <section className="relative w-full py-24 md:py-32 bg-[#1c1917] overflow-hidden">
+        <section className="relative w-full py-24 md:py-32 bg-[#14532d] overflow-hidden">
             {/* Background soft gradients */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
                 <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-[#b77f6b]/10 rounded-full blur-[120px]" />

@@ -52,17 +52,17 @@ const Footer = () => {
       </motion.a>
 
       {/* Footer */}
-      <footer className="relative w-full overflow-hidden bg-[#1c1917]">
+      <footer className="relative w-full overflow-hidden bg-[#14532d]">
         {/* Background Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1c1917] via-[#2d2421] to-[#1c1917]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a2e1a] via-[#14532d] to-[#0a2e1a]" />
 
         {/* Subtle Brand Glow */}
         <div
           className="absolute inset-0 opacity-20"
           style={{
             background: `
-              radial-gradient(circle at 20% 30%, rgba(183,127,107,0.15), transparent 50%),
-              radial-gradient(circle at 80% 70%, rgba(197,160,89,0.1), transparent 50%)
+              radial-gradient(circle at 20% 30%, rgba(183,127,107,0.2), transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(197,160,89,0.15), transparent 50%)
             `,
           }}
         />
