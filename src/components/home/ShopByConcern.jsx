@@ -39,7 +39,7 @@ const CONCERNS = [
 
 export default function ShopByConcern() {
     return (
-        <section className="relative w-full py-24 md:py-32 bg-[#14532d] overflow-hidden">
+        <section className="relative w-full py-16 md:py-32 bg-[#14532d] overflow-hidden">
             {/* Background soft gradients */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
                 <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-[#b77f6b]/10 rounded-full blur-[120px]" />
@@ -47,12 +47,12 @@ export default function ShopByConcern() {
             </div>
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="text-center mb-16 md:mb-20">
+                <div className="text-center mb-12 md:mb-20">
                     <motion.p
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-[#b77f6b] text-sm uppercase tracking-[0.3em] font-semibold mb-4"
+                        className="text-[#b77f6b] text-xs md:text-sm uppercase tracking-[0.3em] font-semibold mb-3 md:mb-4"
                     >
                         Targeted Solutions
                     </motion.p>
@@ -61,7 +61,7 @@ export default function ShopByConcern() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6"
+                        className="font-serif text-3xl md:text-5xl lg:text-6xl text-white mb-4 md:mb-6"
                     >
                         Shop by Concern
                     </motion.h2>
@@ -70,13 +70,13 @@ export default function ShopByConcern() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="text-white/40 max-w-2xl mx-auto text-sm md:text-base font-light leading-relaxed"
+                        className="text-white/40 max-w-2xl mx-auto text-xs md:text-base font-light leading-relaxed px-4"
                     >
                         Don't just shop for products. Shop for results. Our targeted formulations address your unique skin and hair needs.
                     </motion.p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
                     {CONCERNS.map((concern, i) => (
                         <motion.div
                             key={concern.id}
@@ -84,7 +84,7 @@ export default function ShopByConcern() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1, duration: 0.8 }}
-                            className="group relative h-[300px] md:h-[380px] rounded-[2rem] overflow-hidden cursor-pointer shadow-2xl bg-stone-100"
+                            className="group relative h-[260px] md:h-[380px] rounded-2xl md:rounded-[2rem] overflow-hidden cursor-pointer shadow-2xl bg-stone-100"
                         >
                             {/* Image with overlay */}
                             <div className="absolute inset-0 w-full h-full">
@@ -100,25 +100,25 @@ export default function ShopByConcern() {
                             </div>
 
                             {/* Content - Positioned to the left for landscape feel */}
-                            <div className="absolute inset-0 p-10 flex flex-col justify-center items-start text-left max-w-[70%]">
+                            <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-center items-start text-left max-w-[85%] md:max-w-[70%]">
                                 <motion.div
                                     initial={{ opacity: 0, x: -20 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.3 + (i * 0.1) }}
                                 >
-                                    <h3 className="text-white font-serif text-3xl md:text-4xl mb-3 tracking-tight">
+                                    <h3 className="text-white font-serif text-2xl md:text-4xl mb-2 md:mb-3 tracking-tight">
                                         {concern.title}
                                     </h3>
-                                    <p className="text-white/80 text-sm md:text-base font-light mb-8 line-clamp-2">
+                                    <p className="text-white/80 text-xs md:text-base font-light mb-6 md:mb-8 line-clamp-2">
                                         {concern.desc}
                                     </p>
 
                                     <Link
                                         href={`/products?concern=${concern.id}`}
-                                        className="inline-flex items-center gap-3 px-8 py-4 bg-[#b77f6b] text-white rounded-xl text-sm font-bold uppercase tracking-widest shadow-lg hover:bg-[#8e5d4d] transition-all group/btn"
+                                        className="inline-flex items-center gap-3 px-6 py-3 md:px-8 md:py-4 bg-[#b77f6b] text-white rounded-xl text-xs md:text-sm font-bold uppercase tracking-widest shadow-lg hover:bg-[#8e5d4d] transition-all group/btn"
                                     >
-                                        <span>Explore Collection</span>
-                                        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+                                        <span>Explore</span>
+                                        <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" />
                                     </Link>
                                 </motion.div>
                             </div>

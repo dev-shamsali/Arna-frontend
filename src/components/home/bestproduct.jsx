@@ -368,7 +368,7 @@ export default function ArnaProductShowcase() {
   return (
     <section
       ref={sectionRef}
-      className="w-full relative py-16 md:py-20 lg:py-24 overflow-hidden bg-[#f8f5f2]"
+      className="w-full relative py-12 md:py-24 overflow-hidden bg-[#f8f5f2]"
     >
       {/* Enhanced Background with Brand Gradients */}
       <div className="absolute inset-0 bg-gradient-to-br from-stone-50 via-white to-stone-100 pointer-events-none" />
@@ -384,13 +384,10 @@ export default function ArnaProductShowcase() {
       <div className="absolute bottom-1/3 left-1/3 w-96 h-96 bg-gradient-radial from-green-200/20 via-green-100/10 to-transparent blur-3xl pointer-events-none" />
 
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
-
-
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-center">
 
         {/* Compact Main Layout with Tighter Spacing */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-center mb-8 md:mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center mb-8 md:mb-12">
 
 
           {/* LEFT CARD */}
@@ -405,23 +402,23 @@ export default function ArnaProductShowcase() {
           {/* CENTER CONTENT - Smaller Heading */}
           <motion.div
             ref={heroContentRef}
-            className="lg:col-span-6 text-center py-6 md:py-8 flex items-center"
-            style={{ minHeight: '280px' }}
+            className="lg:col-span-6 py-4 md:py-8 flex items-center justify-center"
+            style={{ minHeight: 'auto' }}
           >
             <div className="w-full">
-              <div className="inline-block mb-3">
-                <span className="text-[9px] md:text-[10px] uppercase tracking-[0.35em] text-[#b77f6b] font-bold">
+              <div className="inline-block mb-2 md:mb-3">
+                <span className="text-[10px] uppercase tracking-[0.35em] text-[#b77f6b] font-bold">
                   Premium Skincare
                 </span>
               </div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-stone-900 mb-3 tracking-tight leading-tight">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-light text-stone-900 mb-2 md:mb-3 tracking-tight leading-tight">
                 Professional
                 <br />
                 <span className="font-semibold bg-gradient-to-r from-[#b77f6b] via-[#d1a394] to-[#b77f6b] bg-clip-text text-transparent">
                   Collection
                 </span>
               </h2>
-              <p className="text-xs md:text-sm text-slate-600 max-w-lg mx-auto font-light leading-relaxed">
+              <p className="text-xs md:text-base text-slate-600 max-w-lg mx-auto font-light leading-relaxed px-4">
                 Clinically-proven formulations crafted with precision and care
               </p>
             </div>
@@ -438,8 +435,8 @@ export default function ArnaProductShowcase() {
         </div>
 
 
-        {/* Bottom Row - 3 Cards with Tighter Spacing */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 mb-12 md:mb-16 max-w-6xl mx-auto">
+        {/* Bottom Row - Responsive Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-16 max-w-6xl mx-auto">
           {productCards.slice(2, 5).map((product, index) => (
             <UniformCard3D
               key={product.id}
@@ -447,19 +444,20 @@ export default function ArnaProductShowcase() {
               cardRef={(el) => (cardRefs.current[index + 2] = el)}
             />
           ))}
-        </div>
 
-
-        {/* Mobile cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6 mb-12 md:mb-16 lg:hidden max-w-2xl mx-auto">
-          <UniformCard3D
-            product={productCards[0]}
-            cardRef={(el) => (cardRefs.current[5] = el)}
-          />
-          <UniformCard3D
-            product={productCards[1]}
-            cardRef={(el) => (cardRefs.current[6] = el)}
-          />
+          {/* Mobile visible cards only */}
+          <div className="md:hidden">
+            <UniformCard3D
+              product={productCards[0]}
+              cardRef={(el) => (cardRefs.current[5] = el)}
+            />
+          </div>
+          <div className="md:hidden">
+            <UniformCard3D
+              product={productCards[1]}
+              cardRef={(el) => (cardRefs.current[6] = el)}
+            />
+          </div>
         </div>
 
 
@@ -473,7 +471,7 @@ export default function ArnaProductShowcase() {
         >
           <Link
             href="/products"
-            className="group relative inline-flex items-center justify-center px-12 py-4 rounded-full bg-gradient-to-r from-[#b77f6b] to-[#8e5d4d] text-white text-sm md:text-base font-semibold shadow-lg hover:shadow-2xl hover:shadow-[#b77f6b]/40 transition-all duration-500 overflow-hidden"
+            className="group relative inline-flex items-center justify-center px-10 py-3.5 md:px-12 md:py-4 rounded-full bg-gradient-to-r from-[#b77f6b] to-[#8e5d4d] text-white text-sm md:text-base font-semibold shadow-lg hover:shadow-2xl hover:shadow-[#b77f6b]/40 transition-all duration-500 overflow-hidden"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-[#8e5d4d] to-[#b77f6b] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             <span className="relative z-10 flex items-center gap-2 tracking-wide">
@@ -483,8 +481,6 @@ export default function ArnaProductShowcase() {
               </svg>
             </span>
           </Link>
-
-
         </motion.div>
       </div>
     </section>

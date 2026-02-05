@@ -188,39 +188,39 @@ export default function Hero() {
         ))}
       </div>
 
-      <div className="relative z-20 h-full flex items-center pt-24">
+      <div className="relative z-20 h-full flex items-center pt-20 md:pt-32">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="max-w-3xl text-white">
+          <div className="max-w-2xl lg:max-w-3xl text-white text-center md:text-left">
             <h1
               ref={titleRef}
-              className="font-serif text-4xl md:text-6xl leading-tight font-medium mb-4 drop-shadow-xl"
+              className="font-serif text-3xl md:text-5xl lg:text-7xl leading-tight font-medium mb-4 drop-shadow-xl"
             >
               {currentSlides[active]?.title}
             </h1>
 
             <p
               ref={textRef}
-              className="text-lg md:text-xl text-white/90 max-w-xl leading-relaxed mb-10 font-light drop-shadow-md"
+              className="text-sm sm:text-lg text-white/90 max-w-xl mx-auto md:mx-0 leading-relaxed mb-8 md:mb-10 font-light drop-shadow-md"
             >
               {currentSlides[active]?.text}
             </p>
 
-            <div ref={buttonsRef} className="flex flex-wrap gap-4 mb-12">
+            <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mb-10 md:mb-12">
               <Link
                 href="/products"
-                className="group px-8 py-4 bg-[#b77f6b] text-white font-bold rounded-xl transition-all hover:bg-[#8e5d4d] hover:scale-105 shadow-xl hover:shadow-[#b77f6b]/20"
+                className="w-full sm:w-auto group px-6 py-3.5 md:px-8 md:py-4 bg-[#b77f6b] text-white font-bold rounded-xl transition-all hover:bg-[#8e5d4d] hover:scale-105 shadow-xl hover:shadow-[#b77f6b]/20 flex items-center justify-center md:justify-start"
               >
                 Explore Products →
               </Link>
               <Link
                 href="/about"
-                className="group px-8 py-4 border-2 border-white/80 text-white font-bold rounded-xl hover:bg-white hover:text-[#1c1917] transition-all backdrop-blur-sm hover:scale-105"
+                className="w-full sm:w-auto group px-6 py-3.5 md:px-8 md:py-4 border-2 border-white/80 text-white font-bold rounded-xl hover:bg-white hover:text-[#0a2e1a] transition-all backdrop-blur-sm hover:scale-105 flex items-center justify-center md:justify-start"
               >
                 Our Philosophy
               </Link>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex justify-center md:justify-start gap-4">
               {currentSlides.map((_, i) => (
                 <div
                   key={i}

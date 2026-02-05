@@ -126,31 +126,31 @@ const OurStory = () => {
             />
 
             {/* CONTENT */}
-            <div className="relative z-30 max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="relative z-30 max-w-7xl mx-auto px-6 lg:px-12">
                 {/* HEADER SECTION - Enhanced with Decorative Element */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 1, ease: 'easeOut' }}
-                    className="relative text-center mb-20 md:mb-24"
+                    className="relative text-center mb-16 md:mb-24"
                 >
-                    <span className="absolute -top-12 left-1/2 -translate-x-1/2 text-8xl md:text-9xl font-serif text-white/[0.03] pointer-events-none select-none uppercase tracking-[0.2em]">
+                    <span className="absolute -top-10 md:-top-12 left-1/2 -translate-x-1/2 text-6xl md:text-9xl font-serif text-white/[0.03] pointer-events-none select-none uppercase tracking-[0.2em] whitespace-nowrap">
                         Heritage
                     </span>
                     <h2
                         id="our-story-heading"
-                        className="relative text-5xl md:text-7xl font-serif font-bold text-transparent bg-gradient-to-r from-[#d1a394] via-white to-[#b77f6b] bg-clip-text pb-4 leading-tight mb-2"
+                        className="relative text-4xl md:text-7xl font-serif font-bold text-transparent bg-gradient-to-r from-[#d1a394] via-white to-[#b77f6b] bg-clip-text pb-4 leading-tight mb-2"
                     >
                         Our Story
                     </h2>
                     <div className="flex items-center justify-center gap-4">
-                        <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#b77f6b]" />
-                        <span className="text-[#c5a059] text-[10px] uppercase tracking-[0.4em] font-medium">Est. 2014</span>
-                        <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#b77f6b]" />
+                        <div className="h-[1px] w-8 md:w-12 bg-gradient-to-r from-transparent to-[#b77f6b]" />
+                        <span className="text-[#c5a059] text-[9px] md:text-[10px] uppercase tracking-[0.4em] font-medium">Est. 2014</span>
+                        <div className="h-[1px] w-8 md:w-12 bg-gradient-to-l from-transparent to-[#b77f6b]" />
                     </div>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+                <div className="grid lg:grid-cols-12 gap-10 lg:gap-20 items-center">
                     {/* LEFT SIDE: IMAGE WITH FLOATING FRAME */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
@@ -159,10 +159,10 @@ const OurStory = () => {
                         className="lg:col-span-5 relative"
                     >
                         {/* Decorative Frames */}
-                        <div className="absolute -inset-4 border border-[#b77f6b]/20 rounded-2xl transform -rotate-3 pointer-events-none" />
-                        <div className="absolute -inset-4 border border-[#c5a059]/10 rounded-2xl transform rotate-2 pointer-events-none" />
+                        <div className="absolute -inset-2 md:-inset-4 border border-[#b77f6b]/20 rounded-2xl transform -rotate-3 pointer-events-none" />
+                        <div className="absolute -inset-2 md:-inset-4 border border-[#c5a059]/10 rounded-2xl transform rotate-2 pointer-events-none" />
 
-                        <div className="relative h-[450px] md:h-[600px] rounded-2xl overflow-hidden shadow-2xl group">
+                        <div className="relative h-[350px] md:h-[600px] rounded-2xl overflow-hidden shadow-2xl group">
                             <Image
                                 src="/home/founder.png"
                                 alt="Founders of ARNA"
@@ -175,26 +175,26 @@ const OurStory = () => {
                     </motion.div>
 
                     {/* RIGHT SIDE: RICH TEXT CONTENT */}
-                    <div className="lg:col-span-7 space-y-12">
+                    <div className="lg:col-span-7 space-y-10 lg:space-y-12">
                         {/* Narrative */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={isInView ? { opacity: 1, y: 0 } : {}}
                             transition={{ duration: 0.8, delay: 0.4 }}
-                            className="relative"
+                            className="relative text-center lg:text-left"
                         >
-                            <span className="text-6xl absolute -top-8 -left-6 text-[#b77f6b]/20 font-serif">“</span>
-                            <h3 className="text-2xl md:text-3xl font-serif text-white mb-6 leading-tight">
+                            <span className="hidden lg:block text-6xl absolute -top-8 -left-6 text-[#b77f6b]/20 font-serif">“</span>
+                            <h3 className="text-xl md:text-3xl font-serif text-white mb-6 leading-tight">
                                 A blend of <span className="italic text-[#b77f6b]">Arman</span> and <span className="italic text-[#b77f6b]">Naaz</span>,
                                 <br />representing a shared vision for beauty.
                             </h3>
-                            <p className="text-white/70 leading-relaxed text-base md:text-lg font-light">
+                            <p className="text-white/70 leading-relaxed text-sm md:text-lg font-light max-w-2xl mx-auto lg:mx-0">
                                 A decade ago, we embarked on a journey to redefine skincare in India. What began as a personal quest for pure, herbal results evolved into <span className="text-[#b77f6b] font-medium">ARNA</span>. We didn't just want to sell products; we wanted to bottle the harmony of ancient botanical wisdom and modern precision.
                             </p>
                         </motion.div>
 
                         {/* Principles Display: From list to interactive cards */}
-                        <div className="grid sm:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             {[
                                 { title: 'Quality', desc: '100% Sourced Actives', icon: '✦' },
                                 { title: 'Tailored', desc: 'Personalized Solutions', icon: '❂' },
@@ -205,11 +205,11 @@ const OurStory = () => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                                     transition={{ duration: 0.6, delay: 0.6 + (idx * 0.15) }}
-                                    className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/[0.08] transition-colors group cursor-default"
+                                    className="p-4 md:p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/[0.08] transition-colors group cursor-default text-center lg:text-left"
                                 >
-                                    <span className="text-[#c5a059] text-xl mb-3 block group-hover:scale-125 transition-transform">{pillar.icon}</span>
-                                    <h4 className="text-white font-semibold text-sm uppercase tracking-widest mb-1">{pillar.title}</h4>
-                                    <p className="text-white/50 text-[11px] leading-tight">{pillar.desc}</p>
+                                    <span className="text-[#c5a059] text-xl mb-2 md:mb-3 block group-hover:scale-125 transition-transform">{pillar.icon}</span>
+                                    <h4 className="text-white font-semibold text-xs md:text-sm uppercase tracking-widest mb-1">{pillar.title}</h4>
+                                    <p className="text-white/50 text-[10px] md:text-[11px] leading-tight">{pillar.desc}</p>
                                 </motion.div>
                             ))}
                         </div>
@@ -219,13 +219,13 @@ const OurStory = () => {
                             initial={{ opacity: 0 }}
                             animate={isInView ? { opacity: 1 } : {}}
                             transition={{ duration: 1, delay: 1 }}
-                            className="pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-8"
+                            className="pt-6 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-center lg:justify-between gap-6 md:gap-8"
                         >
-                            <div>
+                            <div className="text-center lg:text-left">
                                 <h4 className="text-[10px] uppercase tracking-[0.3em] text-[#c5a059] mb-4">Core Expertise</h4>
-                                <div className="flex flex-wrap gap-2">
+                                <div className="flex flex-wrap justify-center lg:justify-start gap-2">
                                     {['Botanical Glow', 'Healthy Roots', 'Pure Rituals'].map(tag => (
-                                        <span key={tag} className="px-3 py-1.5 rounded-full bg-[#b77f6b]/20 border border-[#b77f6b]/30 text-[#d1a394] text-[10px] uppercase tracking-widest font-medium">
+                                        <span key={tag} className="px-3 py-1.5 rounded-full bg-[#b77f6b]/20 border border-[#b77f6b]/30 text-[#d1a394] text-[9px] md:text-[10px] uppercase tracking-widest font-medium">
                                             {tag}
                                         </span>
                                     ))}

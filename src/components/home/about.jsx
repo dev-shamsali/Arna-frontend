@@ -104,7 +104,7 @@ export default function About() {
       aria-labelledby="about-heading"
       className="
         relative w-full overflow-hidden
-        py-24 md:py-32
+        py-16 md:py-32
         bg-gradient-to-br
         from-[#0a2e1a] via-[#14532d] to-[#0a2e1a]
         text-white
@@ -130,17 +130,17 @@ export default function About() {
       />
 
       {/* CONTENT */}
-      <div className="relative z-20 max-w-3xl mx-auto px-6 text-center">
+      <div className="relative z-20 max-w-4xl mx-auto px-6 text-center">
         <motion.p
           variants={fadeUp}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="text-sm tracking-[0.3em] text-[#b77f6b] uppercase mb-4"
+          className="text-xs md:text-sm tracking-[0.3em] text-[#b77f6b] uppercase mb-3 md:mb-4"
         >
           About Us
         </motion.p>
 
-        <motion.h1
+        <motion.h2
           id="about-heading"
           variants={fadeUp}
           initial="hidden"
@@ -148,50 +148,38 @@ export default function About() {
           transition={{ delay: 0.1 }}
           className="
             font-serif font-bold
-            text-4xl md:text-5xl lg:text-6xl
+            text-3xl md:text-5xl lg:text-7xl
             bg-gradient-to-r from-white via-[#d1a394] to-[#b77f6b]
             bg-clip-text text-transparent
             leading-tight
           "
         >
           ARNA Skin Care
-        </motion.h1>
+        </motion.h2>
 
-        <motion.p
+        <motion.div
           variants={fadeUp}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           transition={{ delay: 0.25 }}
-          className="
-    mt-8 text-sm sm:text-base md:text-lg
-    text-white/90
-    leading-relaxed
-    bg-white/5 backdrop-blur-md
-    p-6 rounded-2xl
-    border border-white/10
-  "
+          className="mt-8 md:mt-10 bg-white/5 backdrop-blur-md p-6 md:p-10 rounded-2xl border border-white/10"
         >
-          At ARNA Skin Care, we believe real beauty starts with nature. Our mission
-          is simple — to bring you pure, herbal, and chemical-free skincare that
-          actually works. From glow-boosting fairness creams to complete face and
-          body care, every product is crafted with natural ingredients, gentle
-          formulations, and zero side-effects.
-        </motion.p>
+          <p className="text-sm md:text-lg text-white/90 leading-relaxed font-light">
+            At ARNA Skin Care, we believe real beauty starts with nature. Our mission
+            is simple — to bring you pure, herbal, and chemical-free skincare that
+            actually works. From glow-boosting fairness creams to complete face and
+            body care, every product is crafted with natural ingredients, gentle
+            formulations, and zero side-effects.
+          </p>
 
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          transition={{ delay: 0.4 }}
-          className="mt-5 text-white/80 text-sm sm:text-base md:text-lg"
-        >
-          We're committed to giving your skin the love it deserves while keeping
-          everything 100% herbal, safe, and effective — all at prices that won't
-          hurt your pocket. Choose ARNA. <span className="font-semibold text-[#b77f6b]">
-            Created by Nature.
-          </span>
-        </motion.p>
-
+          <p className="mt-5 text-white/70 text-sm md:text-lg leading-relaxed">
+            We're committed to giving your skin the love it deserves while keeping
+            everything 100% herbal, safe, and effective — all at prices that won't
+            hurt your pocket. Choose ARNA. <span className="font-semibold text-[#b77f6b]">
+              Created by Nature.
+            </span>
+          </p>
+        </motion.div>
 
         {/* CTA */}
         <motion.div
@@ -199,34 +187,32 @@ export default function About() {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           transition={{ delay: 0.6 }}
-          className="mt-10 flex flex-col sm:flex-row justify-center gap-4"
+          className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4"
         >
           <Link
             href="/products"
             className="
-              px-6 py-3 rounded-lg
+              w-full sm:w-auto px-8 py-3.5 rounded-xl
               bg-gradient-to-r from-[#b77f6b] to-[#8e5d4d]
               shadow-lg shadow-[#b77f6b]/30
               hover:shadow-[#b77f6b]/50
-              transition-all
-              font-medium
+              transition-all text-sm font-bold uppercase tracking-widest
             "
           >
-            View Products
+            Explore More
           </Link>
 
           <Link
-            href="/#contact"
+            href="/contact"
             className="
-              px-6 py-3 rounded-lg
-              border border-[#b77f6b]/40
+              w-full sm:w-auto px-8 py-3.5 rounded-xl
+              border border-white/20
               bg-white/5 backdrop-blur
               hover:bg-[#b77f6b]/10
-              transition-all
-              font-medium
+              transition-all text-sm font-bold uppercase tracking-widest
             "
           >
-            Contact Us
+            Contact
           </Link>
         </motion.div>
       </div>

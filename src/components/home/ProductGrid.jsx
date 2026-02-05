@@ -12,16 +12,19 @@ const products = [
 
 export default function ProductGrid() {
   return (
-    <section className="py-16 md:py-24 bg-[#f8f5f2]">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-12 md:py-24 bg-[#f8f5f2]">
+      <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-10">
-          <h2 className="text-4xl font-serif font-semibold text-[#1c1917]">Bestsellers</h2>
-          <p className="mt-3 text-stone-600">Our most-loved picks — effective, safe and sustainably formulated.</p>
+        <div className="text-center mb-10 md:mb-16">
+          <p className="text-xs tracking-[0.3em] text-[#b77f6b] uppercase mb-3">Our Selection</p>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold text-[#1c1917]">Bestsellers</h2>
+          <p className="mt-3 text-stone-600 text-sm md:text-base max-w-xl mx-auto font-light">
+            Our most-loved picks — effective, safe and sustainably formulated.
+          </p>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {products.map((p, i) => (
             <motion.article
               key={p.id}
@@ -30,11 +33,11 @@ export default function ProductGrid() {
               viewport={{ once: true, amount: 0.18 }}
               transition={{ delay: i * 0.06, duration: 0.6, ease: 'easeOut' }}
               whileHover={{ scale: 1.02, y: -6 }}
-              className="product-grid-group relative flex flex-col rounded-2xl overflow-hidden bg-white border border-stone-100 shadow-[0_8px_30px_rgba(183,127,107,0.06)] will-change-transform transition"
-              style={{ minHeight: 420 }} // consistent card height so titles never cut
+              className="group relative flex flex-col rounded-2xl overflow-hidden bg-white border border-stone-100 shadow-[0_8px_30px_rgba(183,127,107,0.06)] will-change-transform transition"
+              style={{ minHeight: 380 }}
             >
               {/* Image area */}
-              <div className="relative w-full aspect-4/3 bg-gray-50 flex items-center justify-center overflow-hidden">
+              <div className="relative w-full aspect-square bg-gray-50 flex items-center justify-center overflow-hidden">
                 {p.fit === 'contain' ? (
                   <div className="w-full h-full p-6 flex items-center justify-center transition-transform duration-700 group-hover:scale-105 will-change-transform">
                     <Image
@@ -45,7 +48,6 @@ export default function ProductGrid() {
                       style={{ objectFit: 'contain', objectPosition: 'center' }}
                       priority={i < 2}
                       quality={85}
-                      loading={i < 2 ? 'eager' : 'lazy'}
                     />
                   </div>
                 ) : (
@@ -58,98 +60,69 @@ export default function ProductGrid() {
                       style={{ objectFit: 'cover', objectPosition: 'center' }}
                       priority={i < 2}
                       quality={85}
-                      loading={i < 2 ? 'eager' : 'lazy'}
                     />
                   </div>
                 )}
 
                 {/* Price badge */}
                 <div
-                  className="absolute top-4 right-4 px-3 py-1 rounded-md bg-white/95 border border-gray-100 text-sm font-medium shadow-sm transition-colors price-badge"
+                  className="absolute top-4 right-4 px-3 py-1 rounded-lg bg-white/95 border border-stone-100 text-sm font-bold shadow-sm"
                   style={{ color: BRAND }}
                 >
                   <span>{p.price}</span>
                 </div>
-
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity"
-                  style={{
-                    background: 'linear-gradient(180deg, rgba(183,127,107,0.04) 0%, rgba(183,127,107,0.08) 100%)',
-                    mixBlendMode: 'overlay',
-                  }}
-                />
               </div>
 
               {/* Card content */}
-              <div className="p-5 flex flex-col flex-1">
+              <div className="p-6 flex flex-col flex-1">
                 <div>
-                  <h3
-                    className="text-lg font-semibold text-slate-800 mb-1 transition-colors product-title"
-                    style={{ transitionProperty: 'color, transform' }}
-                  >
-                    <span>{p.name}</span>
+                  <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-[#b77f6b] transition-colors">
+                    {p.name}
                   </h3>
-                  <p className="text-sm text-gray-500 mb-4">{p.desc}</p>
+                  <p className="text-xs text-gray-500 mb-4 font-light leading-relaxed">{p.desc}</p>
                 </div>
 
                 <div className="flex-1" />
 
-                <div
-                  className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between gap-3 transition-colors"
-                >
+                <div className="mt-4 pt-4 border-t border-stone-50 flex items-center justify-between gap-3">
                   <Link
                     href={`/products/${p.id}`}
-                    className="inline-flex items-center justify-center px-4 py-2 rounded-md text-white font-semibold text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                    className="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-white font-bold text-xs uppercase tracking-widest transition-transform active:scale-95"
                     style={{
                       backgroundColor: BRAND,
-                      boxShadow: '0 10px 30px rgba(183,127,107,0.18)',
-                      minWidth: 120,
+                      boxShadow: '0 8px 20px rgba(183,127,107,0.2)',
                     }}
-                    aria-label={`View ${p.name}`}
                   >
                     View
                   </Link>
 
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center px-4 py-2 rounded-md border border-gray-200 text-sm font-medium hover:bg-gray-50"
-                    aria-label={`Contact about ${p.name}`}
+                    className="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-xl border border-stone-200 text-xs font-bold uppercase tracking-widest hover:bg-stone-50 transition-colors"
                   >
-                    Contact Us
+                    Ask
                   </Link>
                 </div>
-
-                <div className="mt-3 text-xs text-gray-400">Free shipping above ₹2,000 • 30-day returns</div>
               </div>
-
-              {/* Hover outline + border transition */}
-              <div
-                aria-hidden
-                className="absolute inset-0 rounded-2xl pointer-events-none transition-shadow"
-                style={{
-                  boxShadow: 'inset 0 0 0 0 rgba(10,122,78,0)',
-                }}
-              />
             </motion.article>
           ))}
         </div>
 
         {/* CTA group */}
-        <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center">
+        <div className="mt-12 md:mt-16 flex flex-col sm:flex-row items-center gap-4 justify-center">
           <Link
             href="/products"
-            className="px-8 py-3 rounded-xl text-white font-semibold shadow-lg transform transition"
+            className="w-full sm:w-auto px-10 py-4 rounded-xl text-white font-bold text-sm uppercase tracking-widest shadow-xl transform transition hover:scale-105"
             style={{ backgroundColor: BRAND, boxShadow: '0 12px 40px rgba(183,127,107,0.2)' }}
           >
-            See All Products
+            All Products
           </Link>
 
           <Link
             href="/contact"
-            className="px-8 py-3 rounded-xl border border-gray-200 text-slate-800 font-medium hover:bg-gray-50"
+            className="w-full sm:w-auto px-10 py-4 rounded-xl border border-stone-200 text-stone-800 font-bold text-sm uppercase tracking-widest hover:bg-stone-50 transition-all hover:scale-105"
           >
-            Contact Us
+            Contact us
           </Link>
         </div>
       </div>
