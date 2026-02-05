@@ -34,6 +34,7 @@ export default function Hero() {
 
   const [active, setActive] = useState(0)
   const [loaded, setLoaded] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
   const [currentSlides, setCurrentSlides] = useState(DEFAULT_SLIDES)
 
   const { data: apiData, isLoading } = useGetHomeHeroQuery()
@@ -46,7 +47,8 @@ export default function Hero() {
           ? slide.imageUrl
           : `${process.env.NEXT_PUBLIC_BACKEND_URL}${slide.imageUrl}`,
         title: slide.title,
-        text: slide.description
+        text: slide.description,
+        mediaType: slide.mediaType || 'image'
       }))
       console.log("Here is the backend slies", backendSlides);
       // Use backend slides if available, otherwise fallback to defaults
@@ -148,6 +150,28 @@ export default function Hero() {
     }
   }, [loaded, currentSlides])
 
+  const togglePause = () => {
+    if (!timelineRef.current) return;
+    if (timelineRef.current.paused()) {
+      timelineRef.current.play();
+      setIsPaused(false);
+    } else {
+      timelineRef.current.pause();
+      setIsPaused(true);
+    }
+  };
+
+  const setManualPause = (pause) => {
+    if (!timelineRef.current) return;
+    if (pause) {
+      timelineRef.current.pause();
+      setIsPaused(true);
+    } else {
+      timelineRef.current.play();
+      setIsPaused(false);
+    }
+  };
+
   if (isLoading && !loaded) {
     return (
       <section className="relative h-screen w-full bg-[#14532d] flex items-center justify-center">
@@ -169,17 +193,34 @@ export default function Hero() {
             className="absolute top-0 left-0 w-full h-full"
             style={{ willChange: 'transform' }}
           >
-            <div className="relative w-full h-full">
-              <Image
-                src={slide.image}
-                alt={slide.title}
-                fill
-                priority={i === 0}
-                unoptimized
-                className="object-cover"
-                onLoad={() => setLoaded(true)}
-                onError={() => setLoaded(true)}
-              />
+            <div
+              className="relative w-full h-full cursor-pointer"
+              onMouseEnter={() => setManualPause(true)}
+              onMouseLeave={() => setManualPause(false)}
+              onClick={togglePause}
+            >
+              {slide.mediaType === 'video' ? (
+                <video
+                  src={slide.image}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                  onLoadedData={() => setLoaded(true)}
+                />
+              ) : (
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  fill
+                  priority={i === 0}
+                  unoptimized
+                  className="object-cover"
+                  onLoad={() => setLoaded(true)}
+                  onError={() => setLoaded(true)}
+                />
+              )}
 
               <div className="absolute inset-0 bg-gradient-to-br from-[#0a2e1a]/40 via-transparent to-black/50" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
@@ -220,16 +261,26 @@ export default function Hero() {
               </Link>
             </div>
 
-            <div className="flex justify-center md:justify-start gap-4">
-              {currentSlides.map((_, i) => (
-                <div
-                  key={i}
-                  className={`h-1 rounded-full transition-all duration-700 ${i === active
-                    ? 'w-16 bg-[#b77f6b] shadow-lg shadow-[#b77f6b]/50'
-                    : 'w-8 bg-white/30'
-                    }`}
-                />
-              ))}
+            <div className="flex items-center justify-center md:justify-start gap-4">
+              <div className="flex gap-4">
+                {currentSlides.map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-1 rounded-full transition-all duration-700 ${i === active
+                      ? 'w-16 bg-[#b77f6b] shadow-lg shadow-[#b77f6b]/50'
+                      : 'w-8 bg-white/30'
+                      }`}
+                  />
+                ))}
+              </div>
+
+              {/* Pause Indicator */}
+              {isPaused && (
+                <div className="ml-4 flex items-center gap-2 text-white/60 text-[10px] uppercase tracking-widest animate-pulse">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#b77f6b]" />
+                  Paused
+                </div>
+              )}
             </div>
           </div>
         </div>
