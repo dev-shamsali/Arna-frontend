@@ -152,8 +152,8 @@ const Footer = () => {
                 <div className="flex flex-wrap justify-center md:justify-start gap-x-8 gap-y-4 text-[11px] uppercase tracking-widest text-white/40">
                   <a href="/privacy-policy" className="hover:text-[#c5a059] transition-colors">Privacy</a>
                   <a href="/terms-conditions" className="hover:text-[#c5a059] transition-colors">Terms</a>
-                  <a href="/refund-policy" className="hover:text-[#c5a059] transition-colors">Refunds</a>
-                  <a href="/shipping-policy" className="hover:text-[#c5a059] transition-colors">Shipping</a>
+                  <a href="/returns" className="hover:text-[#c5a059] transition-colors">Refunds</a>
+                  <a href="/shipping" className="hover:text-[#c5a059] transition-colors">Shipping</a>
                 </div>
 
                 {/* Copyright */}
