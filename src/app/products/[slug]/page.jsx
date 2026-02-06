@@ -49,6 +49,32 @@ export default function ProductPage({ params }) {
     window.open(whatsappURL, "_blank");
   };
 
+  const getYouTubeEmbedUrl = (url) => {
+    if (!url) return null;
+
+    try {
+      const parsedUrl = new URL(url);
+
+      // youtube.com/watch?v=xxxx
+      if (parsedUrl.hostname.includes("youtube.com")) {
+        return `https://www.youtube.com/embed/${parsedUrl.searchParams.get("v")}`;
+      }
+
+      // youtu.be/xxxx
+      if (parsedUrl.hostname.includes("youtu.be")) {
+        return `https://www.youtube.com/embed/${parsedUrl.pathname.slice(1)}`;
+      }
+    } catch (err) {
+      return null;
+    }
+
+    return null;
+  };
+  const videoEmbedUrl = getYouTubeEmbedUrl(product.link);
+  console.log(
+    "link",videoEmbedUrl
+  )
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Back Button */}
@@ -132,6 +158,29 @@ export default function ProductPage({ params }) {
                   {product.description}
                 </p>
               )}
+              {videoEmbedUrl && (
+                <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-200 shadow-sm p-5 sm:p-6 space-y-4">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+                    How to Use This Product
+                  </h2>
+
+                  <div className="relative aspect-video rounded-lg overflow-hidden border border-gray-200">
+                    <iframe
+                      src={videoEmbedUrl}
+                      title="Product usage video"
+                      className="absolute inset-0 w-full h-full"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+
+                  <p className="text-sm sm:text-base text-gray-600">
+                    Watch this short video to understand how to use this product effectively.
+                  </p>
+                </div>
+              )}
+
               <p className="text-sm text-gray-500 mt-2 capitalize">
                 Category: <span className="font-medium">{product.category}</span>
               </p>
