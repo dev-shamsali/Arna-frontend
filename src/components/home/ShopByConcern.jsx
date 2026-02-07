@@ -115,7 +115,7 @@ export default function ShopByConcern() {
 
                                     <Link
                                         href={`/products?concern=${concern.id}`}
-                                        className="inline-flex items-center gap-3 px-6 py-3 md:px-8 md:py-4 bg-[#b77f6b] text-white rounded-xl text-xs md:text-sm font-bold uppercase tracking-widest shadow-lg hover:bg-[#8e5d4d] transition-all group/btn"
+                                        className="inline-flex items-center gap-3 px-6 py-3 md:px-8 md:py-4 bg-emerald-500 text-white rounded-xl text-xs md:text-sm font-bold uppercase tracking-widest shadow-lg hover:bg-[#8e5d4d] transition-all group/btn"
                                     >
                                         <span>Explore</span>
                                         <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1 transition-transform" />

@@ -87,10 +87,9 @@ export default function ProductGrid() {
                 <div className="mt-4 pt-4 border-t border-stone-50 flex items-center justify-between gap-3">
                   <Link
                     href={`/products/${p.id}`}
-                    className="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-white font-bold text-xs uppercase tracking-widest transition-transform active:scale-95"
+                    className="flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-white font-bold text-xs uppercase tracking-widest transition-transform active:scale-95 bg-emerald-500"
                     style={{
-                      backgroundColor: BRAND,
-                      boxShadow: '0 8px 20px rgba(183,127,107,0.2)',
+                      boxShadow: '0 8px 20px rgba(16, 185, 129, 0.2)',
                     }}
                   >
                     View
@@ -112,8 +111,8 @@ export default function ProductGrid() {
         <div className="mt-12 md:mt-16 flex flex-col sm:flex-row items-center gap-4 justify-center">
           <Link
             href="/products"
-            className="w-full sm:w-auto px-10 py-4 rounded-xl text-white font-bold text-sm uppercase tracking-widest shadow-xl transform transition hover:scale-105"
-            style={{ backgroundColor: BRAND, boxShadow: '0 12px 40px rgba(183,127,107,0.2)' }}
+            className="w-full sm:w-auto px-10 py-4 rounded-xl text-white font-bold text-sm uppercase tracking-widest shadow-xl transform transition hover:scale-105 bg-emerald-500"
+            style={{ boxShadow: '0 12px 40px rgba(16, 185, 129, 0.2)' }}
           >
             All Products
           </Link>

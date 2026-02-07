@@ -249,7 +249,7 @@ export default function Hero() {
             <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mb-10 md:mb-12">
               <Link
                 href="/products"
-                className="w-full sm:w-auto group px-6 py-3.5 md:px-8 md:py-4 bg-[#b77f6b] text-white font-bold rounded-xl transition-all hover:bg-[#8e5d4d] hover:scale-105 shadow-xl hover:shadow-[#b77f6b]/20 flex items-center justify-center md:justify-start"
+                className="w-full sm:w-auto group px-6 py-3.5 md:px-8 md:py-4 bg-emerald-500 text-white font-bold rounded-xl transition-all hover:bg-[#8e5d4d] hover:scale-105 shadow-xl hover:shadow-[#b77f6b]/20 flex items-center justify-center md:justify-start"
               >
                 Explore Products →
               </Link>

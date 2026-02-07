@@ -193,7 +193,7 @@ export default function About() {
             href="/products"
             className="
               w-full sm:w-auto px-8 py-3.5 rounded-xl
-              bg-gradient-to-r from-[#b77f6b] to-[#8e5d4d]
+              bg-gradient-to-r from-emerald-400 to-emerald-500
               shadow-lg shadow-[#b77f6b]/30
               hover:shadow-[#b77f6b]/50
               transition-all text-sm font-bold uppercase tracking-widest

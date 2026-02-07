@@ -471,7 +471,7 @@ export default function ArnaProductShowcase() {
         >
           <Link
             href="/products"
-            className="group relative inline-flex items-center justify-center px-10 py-3.5 md:px-12 md:py-4 rounded-full bg-gradient-to-r from-[#b77f6b] to-[#8e5d4d] text-white text-sm md:text-base font-semibold shadow-lg hover:shadow-2xl hover:shadow-[#b77f6b]/40 transition-all duration-500 overflow-hidden"
+            className="group relative inline-flex items-center justify-center px-10 py-3.5 md:px-12 md:py-4 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500 text-white text-sm md:text-base font-semibold shadow-lg hover:shadow-2xl hover:shadow-[#b77f6b]/40 transition-all duration-500 overflow-hidden"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-[#8e5d4d] to-[#b77f6b] transform translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             <span className="relative z-10 flex items-center gap-2 tracking-wide">
