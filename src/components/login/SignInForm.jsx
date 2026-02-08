@@ -27,7 +27,7 @@ export default function SignInForm() {
                 callback: async (response) => {
                     try {
                         await googleLogin({ credential: response.credential }).unwrap();
-                        window.location.href = "/";
+                        window.location.href = "/profile";
                     } catch (err) {
                         console.error("Google login failed", err);
                     }
