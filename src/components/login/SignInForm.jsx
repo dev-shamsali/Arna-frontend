@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-
+import { useGoogleLoginMutation, useLoginMutation } from "@/redux/slices/authApislice";
 export default function SignInForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
@@ -13,6 +13,32 @@ export default function SignInForm() {
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+    const [login] = useLoginMutation();
+    const [googleLogin] = useGoogleLoginMutation();
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (!window.google) return;
+
+            clearInterval(interval);
+
+            window.google.accounts.id.initialize({
+                client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+                callback: async (response) => {
+                    try {
+                        await googleLogin({ credential: response.credential }).unwrap();
+                        window.location.href = "/";
+                    } catch (err) {
+                        console.error("Google login failed", err);
+                    }
+                },
+                ux_mode: "popup",
+            });
+        }, 100);
+
+        return () => clearInterval(interval);
+    }, []);
+
 
     const validate = () => {
         const newErrors = {};
@@ -39,13 +65,36 @@ export default function SignInForm() {
         e.preventDefault();
         if (!validate()) return;
 
-        setLoading(true);
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setLoading(false);
+        try {
+            setLoading(true);
 
-        // Handle successful login (e.g., redirect)
-        alert("Logged in successfully!");
+            const res = await login({
+                email: formData.emailOrPhone,
+                password: formData.password,
+            }).unwrap();
+
+            console.log("Login success:", res);
+
+            // redirect after successful login
+            window.location.href = "/profile";
+        } catch (err) {
+            console.error("Login error:", err);
+
+            setErrors({
+                password: err?.data?.message || "Invalid credentials",
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleLogin = () => {
+        if (!window.google) {
+            alert("Google SDK not loaded");
+            return;
+        }
+
+        window.google.accounts.id.prompt();
     };
 
     const handleChange = (e) => {
@@ -177,6 +226,7 @@ export default function SignInForm() {
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.98 }}
                         type="button"
+                        onClick={handleGoogleLogin}
                         className="w-full py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl shadow-sm flex items-center justify-center gap-3 transition-all duration-300 hover:bg-gray-50"
                     >
                         <svg className="w-5 h-5" viewBox="0 0 24 24">
