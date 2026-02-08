@@ -42,17 +42,26 @@ export default function Hero() {
   useEffect(() => {
     if (apiData?.success && apiData?.data?.length > 0) {
       // Map API data to slide format
-      const backendSlides = apiData.data.map(slide => ({
-        image: slide.imageUrl.startsWith('http')
-          ? slide.imageUrl
-          : `${process.env.NEXT_PUBLIC_BACKEND_URL}${slide.imageUrl}`,
-        title: slide.title,
-        text: slide.description,
-        mediaType: slide.mediaType || 'image'
-      }))
-      console.log("Here is the backend slies", backendSlides);
-      // Use backend slides if available, otherwise fallback to defaults
-      setCurrentSlides(backendSlides.length > 0 ? backendSlides : DEFAULT_SLIDES)
+      const backendSlides = apiData.data.map(slide => {
+        // Handle image URL robustly
+        let imageUrl = slide.imageUrl || '';
+        if (imageUrl && !imageUrl.startsWith('http')) {
+          imageUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}${imageUrl}`;
+        }
+
+        return {
+          image: imageUrl,
+          title: slide.title || 'Welcome to Arna',
+          text: slide.description || '',
+          mediaType: slide.mediaType || 'image'
+        };
+      });
+
+      console.log("Matched Backend Slides:", backendSlides);
+      setCurrentSlides(backendSlides);
+    } else if (apiData?.success && apiData?.data?.length === 0) {
+      console.warn("API succeeded but returned 0 slides. Falling back to defaults.");
+      setCurrentSlides(DEFAULT_SLIDES);
     }
   }, [apiData])
 
@@ -98,49 +107,52 @@ export default function Hero() {
 
     timelineRef.current = tl
 
-    currentSlides.forEach((_, i) => {
-      const current = i
-      const next = (i + 1) % currentSlides.length
+    // Only set up transitions if there's more than 1 slide
+    if (currentSlides.length > 1) {
+      currentSlides.forEach((_, i) => {
+        const current = i
+        const next = (i + 1) % currentSlides.length
 
-      tl.addLabel(`slide${i}`)
-        .to({}, { duration: 4 })
-        .to([titleRef.current, textRef.current, buttonsRef.current], {
-          opacity: 0,
-          y: -20,
-          duration: 0.6,
-          ease: 'power2.in',
-        }, '>')
-        .set(slidesRef.current[next], {
-          x: '100%',
-          opacity: 1,
-          visibility: 'visible',
-          zIndex: 10,
-        }, '<0.1')
-        .to(slidesRef.current[current], {
-          x: '-100%',
-          duration: 1.4,
-          ease: 'power2.inOut',
-        }, '>')
-        .to(slidesRef.current[next], {
-          x: '0%',
-          duration: 1.4,
-          ease: 'power2.inOut',
-        }, '<')
-        .call(() => {
-          setActive(next)
-        }, null, '<0.7')
-        .set(slidesRef.current[current], {
-          zIndex: 1,
-        }, '>')
-        .set([titleRef.current, textRef.current, buttonsRef.current], { y: 20 }, '<-0.2')
-        .to([titleRef.current, textRef.current, buttonsRef.current], {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          stagger: 0.15,
-          ease: 'power2.out',
-        }, '<0.2')
-    })
+        tl.addLabel(`slide${i}`)
+          .to({}, { duration: 4 })
+          .to([titleRef.current, textRef.current, buttonsRef.current], {
+            opacity: 0,
+            y: -20,
+            duration: 0.6,
+            ease: 'power2.in',
+          }, '>')
+          .set(slidesRef.current[next], {
+            x: '100%',
+            opacity: 1,
+            visibility: 'visible',
+            zIndex: 10,
+          }, '<0.1')
+          .to(slidesRef.current[current], {
+            x: '-100%',
+            duration: 1.4,
+            ease: 'power2.inOut',
+          }, '>')
+          .to(slidesRef.current[next], {
+            x: '0%',
+            duration: 1.4,
+            ease: 'power2.inOut',
+          }, '<')
+          .call(() => {
+            setActive(next)
+          }, null, '<0.7')
+          .set(slidesRef.current[current], {
+            zIndex: 1,
+          }, '>')
+          .set([titleRef.current, textRef.current, buttonsRef.current], { y: 20 }, '<-0.2')
+          .to([titleRef.current, textRef.current, buttonsRef.current], {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            stagger: 0.15,
+            ease: 'power2.out',
+          }, '<0.2')
+      })
+    }
 
     return () => {
       initialTextTl.kill()

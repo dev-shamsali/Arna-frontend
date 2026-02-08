@@ -4,8 +4,8 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BACKEND_API,
-    credentials:"include",
+    credentials:true,
   }),
-  tagTypes: ["CMS", "PRODUCT","PromoPopup","AboutUs","Tickets"],
+  tagTypes: ["CMS", "PRODUCT", "PromoPopup", "AboutUs", "Tickets"],
   endpoints: () => ({}),
 });
