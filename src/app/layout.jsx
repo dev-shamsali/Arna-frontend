@@ -6,6 +6,7 @@ import { WishlistProvider } from '@/components/wishlist/WishlistContext' // ← 
 // import Footer from '@/components/layout/footer'
 import IntroGate from '@/components/ui/IntroGate'
 import ReduxProvider from '@/redux/provider'
+import Script from "next/script";
 
 /* Fonts */
 const inter = Inter({
@@ -86,6 +87,10 @@ export default function RootLayout({ children }) {
       </head>
 
       <body className="antialiased min-h-screen flex flex-col">
+        <Script
+          src="https://accounts.google.com/gsi/client"
+          strategy="afterInteractive"
+        />
         <ReduxProvider>
           <IntroGate>
             <CartProvider>

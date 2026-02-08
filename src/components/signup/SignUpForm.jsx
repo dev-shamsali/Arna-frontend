@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Eye, EyeOff, User, Mail, Phone, Lock, CheckCircle, ArrowRight, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-
+import { useSignupMutation, useGoogleLoginMutation } from "@/redux/slices/authApislice";
+import { useRouter } from "next/navigation";
 export default function SignUpForm() {
     const [step, setStep] = useState("form"); // 'form' | 'otp'
     const [showPassword, setShowPassword] = useState(false);
@@ -20,7 +21,9 @@ export default function SignUpForm() {
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [passwordStrength, setPasswordStrength] = useState(0);
-
+    const router = useRouter();
+    const [signup, { isLoading: isSignupLoading }] = useSignupMutation();
+    const [googleLogin] = useGoogleLoginMutation();
     // Real-time password strength checker
     useEffect(() => {
         let score = 0;
@@ -31,6 +34,31 @@ export default function SignUpForm() {
         if (/[^A-Za-z0-9]/.test(pwd)) score += 1;
         setPasswordStrength(score);
     }, [formData.password]);
+
+    useEffect(() => {
+        if (!window.google) return;
+
+        window.google.accounts.id.initialize({
+            client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+
+            callback: async (response) => {
+                try {
+                    await googleLogin({ credential: response.credential }).unwrap();
+                    router.push("/");
+                } catch (err) {
+                    console.error("Google login failed", err);
+                }
+            },
+            ux_mode: "popup",
+            use_fedcm_for_prompt: false,
+        });
+    }, []);
+
+
+    useEffect(() => {
+        console.log("Google Client ID:", process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
+    }, []);
+
 
     const validate = () => {
         const newErrors = {};
@@ -60,11 +88,40 @@ export default function SignUpForm() {
     const handleRegister = async (e) => {
         e.preventDefault();
         if (!validate()) return;
-        setLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setLoading(false);
-        setStep("otp");
+
+        try {
+            const payload = {
+                name: formData.fullName,
+                email: formData.email,
+                phoneNo: formData.phone,
+                password: formData.password,
+            };
+
+            await signup(payload).unwrap();
+            router.push("/login");
+
+        } catch (err) {
+            console.error("Signup error:", err);
+
+            if (err?.status === 409) {
+                setErrors({ email: "User already exists" });
+            } else if (err?.data?.message) {
+                alert(err.data.message);
+            } else {
+                alert("Something went wrong");
+            }
+        }
     };
+
+    const handleGoogleLogin = () => {
+        if (!window.google) {
+            alert("Google SDK not loaded");
+            return;
+        }
+
+        window.google.accounts.id.prompt();
+    };
+
 
     const handleOtpChange = (index, value) => {
         if (value.length > 1) return;
@@ -129,7 +186,7 @@ export default function SignUpForm() {
                 bg-white/80 dark:bg-white/80 backdrop-blur-xl 
                 border border-white/20 dark:border-white/20 
                 shadow-2xl rounded-2xl overflow-hidden">
-                
+
                 <AnimatePresence mode="wait">
                     {step === "form" && (
                         <motion.div
@@ -314,6 +371,7 @@ export default function SignUpForm() {
                                 <motion.button
                                     whileHover={{ scale: 1.01 }}
                                     whileTap={{ scale: 0.98 }}
+                                    onClick={handleGoogleLogin}
                                     type="button"
                                     className="w-full py-2.5 sm:py-3 md:py-3.5 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl shadow-sm flex items-center justify-center gap-2 sm:gap-3 transition-all duration-300 hover:bg-gray-50 text-sm sm:text-sm md:text-base"
                                 >
