@@ -72,7 +72,7 @@ export default function ProductPage({ params }) {
   };
   const videoEmbedUrl = getYouTubeEmbedUrl(product.link);
   console.log(
-    "link",videoEmbedUrl
+    "link", videoEmbedUrl
   )
 
   return (
@@ -220,6 +220,10 @@ export default function ProductPage({ params }) {
                     <span className="text-base sm:text-lg font-bold text-red-600">
                       Save ₹{originalPrice - displayPrice}
                     </span>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-2">
+                      Price for {product.quantity} {product.unit}
+                    </p>
+
                   </div>
                 )}
               </div>
