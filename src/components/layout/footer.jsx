@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Facebook,
@@ -12,6 +12,27 @@ import Link from "next/link";
 
 const Footer = () => {
   const [whatsappHovered, setWhatsappHovered] = useState(false);
+  const [showPing, setShowPing] = useState(true);
+
+  useEffect(() => {
+    // Show ping animation for 5 seconds every 10 minutes
+    const interval = setInterval(() => {
+      setShowPing(true);
+      setTimeout(() => {
+        setShowPing(false);
+      }, 5000); // Hide after 5 seconds
+    }, 600000); // 10 minutes = 600000ms
+
+    // Initial timeout to hide the first ping after 5 seconds
+    const initialTimeout = setTimeout(() => {
+      setShowPing(false);
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(initialTimeout);
+    };
+  }, []);
 
   return (
     <>
@@ -29,7 +50,9 @@ const Footer = () => {
       >
         <div className="relative">
           {/* Pulse */}
-          <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-75 z-0" />
+          {showPing && (
+            <span className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-75 z-0" />
+          )}
 
           <motion.div
             className="relative z-10 w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 shadow-lg hover:shadow-2xl flex items-center justify-center"
