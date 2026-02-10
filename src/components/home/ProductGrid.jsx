@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useGetProductsQuery } from '@/redux/slices/cmsSlice'
 
 const BRAND = '#b77f6b'
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_API || 'http://localhost:5000/api'
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'
 
 export default function ProductGrid() {
   const scrollContainerRef = useRef(null)
