@@ -36,6 +36,16 @@ export const authApiSlice = apiSlice.injectEndpoints({
     getMe: builder.query({
       query: () => "/user/me",
     }),
+
+    updateMe: builder.mutation({
+      query: (data) => ({
+        url: "/user/update-profile",
+        method: "PUT",
+        body: data, // RTK handles JSON.stringify
+      }),
+      invalidatesTags: ["User"],
+    }),
+
   }),
 });
 
@@ -45,4 +55,5 @@ export const {
   useGoogleLoginMutation,
   useLogoutMutation,
   useGetMeQuery,
+  useUpdateMeMutation,
 } = authApiSlice;

@@ -36,7 +36,7 @@ export default function Content() {
   return (
     <section className="bg-white min-h-screen pt-24 pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-        <h1 className="text-2xl font-semibold">
+        <h1 className="text-2xl font-semibold text-gray-900">
           Welcome, {user.name}
         </h1>
 

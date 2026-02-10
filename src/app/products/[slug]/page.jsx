@@ -98,7 +98,7 @@ export default function ProductPage({ params }) {
             <div className="relative bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8 lg:p-12 lg:sticky lg:top-8">
               <div className="relative aspect-square">
                 <img
-                  src={`http://localhost:5000${product.image}`}
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${product.image}`}
                   alt={product.name}
                   className="w-full h-full object-contain"
                   loading="lazy"

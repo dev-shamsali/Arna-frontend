@@ -173,7 +173,7 @@ export default function Navbar({ solid = false }) {
 
 
             <Link
-              href="/profile"
+              href="/login"
               className={`hidden sm:block transition-colors duration-300 hover:opacity-70 ${showSolid ? 'text-gray-800' : 'text-white'
                 }`}
               aria-label="Profile"
@@ -323,7 +323,7 @@ export default function Navbar({ solid = false }) {
 
 
               <Link
-                href="/profile"
+                href="/login"
                 onClick={closeMobileMenu}
                 className="flex items-center gap-3 py-2 px-4 text-sm text-gray-800 hover:bg-[#006A4E]/5 rounded-md transition-colors"
               >
