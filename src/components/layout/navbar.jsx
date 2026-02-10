@@ -5,11 +5,13 @@ import { Search, User, Heart, ShoppingCart, X, Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useCart } from '@/components/cart/CartContext'
 import Image from 'next/image'
+import LoginModal from '@/components/login/LoginModal'
 
 
 export default function Navbar({ solid = false }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const mobileRef = useRef(null)
   const burgerRef = useRef(null)
 
@@ -172,14 +174,14 @@ export default function Navbar({ solid = false }) {
             </button>
 
 
-            <Link
-              href="/login"
+            <button
+              onClick={() => setIsLoginModalOpen(true)}
               className={`hidden sm:block transition-colors duration-300 hover:opacity-70 ${showSolid ? 'text-gray-800' : 'text-white'
                 }`}
               aria-label="Profile"
             >
               <User className="w-5 h-5" />
-            </Link>
+            </button>
 
 
             <Link
@@ -322,14 +324,16 @@ export default function Navbar({ solid = false }) {
               </Link>
 
 
-              <Link
-                href="/login"
-                onClick={closeMobileMenu}
-                className="flex items-center gap-3 py-2 px-4 text-sm text-gray-800 hover:bg-[#006A4E]/5 rounded-md transition-colors"
+              <button
+                onClick={() => {
+                  closeMobileMenu();
+                  setIsLoginModalOpen(true);
+                }}
+                className="flex items-center gap-3 py-2 px-4 text-sm text-gray-800 hover:bg-[#006A4E]/5 rounded-md transition-colors w-full text-left"
               >
                 <User className="w-5 h-5" />
                 <span>Profile</span>
-              </Link>
+              </button>
 
 
               <Link
@@ -361,6 +365,11 @@ export default function Navbar({ solid = false }) {
           </div>
         </div>
       </div>
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
     </nav>
   )
 }

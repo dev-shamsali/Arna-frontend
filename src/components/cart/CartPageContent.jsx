@@ -1,14 +1,18 @@
 // src/components/cart/CartPageContent.jsx
 "use client";
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "./CartContext";
 import CartItemRow from "./CartItemRow";
 import ProductGrid from "../home/ProductGrid";
+import { useGetMeQuery } from "@/redux/slices/authApislice";
+import LoginModal from "../login/LoginModal";
 
 export default function CartPageContent() {
   const router = useRouter();
   const { cartItems, updateQty, removeFromCart, clearCart } = useCart();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { data: userData } = useGetMeQuery();
 
   const subtotal = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.price * item.qty, 0),
@@ -142,7 +146,13 @@ export default function CartPageContent() {
                   {/* Buttons */}
                   <button
                     className="mt-4 sm:mt-5 w-full py-2.5 sm:py-3 rounded-full bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition"
-                    onClick={() => router.push("/checkout")}
+                    onClick={() => {
+                      if (userData?.user) {
+                        router.push("/checkout");
+                      } else {
+                        setIsLoginModalOpen(true);
+                      }
+                    }}
                   >
                     Proceed to checkout
                   </button>
@@ -162,6 +172,11 @@ export default function CartPageContent() {
           )}
         </div>
       </div>
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        redirectPath="/checkout"
+      />
     </>
   );
 }
