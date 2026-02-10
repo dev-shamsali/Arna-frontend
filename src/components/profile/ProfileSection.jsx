@@ -2,14 +2,17 @@
 
 import { useState } from "react";
 import { User, Edit3, Check, X } from "lucide-react";
-import { useUpdateMeMutation } from "@/redux/slices/authApislice";
+import { useRouter } from "next/navigation";
+import { useUpdateMeMutation, useDeleteAccountMutation } from "@/redux/slices/authApislice";
 export default function ProfileSection({ user }) {
   // State for editing different fields
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [updateMe, { isLoading }] = useUpdateMeMutation();
-
+  const [phoneError, setPhoneError] = useState("");
+  const [updateMe, { isLoading: isUpdating }] = useUpdateMeMutation();
+  const [deleteAccount, { isLoading: isDeleting }] = useDeleteAccountMutation();
+  const router = useRouter();
   // State for field values
   const [name, setName] = useState(user.name);
   const [phoneNo, setPhoneNo] = useState(user.phoneNo);
@@ -40,6 +43,13 @@ export default function ProfileSection({ user }) {
   // Handle Phone Submit
   const handlePhoneSubmit = async (e) => {
     e.preventDefault();
+
+    if (!/^[6-9]\d{9}$/.test(phoneNo)) {
+      setPhoneError("Enter a valid 10-digit mobile number");
+      return;
+    }
+
+    setPhoneError("");
 
     try {
       await updateMe({ phoneNo }).unwrap();
@@ -81,6 +91,22 @@ export default function ProfileSection({ user }) {
     setIsEditingEmail(false);
   };
 
+  const handleDeleteAccount = async () => {
+    const confirmDelete = window.confirm(
+      "This action is permanent. Are you sure you want to delete your account?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      await deleteAccount().unwrap();
+      router.push("/login");
+    } catch (err) {
+      console.error(err?.data?.message || "Failed to delete account");
+    }
+  };
+
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -113,7 +139,7 @@ export default function ProfileSection({ user }) {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--arna-accent)]/20 focus:border-[var(--arna-accent)] outline-none transition-all"
+                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-gray-900 focus:ring-2 focus:ring-[var(--arna-accent)]/20 focus:border-[var(--arna-accent)] outline-none transition-all"
                 placeholder="Enter your full name"
                 autoFocus
                 required
@@ -121,7 +147,7 @@ export default function ProfileSection({ user }) {
               <div className="flex items-center gap-2">
                 <button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isUpdating}
                   className="p-2.5 text-white bg-[var(--arna-accent)] hover:bg-[#08633d] rounded-lg transition-colors shadow-sm"
                   title="Save"
                 >
@@ -164,15 +190,26 @@ export default function ProfileSection({ user }) {
               <input
                 type="tel"
                 value={phoneNo}
-                onChange={(e) => setPhoneNo(e.target.value)}
-                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--arna-accent)]/20 focus:border-[var(--arna-accent)] outline-none transition-all"
+                inputMode="numeric"
+                maxLength={10}
+                pattern="[0-9]*"
+                onChange={(e) => {
+                  setPhoneNo(e.target.value);
+                  setPhoneError("");
+                }}
+                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg  text-gray-900 focus:ring-2 focus:ring-[var(--arna-accent)]/20 focus:border-[var(--arna-accent)] outline-none transition-all"
                 placeholder="Enter your mobile number"
                 autoFocus
                 required
               />
+              {phoneError && (
+                <p className="text-sm text-red-600 mt-1">{phoneError}</p>
+              )}
+
               <div className="flex items-center gap-2">
                 <button
                   type="submit"
+                  disabled={isUpdating}
                   className="p-2.5 text-white bg-[var(--arna-accent)] hover:bg-[#08633d] rounded-lg transition-colors shadow-sm"
                   title="Save"
                 >
@@ -229,7 +266,7 @@ export default function ProfileSection({ user }) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--arna-accent)]/20 focus:border-[var(--arna-accent)] outline-none transition-all"
+                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg  text-gray-900 focus:ring-2 focus:ring-[var(--arna-accent)]/20 focus:border-[var(--arna-accent)] outline-none transition-all"
                 placeholder="Enter your email"
                 autoFocus
                 required
@@ -237,6 +274,7 @@ export default function ProfileSection({ user }) {
               <div className="flex items-center gap-2">
                 <button
                   type="submit"
+                  disabled={isUpdating}
                   className="p-2.5 text-white bg-[var(--arna-accent)] hover:bg-[#08633d] rounded-lg transition-colors shadow-sm"
                   title="Save"
                 >
@@ -278,9 +316,14 @@ export default function ProfileSection({ user }) {
               Permanently remove your account and data.
             </p>
           </div>
-          <button className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-red-200 hover:bg-red-50 rounded-lg transition-colors">
-            Delete Account
+          <button
+            onClick={handleDeleteAccount}
+            disabled={isDeleting}
+            className="px-4 py-2 text-sm font-medium text-red-600 bg-white border border-red-200 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+          >
+            {isDeleting ? "Deleting..." : "Delete Account"}
           </button>
+
         </div>
       </div>
     </div>
