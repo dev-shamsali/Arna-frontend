@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { User, Edit3, Check, X } from "lucide-react";
 
-export default function ProfileSection() {
+export default function ProfileSection({user}) {
   const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [email, setEmail] = useState("user@example.com");
-  const [originalEmail, setOriginalEmail] = useState("user@example.com");
+  const [email, setEmail] = useState(user.email);
+  const [originalEmail, setOriginalEmail] = useState(user.email);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,7 +43,7 @@ export default function ProfileSection() {
             <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
               Full Name
             </label>
-            <p className="text-base font-medium text-gray-900">John Doe</p>
+            <p className="text-base font-medium text-gray-900">{user.name}</p>
           </div>
           <span className="px-2.5 py-1 bg-gray-200/50 text-xs font-medium text-gray-600 rounded-lg">
             Read-only
@@ -56,7 +56,7 @@ export default function ProfileSection() {
             <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
               Mobile Number
             </label>
-            <p className="text-base font-medium text-gray-900">+91 98765 43210</p>
+            <p className="text-base font-medium text-gray-900">{user.phoneNo}</p>
           </div>
           <span className="px-2.5 py-1 bg-gray-200/50 text-xs font-medium text-gray-600 rounded-lg">
             Verified

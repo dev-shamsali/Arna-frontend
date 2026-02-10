@@ -7,14 +7,38 @@ import ProfileSection from "@/components/profile/ProfileSection";
 import AddressesSection from "@/components/profile/AddressesSection";
 import PaymentSection from "@/components/profile/PaymentSection";
 import HelpSection from "@/components/profile/HelpSection";
-
+import { useGetMeQuery } from "@/redux/slices/authApislice";
 export default function Content() {
   const [active, setActive] = useState("orders");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { data, isLoading, error } = useGetMeQuery();
+  if (isLoading) {
+    return <div className="pt-24 text-center">Loading profile...</div>;
+  }
 
+  // 401 → not logged in
+  if (error?.status === 401) {
+    window.location.href = "/login";
+    return null;
+  }
+
+  // 404 or any other error
+  if (error) {
+    return <div className="pt-24 text-center">Unable to load profile</div>;
+  }
+
+  // safety guard
+  if (!data || !data.user) {
+    return <div className="pt-24 text-center">Loading user...</div>;
+  }
+
+  const user = data.user;
   return (
     <section className="bg-white min-h-screen pt-24 pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+        <h1 className="text-2xl font-semibold">
+          Welcome, {user.name}
+        </h1>
 
         {/* Page header */}
         <div className="mb-6 flex items-center justify-between">
@@ -52,7 +76,7 @@ export default function Content() {
           <main className="flex-1 min-w-0">
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 sm:p-6 lg:p-8">
               {active === "orders" && <OrdersSection />}
-              {active === "profile" && <ProfileSection />}
+              {active === "profile" && <ProfileSection user={user} />}
               {active === "addresses" && <AddressesSection />}
               {active === "payment" && <PaymentSection />}
               {active === "help" && <HelpSection />}
