@@ -9,17 +9,17 @@ import { useEffect } from "react";
 export default function ProductCard({ product }) {
   const { addToCart, updateQty, cartItems } = useCart();
 
-  // Debug logging
-  useEffect(() => {
-    console.log('ProductCard received:', {
-      name: product.name,
-      image: product.image,
-      price: product.price,
-      mrp: product.mrp,
-      id: product.id,
-      slug: product.slug
-    });
-  }, [product]);
+  // // Debug logging
+  // useEffect(() => {
+  //   console.log('ProductCard received:', {
+  //     name: product.name,
+  //     image: product.image,
+  //     price: product.price,
+  //     mrp: product.mrp,
+  //     id: product.id,
+  //     slug: product.slug
+  //   });
+  // }, [product]);
 
   const discount = product.mrp && product.price 
     ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
@@ -48,9 +48,9 @@ export default function ProductCard({ product }) {
             // Optionally set a fallback image
             // e.currentTarget.src = '/placeholder.png';
           }}
-          onLoad={() => {
-            console.log('Image loaded successfully:', product.image);
-          }}
+          // onLoad={() => {
+          //   console.log('Image loaded successfully:', product.image);
+          // }}
         />
 
         {product.badge && (

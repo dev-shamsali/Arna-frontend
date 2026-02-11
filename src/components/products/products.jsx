@@ -19,25 +19,25 @@ const ProductsPage = () => {
     const [isPriceExpanded, setIsPriceExpanded] = useState(true);
 
     const { data, isLoading, isError } = useGetProductsQuery({
-        category: activeCategory !== "all" ? activeCategory : undefined,
+        category: activeCategory !== "all" ? activeCategory : undefined,limit:100
     });
     
     // Transform products to add full image URLs
     const products = useMemo(() => {
         const rawProducts = data?.data ?? [];
-        console.log('🔍 Raw API Response:', data);
-        console.log('🔍 API_BASE_URL:', API_BASE_URL);
+        // console.log('🔍 Raw API Response:', data);
+        // console.log('🔍 API_BASE_URL:', API_BASE_URL);
         
         const transformed = rawProducts.map(product => {
             const fullImageUrl = product.image?.startsWith('http') 
                 ? product.image 
                 : `${API_BASE_URL}${product.image}`;
             
-            console.log('🖼️ Transforming product:', {
-                name: product.name,
-                originalImage: product.image,
-                fullImageUrl: fullImageUrl
-            });
+            // console.log('🖼️ Transforming product:', {
+            //     name: product.name,
+            //     originalImage: product.image,
+            //     fullImageUrl: fullImageUrl
+            // });
             
             return {
                 ...product,
@@ -50,7 +50,7 @@ const ProductsPage = () => {
             };
         });
         
-        console.log('✅ Transformed products:', transformed);
+        // console.log('✅ Transformed products:', transformed);
         return transformed;
     }, [data?.data]);
 
@@ -106,11 +106,11 @@ const ProductsPage = () => {
     }, [products]);
 
     // Debug logging
-    useEffect(() => {
-        console.log('Raw data:', data);
-        console.log('Transformed products:', products);
-        console.log('Filtered products:', filteredProducts);
-    }, [data, products, filteredProducts]);
+    // useEffect(() => {
+    //     // console.log('Raw data:', data);
+    //     // console.log('Transformed products:', products);
+    //     // console.log('Filtered products:', filteredProducts);
+    // }, [data, products, filteredProducts]);
 
     if (isLoading) {
         return <div className="p-8 text-center">Loading products…</div>;
