@@ -7,11 +7,13 @@ import ProfileSection from "@/components/profile/ProfileSection";
 import AddressesSection from "@/components/profile/AddressesSection";
 import PaymentSection from "@/components/profile/PaymentSection";
 import HelpSection from "@/components/profile/HelpSection";
-import { useGetMeQuery } from "@/redux/slices/authApislice";
+import { useGetMeQuery, useLogoutMutation } from "@/redux/slices/authApislice";
 export default function Content() {
   const [active, setActive] = useState("orders");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data, isLoading, error } = useGetMeQuery();
+  const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
+
   if (isLoading) {
     return <div className="pt-24 text-center">Loading profile...</div>;
   }
@@ -32,6 +34,16 @@ export default function Content() {
     return <div className="pt-24 text-center">Loading user...</div>;
   }
 
+  const handleLogout = async () => {
+    try {
+      await logout().unwrap();   // calls backend logout
+      window.location.href = "/login";  // redirect after logout
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
+
+
   const user = data.user;
   return (
     <section className="bg-white min-h-screen pt-24 pb-10">
@@ -42,6 +54,16 @@ export default function Content() {
 
         {/* Page header */}
         <div className="mb-6 flex items-center justify-between">
+          {/* Mobile Menu Toggle - Left side on mobile */}
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg flex items-center gap-2 border border-gray-200"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <span className="text-sm font-medium">Menu</span>
+          </button>
+
+          {/* Page heading */}
           <div>
             <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">
               My Account
@@ -50,15 +72,6 @@ export default function Content() {
               Manage your orders, personal details, and preferences
             </p>
           </div>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setIsSidebarOpen(true)}
-            className="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg flex items-center gap-2 border border-gray-200"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            <span className="text-sm font-medium">Menu</span>
-          </button>
         </div>
 
         {/* Layout */}
@@ -70,6 +83,8 @@ export default function Content() {
             onChange={setActive}
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
+            onLogout={handleLogout}
+            isLoggingOut={isLoggingOut}
           />
 
           {/* Main content - Always white background */}

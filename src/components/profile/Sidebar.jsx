@@ -2,19 +2,19 @@
 
 import clsx from "clsx";
 import { useEffect } from "react";
-import { X, ChevronRight, Package, User, MapPin, CreditCard, HelpCircle, Settings } from "lucide-react";
+import { X, ChevronRight, Package, User, MapPin, CreditCard, HelpCircle, Settings, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const MENU_ITEMS = [
   { key: "orders", label: "My Orders", icon: Package },
   { key: "profile", label: "Profile Details", icon: User },
   { key: "addresses", label: "Addresses", icon: MapPin },
-  { key: "payment", label: "Payment Methods", icon: CreditCard },
+  // { key: "payment", label: "Payment Methods", icon: CreditCard },
   { key: "help", label: "Help & Support", icon: HelpCircle },
-  { key: "general", label: "Account Settings", icon: Settings },
+  // { key: "general", label: "Account Settings", icon: Settings },
 ];
 
-export default function Sidebar({ active, onChange, isOpen, onClose }) {
+export default function Sidebar({ active, onChange, isOpen, onClose, onLogout, isLoggingOut }) {
 
   // Close sidebar on window resize if switching to desktop
   useEffect(() => {
@@ -67,9 +67,15 @@ export default function Sidebar({ active, onChange, isOpen, onClose }) {
         })}
       </nav>
 
-      <div className="p-4 mt-auto md:hidden">
-        <button onClick={onClose} className="w-full py-3 text-sm text-gray-500 hover:text-gray-900 bg-gray-50 rounded-xl">
-          Close Menu
+      {/* Logout Button */}
+      <div className="p-4 pt-4 border-t border-gray-100 mt-4">
+        <button
+          onClick={onLogout}
+          disabled={isLoggingOut}
+          className="group w-full flex items-center gap-3 px-4 py-3.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <LogOut className="w-5 h-5" />
+          <span>{isLoggingOut ? "Logging out..." : "Logout"}</span>
         </button>
       </div>
     </div>

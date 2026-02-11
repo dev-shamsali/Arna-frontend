@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useCart } from '@/components/cart/CartContext'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-
+import { useGetMeQuery } from '@/redux/slices/authApislice'
 
 export default function Navbar({ solid = false }) {
   const [scrolled, setScrolled] = useState(false)
@@ -14,6 +14,7 @@ export default function Navbar({ solid = false }) {
   const mobileRef = useRef(null)
   const burgerRef = useRef(null)
   const router = useRouter()
+  const { data: user, isLoading } = useGetMeQuery();
 
   const pathname = usePathname()
   const { cartItems } = useCart()
@@ -174,7 +175,13 @@ export default function Navbar({ solid = false }) {
 
 
             <button
-              onClick={() => router.push('/login')}
+              onClick={() => {
+                if (user) {
+                  router.push('/profile')
+                } else {
+                  router.push('/login')
+                }
+              }}
               className={`hidden sm:block transition-colors duration-300 hover:opacity-70 ${showSolid ? 'text-gray-800' : 'text-white'
                 }`}
               aria-label="Profile"
@@ -326,9 +333,13 @@ export default function Navbar({ solid = false }) {
 
               <button
                 onClick={() => {
-                  closeMobileMenu()
-                  router.push('/login')
+                  if (user) {
+                    router.push('/profile')
+                  } else {
+                    router.push('/login')
+                  }
                 }}
+
                 className="flex items-center gap-3 py-2 px-4 text-sm text-gray-800 hover:bg-[#006A4E]/5 rounded-md transition-colors w-full text-left"
               >
                 <User className="w-5 h-5" />

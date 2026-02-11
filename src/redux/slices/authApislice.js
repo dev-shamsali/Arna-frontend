@@ -31,10 +31,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
         url: "/user/logout",
         method: "POST",
       }),
+      invalidatesTags: ["User"],
     }),
 
     getMe: builder.query({
       query: () => "/user/me",
+      providesTags: ["User"],
     }),
 
     updateMe: builder.mutation({
@@ -52,6 +54,31 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    addAddress: builder.mutation({
+      query: (data) => ({
+        url: "/user/address",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["User"], // refresh getMe
+    }),
+
+    updateAddress: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `/user/address/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    deleteAddress: builder.mutation({
+      query: (id) => ({
+        url: `/user/address/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["User"],
+    }),
 
 
 
@@ -66,4 +93,7 @@ export const {
   useGetMeQuery,
   useUpdateMeMutation,
   useDeleteAccountMutation,
+  useAddAddressMutation,
+  useUpdateAddressMutation,
+  useDeleteAddressMutation,
 } = authApiSlice;
