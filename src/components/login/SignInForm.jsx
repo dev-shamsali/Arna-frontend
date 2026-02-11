@@ -124,7 +124,7 @@ export default function SignInForm() {
                 <div className="absolute inset-0 bg-white/30 backdrop-blur-sm dark:bg-white/30" />
             </div>
 
-            <div className="relative z-10 w-full max-w-sm sm:max-w-md mx-auto p-5 sm:p-8 bg-white/80 dark:bg-white/80 backdrop-blur-xl border border-white/20 dark:border-white/20 shadow-2xl rounded-2xl">
+            <div className="relative z-10 w-full max-w-sm sm:max-w-md mx-auto p-5 sm:p-8 mt-0 sm:mt-18 bg-white/80 dark:bg-white/80 backdrop-blur-xl border border-white/20 dark:border-white/20 shadow-2xl rounded-2xl">
                 <div className="text-center mb-6 sm:mb-8">
                     <motion.h2
                         initial={{ opacity: 0, y: -20 }}

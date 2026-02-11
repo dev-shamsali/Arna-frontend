@@ -48,41 +48,35 @@ export default function CartPageContent() {
               Your cart is empty.
             </p>
           ) : (
-            <div className="grid gap-4 lg:gap-6 lg:grid-cols-[3fr,2fr]">
+            <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
               {/* LEFT: items list */}
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
-                <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 flex items-center gap-3 text-xs sm:text-sm">
-                  <button className="font-medium text-gray-900">Items</button>
-                  <span className="hidden sm:inline text-gray-300">|</span>
-                  <span className="hidden sm:inline text-gray-500">
-                    Skincare
-                  </span>
-                </div>
+              <div className="flex-1 min-w-0">
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-100 flex items-center gap-3 text-xs sm:text-sm">
+                    <button className="font-medium text-gray-900">Items</button>
+                    <span className="hidden sm:inline text-gray-300">|</span>
+                    <span className="hidden sm:inline text-gray-500">
+                      Skincare
+                    </span>
+                  </div>
 
-                <div className="divide-y divide-gray-100">
-                  {cartItems.map((item) => (
-                    <CartItemRow
-                      key={item.id}
-                      item={item}
-                      onUpdateQty={updateQty}
-                      onRemove={removeFromCart}
-                    />
-                  ))}
+                  <div className="divide-y divide-gray-100">
+                    {cartItems.map((item) => (
+                      <CartItemRow
+                        key={item.id}
+                        item={item}
+                        onUpdateQty={updateQty}
+                        onRemove={removeFromCart}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* RIGHT: product grid + order summary */}
-              <aside className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 h-fit space-y-4">
-                {/* Product grid / recommendations */}
-                <div>
-                  <h2 className="text-base sm:text-lg font-semibold mb-2 text-gray-900">
-                    You may also like
-                  </h2>
-                  <ProductGrid />
-                </div>
-
+              {/* RIGHT: order summary */}
+              <aside className="w-full lg:w-[380px] bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 h-fit shrink-0">
                 {/* Order summary */}
-                <div className="border-t border-gray-100 pt-3 sm:pt-4">
+                <div className="">
                   <h3 className="text-base sm:text-lg font-semibold mb-1 text-gray-900">
                     Order summary
                   </h3>
@@ -119,7 +113,7 @@ export default function CartPageContent() {
                     </div>
                   </div>
 
-                  <div className="mt-3 sm:mt-4 flex justify-between items-center text-sm">
+                  <div className="mt-3 sm:mt-4 flex justify-between items-center text-sm border-t border-gray-100 pt-3 sm:pt-4">
                     <span className="font-semibold text-gray-900">Total</span>
                     <span className="text-base sm:text-lg font-semibold text-gray-900">
                       ₹{total.toFixed(2)}
@@ -131,13 +125,13 @@ export default function CartPageContent() {
                     <p className="text-[11px] sm:text-xs text-gray-600 mb-1">
                       Promo or gift code
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-2">
+                    <div className="flex gap-2">
                       <input
                         type="text"
                         placeholder="Enter code"
-                        className="flex-1 px-3 py-2 text-xs sm:text-sm border rounded-full outline-none focus:ring-1 focus:ring-emerald-500 bg-white text-gray-900"
+                        className="flex-1 min-w-0 px-3 py-2 text-xs sm:text-sm border rounded-full outline-none focus:ring-1 focus:ring-emerald-500 bg-white text-gray-900"
                       />
-                      <button className="px-4 py-2 text-xs sm:text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-50 transition text-gray-900">
+                      <button className="shrink-0 px-4 py-2 text-xs sm:text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-50 transition text-gray-900">
                         Apply
                       </button>
                     </div>
@@ -145,7 +139,7 @@ export default function CartPageContent() {
 
                   {/* Buttons */}
                   <button
-                    className="mt-4 sm:mt-5 w-full py-2.5 sm:py-3 rounded-full bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition"
+                    className="mt-4 sm:mt-5 w-full py-2.5 sm:py-3 rounded-full bg-[#1e5e3f] hover:bg-[#164a32] text-white text-sm font-medium transition"
                     onClick={() => {
                       if (userData?.user) {
                         router.push("/checkout");
@@ -163,11 +157,21 @@ export default function CartPageContent() {
                     Clear cart
                   </button>
 
-                  <p className="mt-3 text-[10px] sm:text-[11px] text-gray-400 leading-relaxed">
+                  <p className="mt-4 text-[10px] sm:text-[11px] text-gray-400 leading-relaxed text-center">
                     By continuing, you agree to our Terms and Privacy Policy.
                   </p>
                 </div>
               </aside>
+            </div>
+          )}
+
+          {/* Recommendations BELOW the main content */}
+          {cartItems.length > 0 && (
+            <div className="mt-12 sm:mt-16 border-t border-gray-100 pt-10 sm:pt-12">
+              <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-900 px-4 sm:px-0">
+                You may also like
+              </h2>
+              <ProductGrid />
             </div>
           )}
         </div>
