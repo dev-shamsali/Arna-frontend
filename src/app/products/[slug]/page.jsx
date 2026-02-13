@@ -41,7 +41,7 @@ export default function ProductPage({ params }) {
 
   // WhatsApp integration - Opens WhatsApp with prefilled message
   const handleWhatsAppOrder = () => {
-    const phoneNumber = "918097120326"; // Your WhatsApp business number
+    const phoneNumber = "919082742221"; // Your WhatsApp business number
     const message = encodeURIComponent(
       `Hi, I'm interested in buying: ${product.name}\nPrice: ₹${displayPrice}`
     );
