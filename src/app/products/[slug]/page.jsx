@@ -288,7 +288,7 @@ export default function ProductPage({ params }) {
                 Need help? Contact us on WhatsApp for instant support
               </p>
               <p className="text-xs sm:text-sm text-gray-600 text-center mt-1 font-medium">
-                +91 8097120326
+                +91 9082742221
               </p>
             </div>
           </div>
