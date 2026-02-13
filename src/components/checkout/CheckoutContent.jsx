@@ -2,10 +2,11 @@
 "use client";
 
 import { useCart } from "@/components/cart/CartContext";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { useGetMeQuery, useUpdateAddressMutation, useAddAddressMutation, useUpdateMeMutation } from "@/redux/slices/authApislice";
 const INDIAN_STATES = [
   "Andhra Pradesh",
   "Arunachal Pradesh",
@@ -44,12 +45,18 @@ const INDIAN_STATES = [
 export default function CheckoutContent() {
   const { cartItems } = useCart();
   const router = useRouter();
-
-
+  const { data, refetch } = useGetMeQuery();
+  const [updateAddress] = useUpdateAddressMutation();
+  const [addAddress] = useAddAddressMutation();
+  const [updateMe] = useUpdateMeMutation();
+  const [currentAddressId, setCurrentAddressId] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("razorpay");
   const [shippingForm, setShippingForm] = useState({
     fullName: "",
     addressLine1: "",
+    email: "",
+    phoneNo: "",
     addressLine2: "",
     city: "",
     state: "",
@@ -57,6 +64,43 @@ export default function CheckoutContent() {
     country: "India",
   });
   const [isEditingAddress, setIsEditingAddress] = useState(true);
+
+
+  useEffect(() => {
+    if (data?.user) {
+      const user = data.user;
+
+      if (user.addresses?.length > 0) {
+        const defaultAddress =
+          user.addresses.find((addr) => addr.isDefault) ||
+          user.addresses[0];
+
+        setCurrentAddressId(defaultAddress._id); // 👈 ADD THIS
+
+        setShippingForm({
+          fullName: user.name || "",
+          email: user.email || "",
+          phoneNo: user.phoneNo || "",
+          addressLine1: defaultAddress.houseNo || "",
+          addressLine2: defaultAddress.area || "",
+          city: defaultAddress.city || "",
+          state: defaultAddress.state || "",
+          postalCode: defaultAddress.pincode || "",
+          country: "India",
+        });
+
+        setIsEditingAddress(false);
+      } else {
+        setShippingForm((prev) => ({
+          ...prev,
+          fullName: user.name || "",
+          email: user.email || "",
+          phoneNo: user.phoneNo || "",
+        }));
+      }
+    }
+  }, [data]);
+
 
   const subtotal = useMemo(
     () => cartItems.reduce((sum, item) => sum + item.price * item.qty, 0),
@@ -80,33 +124,77 @@ export default function CheckoutContent() {
     setShippingForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleSaveAddress = async () => {
+    try {
+      const addressPayload = {
+        houseNo: shippingForm.addressLine1,
+        area: shippingForm.addressLine2,
+        city: shippingForm.city,
+        state: shippingForm.state,
+        pincode: shippingForm.postalCode,
+        isDefault: true,
+      };
+
+      // 🔹 1. Update or Add Address
+      if (currentAddressId) {
+        await updateAddress({
+          id: currentAddressId,
+          ...addressPayload,
+        }).unwrap();
+      } else {
+        const res = await addAddress(addressPayload).unwrap();
+        const newAddress = res.addresses[res.addresses.length - 1];
+        setCurrentAddressId(newAddress._id);
+      }
+
+      // 🔹 2. Update Profile (name / phone / email)
+      const profilePayload = {
+        name: shippingForm.fullName,
+        phoneNo: shippingForm.phoneNo,
+      };
+
+      if (data?.user?.authProvider !== "google") {
+        profilePayload.email = shippingForm.email;
+      }
+
+      await updateMe(profilePayload).unwrap();
+      await refetch();
+      setIsEditingAddress(false);
+    } catch (err) {
+      alert("Failed to save. Please try again.");
+      console.error("Error saving address:", err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 pt-20 sm:pt-24 pb-10 sm:pb-14">
         {/* Page heading */}
         <header className="mb-6 flex items-start gap-3">
-  {/* Back button */}
-  <button
-    type="button"
-    onClick={() => router.back()} // or router.push("/cart")
-    className="mt-1 inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-2.5 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition"
-  >
-    <ArrowLeft className="w-4 h-4 mr-1" />
-    <span className="hidden sm:inline">Back</span>
-  </button>
+          {/* Back button */}
+          <button
+            type="button"
+            onClick={() => router.back()} // or router.push("/cart")
+            className="mt-1 inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-2.5 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition"
+          >
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            <span className="hidden sm:inline">Back</span>
+          </button>
 
-  <div>
-    <p className="text-xs tracking-wide text-emerald-500 font-medium uppercase mb-1">
-      Checkout
-    </p>
-    <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">
-      Complete your purchase
-    </h1>
-    <p className="text-xs sm:text-sm text-gray-500 mt-1">
-      Secure payment with Razorpay. No extra fees at this step.
-    </p>
-  </div>
-</header>
+          <div>
+            <p className="text-xs tracking-wide text-emerald-500 font-medium uppercase mb-1">
+              Checkout
+            </p>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">
+              Complete your purchase
+            </h1>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+              Secure payment with Razorpay. No extra fees at this step.
+            </p>
+          </div>
+        </header>
 
 
         {/* SHIPPING ADDRESS */}
@@ -175,6 +263,38 @@ export default function CheckoutContent() {
                     autoComplete="shipping address-line2"
                   />
                 </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-gray-700 mb-1">Phone Number</label>
+                  <input
+                    type="tel"
+                    value={shippingForm.phoneNo}
+                    onChange={(e) =>
+                      handleShippingChange("phoneNo", e.target.value)
+                    }
+                    className="w-full px-3 py-2.5 border border-gray-300 text-gray-900 rounded-lg"
+                    placeholder="Enter phone number"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-gray-700 mb-1">Email</label>
+                  <input
+                    type="email"
+                    value={shippingForm.email}
+                    onChange={(e) =>
+                      handleShippingChange("email", e.target.value)
+                    }
+                    disabled={data?.user?.authProvider === "google"}
+                    className={`w-full px-3 py-2.5 border rounded-lg ${data?.user?.authProvider === "google"
+                      ? "bg-gray-100 text-gray-900 cursor-not-allowed"
+                      : "border-gray-300"
+                      }`}
+                  />
+                  {data?.user?.authProvider === "google" && (
+                    <p className="text-xs text-gray-400 mt-1">
+                      Email cannot be changed for Google accounts.
+                    </p>
+                  )}
+                </div>
 
                 <div>
                   <label className="block text-gray-700 mb-1">City</label>
@@ -240,16 +360,26 @@ export default function CheckoutContent() {
               </div>
 
               <button
-                type="button"
-                onClick={() => setIsEditingAddress(false)}
-                className="mt-4 inline-flex items-center justify-center rounded-full px-4 py-2 text-xs sm:text-sm font-medium bg-emerald-600 text-white hover:bg-emerald-700 transition shadow-sm shadow-emerald-500/30"
+                disabled={isSaving}
+                onClick={handleSaveAddress}
+                className={`mt-4 inline-flex items-center justify-center rounded-full px-4 py-2 text-xs sm:text-sm font-medium bg-emerald-600 text-white transition shadow-sm shadow-emerald-500/30 ${isSaving ? "opacity-60 cursor-not-allowed" : "hover:bg-emerald-700"
+                  }`}
               >
-                Save address
+                {isSaving ? "Saving..." : "Save address"}
               </button>
             </>
           ) : (
             <div className="text-xs sm:text-sm text-gray-700 space-y-1">
               <p className="font-medium text-gray-900">{shippingForm.fullName}</p>
+              {/* Phone */}
+              <p>
+                <span className="font-medium">Phone:</span> {shippingForm.phoneNo}
+              </p>
+
+              {/* Email */}
+              <p>
+                <span className="font-medium">Email:</span> {shippingForm.email}
+              </p>
               <p>{shippingForm.addressLine1}</p>
               {shippingForm.addressLine2 && <p>{shippingForm.addressLine2}</p>}
               <p>
@@ -278,11 +408,10 @@ export default function CheckoutContent() {
 
             {/* Razorpay Option */}
             <div
-              className={`rounded-xl border p-4 mb-3 cursor-pointer transition-all ${
-                paymentMethod === "razorpay"
-                  ? "border-emerald-400 bg-emerald-50 shadow-sm"
-                  : "border-gray-200 bg-white hover:border-emerald-200"
-              }`}
+              className={`rounded-xl border p-4 mb-3 cursor-pointer transition-all ${paymentMethod === "razorpay"
+                ? "border-emerald-400 bg-emerald-50 shadow-sm"
+                : "border-gray-200 bg-white hover:border-emerald-200"
+                }`}
               onClick={() => setPaymentMethod("razorpay")}
             >
               <div className="flex items-center gap-3 mb-2">
@@ -346,11 +475,10 @@ export default function CheckoutContent() {
 
             {/* COD Option */}
             <div
-              className={`rounded-xl border p-4 cursor-pointer transition-all ${
-                paymentMethod === "cod"
-                  ? "border-emerald-400 bg-emerald-50 shadow-sm"
-                  : "border-gray-200 bg-white hover:border-emerald-200"
-              }`}
+              className={`rounded-xl border p-4 cursor-pointer transition-all ${paymentMethod === "cod"
+                ? "border-emerald-400 bg-emerald-50 shadow-sm"
+                : "border-gray-200 bg-white hover:border-emerald-200"
+                }`}
               onClick={() => setPaymentMethod("cod")}
             >
               <div className="flex items-center gap-3">
