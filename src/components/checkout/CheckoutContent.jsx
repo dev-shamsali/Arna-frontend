@@ -62,6 +62,7 @@ export default function CheckoutContent() {
     state: "",
     postalCode: "",
     country: "India",
+    addressType: "home",
   });
   const [isEditingAddress, setIsEditingAddress] = useState(true);
 
@@ -87,6 +88,7 @@ export default function CheckoutContent() {
           state: defaultAddress.state || "",
           postalCode: defaultAddress.pincode || "",
           country: "India",
+          addressType: defaultAddress.addressType || "home",
         });
 
         setIsEditingAddress(false);
@@ -126,12 +128,14 @@ export default function CheckoutContent() {
 
   const handleSaveAddress = async () => {
     try {
+      setIsSaving(true);
       const addressPayload = {
         houseNo: shippingForm.addressLine1,
         area: shippingForm.addressLine2,
         city: shippingForm.city,
         state: shippingForm.state,
         pincode: shippingForm.postalCode,
+        addressType: shippingForm.addressType,
         isDefault: true,
       };
 
@@ -165,6 +169,41 @@ export default function CheckoutContent() {
       console.error("Error saving address:", err);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleAddressTypeChange = (type) => {
+    const selectedAddress = data?.user?.addresses?.find(
+      (addr) => addr.addressType === type
+    );
+
+    if (selectedAddress) {
+      setCurrentAddressId(selectedAddress._id);
+
+      setShippingForm({
+        fullName: data.user.name || "",
+        email: data.user.email || "",
+        phoneNo: data.user.phoneNo || "",
+        addressLine1: selectedAddress.houseNo || "",
+        addressLine2: selectedAddress.area || "",
+        city: selectedAddress.city || "",
+        state: selectedAddress.state || "",
+        postalCode: selectedAddress.pincode || "",
+        country: "India",
+        addressType: selectedAddress.addressType,
+      });
+    } else {
+      // No saved address of this type → clear fields
+      setCurrentAddressId(null);
+      setShippingForm((prev) => ({
+        ...prev,
+        addressType: type,
+        addressLine1: "",
+        addressLine2: "",
+        city: "",
+        state: "",
+        postalCode: "",
+      }));
     }
   };
 
@@ -229,6 +268,20 @@ export default function CheckoutContent() {
                     placeholder="Enter full name"
                     autoComplete="shipping name"
                   />
+                </div>
+                <div>
+                  <label className="block text-gray-700 mb-1">Address Type</label>
+                  <select
+                    value={shippingForm.addressType || "home"}
+                    onChange={(e) =>
+                      handleAddressTypeChange(e.target.value)
+                    }
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-gray-900"
+                  >
+                    <option value="home">Home</option>
+                    <option value="work">Work</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
 
                 <div className="sm:col-span-2">
