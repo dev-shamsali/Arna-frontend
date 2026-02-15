@@ -4,6 +4,7 @@ import { notFound, useRouter } from "next/navigation";
 import { use } from "react";
 import { ShoppingCart, Shield, Truck, Leaf, MessageCircle, Loader2, Award, Sparkles, ArrowLeft } from "lucide-react";
 import { useGetProductQuery } from "@/redux/slices/cmsSlice";
+import Footer from "@/components/layout/footer"; 
 
 export default function ProductPage({ params }) {
   const { slug } = use(params);
@@ -325,6 +326,8 @@ export default function ProductPage({ params }) {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
+    
   );
 }
