@@ -15,7 +15,7 @@ export const cmsApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["CMS"],
     }),
-    
+
     /* ABOUT US */
     getAboutUs: builder.query({
       query: () => "/about",
@@ -44,7 +44,7 @@ export const cmsApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["AboutUs"],
     }),
-    
+
     /* PRODUCTS */
     getProducts: builder.query({
       query: (params = {}) => ({
@@ -63,6 +63,10 @@ export const cmsApi = apiSlice.injectEndpoints({
       providesTags: ["PromoPopup"],
       keepUnusedDataFor: 60, // cache for 60s (optional but good)
     }),
+    getOurStory: builder.query({
+      query: () => "/our-story/get",
+      providesTags: ["OurStory"],
+    })
 
   }),
 });
@@ -77,4 +81,5 @@ export const {
   useGetProductsQuery,
   useGetProductQuery,
   useGetPopupPromoQuery,
+  useGetOurStoryQuery,
 } = cmsApi;
