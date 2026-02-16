@@ -5,12 +5,15 @@ import { useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
 import * as THREE from 'three'
-
+import { useGetOurStoryQuery } from '@/redux/slices/cmsSlice'
 const OurStory = () => {
     const canvasRef = useRef(null)
     const sectionRef = useRef(null)
     const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
-
+    const { data } = useGetOurStoryQuery();
+    const imageUrl = data?.image
+        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${data.image}`
+        : "/home/founder.png";
     /* ---------------- MOTION VARIANTS (FIXED BUG) ---------------- */
     const itemVariants = {
         hidden: { opacity: 0, y: 30 },
@@ -163,12 +166,11 @@ const OurStory = () => {
                         <div className="absolute -inset-2 md:-inset-4 border border-[#c5a059]/10 rounded-2xl transform rotate-2 pointer-events-none" />
 
                         <div className="relative h-[350px] md:h-[600px] rounded-2xl overflow-hidden shadow-2xl group">
-                            <Image
-                                src="/home/founder.png"
+                            <img
+                                src={imageUrl}
                                 alt="Founders of ARNA"
-                                fill
+                                loading='lazy'
                                 className="object-cover object-center transition-transform duration-1000 group-hover:scale-110"
-                                priority
                             />
 
                         </div>
