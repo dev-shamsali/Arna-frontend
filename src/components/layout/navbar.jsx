@@ -331,7 +331,7 @@ export default function Navbar({ solid = false }) {
         </div>
 
         {/* Mobile Search Bar - Visible only on mobile/tablet */}
-        <div className="lg:hidden pb-4 px-4 max-w-2xl mx-auto">
+        <div className="lg:hidden pb-5 px-4 max-w-2xl mx-auto">
           <div className="relative w-full group">
             <input
               type="text"
@@ -350,20 +350,20 @@ export default function Navbar({ solid = false }) {
                 }
               }}
               placeholder={placeholder}
-              className={`w-full py-2.5 px-10 rounded-full text-sm transition-all duration-300 border outline-none focus:ring-2 focus:ring-[#b77f6b]/50 ${showSolid
+              className={`w-full py-3 px-11 rounded-full text-sm transition-all duration-300 border outline-none shadow-sm focus:ring-2 focus:ring-[#b77f6b]/50 ${showSolid
                 ? 'bg-gray-100 border-gray-200 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#b77f6b]/30'
-                : 'bg-white/10 border-white/20 text-white placeholder:text-white/60 backdrop-blur-md focus:bg-white focus:text-gray-900 focus:placeholder:text-gray-400 focus:border-white'
+                : 'bg-black/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-xl focus:bg-black/30 focus:border-white/50'
                 }`}
             />
-            <Search className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${showSolid ? 'text-gray-400' : 'text-white/60 group-focus-within:text-gray-400'}`} />
+            <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${showSolid ? 'text-gray-400' : 'text-white/80 group-focus-within:text-white'}`} />
             {/* Simulated blinking cursor for placeholder */}
             {!searchQuery && (
               <motion.div
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.8, repeat: Infinity }}
-                className={`absolute pointer-events-none top-1/2 -translate-y-1/2 h-4 w-[1px] ${showSolid ? 'bg-gray-400' : 'bg-white/60 group-focus-within:bg-gray-400'
+                className={`absolute pointer-events-none top-1/2 -translate-y-1/2 h-4 w-[1px] ${showSolid ? 'bg-gray-400' : 'bg-white/80 group-focus-within:bg-white'
                   }`}
-                style={{ left: `calc(40px + ${placeholder.length * 7.5}px)` }}
+                style={{ left: `calc(44px + ${placeholder.length * 7.5}px)` }}
               />
             )}
           </div>
