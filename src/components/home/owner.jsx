@@ -187,7 +187,7 @@ const OurStory = () => {
                         >
                             <span className="hidden lg:block text-6xl absolute -top-8 -left-6 text-[#b77f6b]/20 font-serif">“</span>
                             <h3 className="text-xl md:text-3xl font-serif text-white mb-6 leading-tight">
-                                A blend of <span className="italic text-[#b77f6b]">Arman</span> and <span className="italic text-[#b77f6b]">Naaz</span>,
+                                A blend of <span className="italic text-[#b77f6b]">Ar</span><span className="italic">man</span> and <span className="italic text-[#b77f6b]">Na</span><span className="italic">az</span>,
                                 <br />representing a shared vision for beauty.
                             </h3>
                             <p className="text-white/70 leading-relaxed text-sm md:text-lg font-light max-w-2xl mx-auto lg:mx-0">
