@@ -266,16 +266,6 @@ export default function Navbar({ solid = false }) {
 
           {/* Right Icons */}
           <div className="flex items-center gap-3 sm:gap-4">
-            {/* Mobile Search Icon */}
-            <button
-              onClick={() => router.push('/products')}
-              className={`lg:hidden transition-colors duration-300 hover:opacity-70 ${showSolid ? 'text-gray-800' : 'text-white'} p-2`}
-              aria-label="Search"
-            >
-              <Search className="w-5 h-5" />
-            </button>
-
-
             <button
               onClick={() => {
                 if (user) {
@@ -337,6 +327,45 @@ export default function Navbar({ solid = false }) {
                 <Menu className="w-6 h-6" />
               )}
             </button>
+          </div>
+        </div>
+
+        {/* Mobile Search Bar - Visible only on mobile/tablet */}
+        <div className="lg:hidden pb-4 px-4 max-w-2xl mx-auto">
+          <div className="relative w-full group">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                if (e.target.value.trim()) {
+                  router.push(`/products?search=${encodeURIComponent(e.target.value)}`);
+                } else {
+                  router.push('/products');
+                }
+              }}
+              onClick={() => {
+                if (pathname !== '/products') {
+                  router.push('/products');
+                }
+              }}
+              placeholder={placeholder}
+              className={`w-full py-2.5 px-10 rounded-full text-sm transition-all duration-300 border outline-none focus:ring-2 focus:ring-[#b77f6b]/50 ${showSolid
+                ? 'bg-gray-100 border-gray-200 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#b77f6b]/30'
+                : 'bg-white/10 border-white/20 text-white placeholder:text-white/60 backdrop-blur-md focus:bg-white focus:text-gray-900 focus:placeholder:text-gray-400 focus:border-white'
+                }`}
+            />
+            <Search className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${showSolid ? 'text-gray-400' : 'text-white/60 group-focus-within:text-gray-400'}`} />
+            {/* Simulated blinking cursor for placeholder */}
+            {!searchQuery && (
+              <motion.div
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+                className={`absolute pointer-events-none top-1/2 -translate-y-1/2 h-4 w-[1px] ${showSolid ? 'bg-gray-400' : 'bg-white/60 group-focus-within:bg-gray-400'
+                  }`}
+                style={{ left: `calc(40px + ${placeholder.length * 7.5}px)` }}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -424,7 +453,7 @@ export default function Navbar({ solid = false }) {
           <div className="mt-8 pt-6 border-t border-gray-200">
             <div className="flex flex-col gap-3">
               <Link
-                href="/search"
+                href="/products"
                 onClick={closeMobileMenu}
                 className="flex items-center gap-3 py-2 px-4 text-sm text-gray-800 hover:bg-[#006A4E]/5 rounded-md transition-colors"
               >
