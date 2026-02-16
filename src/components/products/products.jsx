@@ -5,40 +5,41 @@ import { categories, problems } from "../lib/constants"
 import { useGetProductsQuery } from '@/redux/slices/cmsSlice';
 import BestSellers from './BestSellers';
 import ProductCard from './ProductsCard';
+import { useSearchParams } from 'next/navigation';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
 
 const ProductsPage = () => {
+    const searchParams = useSearchParams();
+    const urlSearch = searchParams.get('search') || '';
+
     const [activeCategory, setActiveCategory] = useState('all');
     const [activeProblem, setActiveProblem] = useState(null);
     const [visibleCount, setVisibleCount] = useState(5);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState(urlSearch);
+
+    // Update local search query if URL search param changes
+    useEffect(() => {
+        setSearchQuery(urlSearch);
+    }, [urlSearch]);
 
     // Price filter state
     const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);
     const [isPriceExpanded, setIsPriceExpanded] = useState(true);
 
     const { data, isLoading, isError } = useGetProductsQuery({
-        category: activeCategory !== "all" ? activeCategory : undefined,limit:100
+        category: activeCategory !== "all" ? activeCategory : undefined, limit: 100
     });
-    
+
     // Transform products to add full image URLs
     const products = useMemo(() => {
         const rawProducts = data?.data ?? [];
-        // console.log('🔍 Raw API Response:', data);
-        // console.log('🔍 API_BASE_URL:', API_BASE_URL);
-        
-        const transformed = rawProducts.map(product => {
-            const fullImageUrl = product.image?.startsWith('http') 
-                ? product.image 
+        return rawProducts.map(product => {
+            const fullImageUrl = product.image?.startsWith('http')
+                ? product.image
                 : `${API_BASE_URL}${product.image}`;
-            
-            // console.log('🖼️ Transforming product:', {
-            //     name: product.name,
-            //     originalImage: product.image,
-            //     fullImageUrl: fullImageUrl
-            // });
-            
+
             return {
                 ...product,
                 id: product._id || product.id,
@@ -49,9 +50,6 @@ const ProductsPage = () => {
                 badge: product.isBestSeller ? 'Bestseller' : (product.isNewArrival ? 'New' : null)
             };
         });
-        
-        // console.log('✅ Transformed products:', transformed);
-        return transformed;
     }, [data?.data]);
 
     const priceRangeOptions = [
@@ -81,12 +79,21 @@ const ProductsPage = () => {
             });
         }
 
+        // Apply search filter
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            filtered = filtered.filter(p =>
+                p.name?.toLowerCase().includes(query) ||
+                p.description?.toLowerCase().includes(query)
+            );
+        }
+
         return filtered;
-    }, [activeCategory, selectedPriceRanges, products]);
+    }, [activeCategory, selectedPriceRanges, products, searchQuery]);
 
     useEffect(() => {
         setVisibleCount(5);
-    }, [activeCategory, selectedPriceRanges]);
+    }, [activeCategory, selectedPriceRanges, searchQuery]);
 
     const togglePriceRange = (rangeId) => {
         setSelectedPriceRanges(prev =>
@@ -99,6 +106,7 @@ const ProductsPage = () => {
     const clearFilters = () => {
         setSelectedPriceRanges([]);
         setActiveCategory('all');
+        setSearchQuery('');
     };
 
     const bestSellers = useMemo(() => {
@@ -315,11 +323,22 @@ const ProductsPage = () => {
                     {/* Main Products Grid */}
                     <div className="flex-1">
                         {/* Results Info */}
-                        <div className="mb-6">
+                        <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                             <p className="text-gray-600">
                                 Showing <span className="font-semibold text-gray-800">{Math.min(visibleCount, filteredProducts.length)}</span> of{' '}
                                 <span className="font-semibold text-gray-800">{filteredProducts.length}</span> products
+                                {searchQuery && (
+                                    <span> for "<span className="font-semibold text-[#0A7A4E]">{searchQuery}</span>"</span>
+                                )}
                             </p>
+                            {searchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery('')}
+                                    className="text-sm text-gray-500 hover:text-red-500 transition-colors flex items-center gap-1"
+                                >
+                                    <X className="w-4 h-4" /> Clear search
+                                </button>
+                            )}
                         </div>
 
                         {/* Products Grid */}

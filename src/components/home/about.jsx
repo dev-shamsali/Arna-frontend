@@ -109,6 +109,7 @@ export default function About() {
         from-[#14422c] via-[#1e5e3f] to-[#14422c]
         text-white
       "
+      style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif' }}
     >
       {/* THREE BACKGROUND */}
       <canvas
