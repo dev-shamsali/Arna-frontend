@@ -100,13 +100,13 @@ const Footer = () => {
           }}
         />
 
-        <div className="relative z-10 text-white/90 py-20 md:py-32">
+        <div className="relative z-10 text-white/90 py-12 md:py-16">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
 
 
             {/* Main Footer Content */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-16 md:mb-10">
 
               {/* Brand Section */}
               <div className="space-y-8">
@@ -172,7 +172,7 @@ const Footer = () => {
                   <h4 className="text-sm font-semibold uppercase tracking-[0.25em] text-[#c5a059]">Reach Us</h4>
                   <div className="space-y-4">
                     <div className="flex flex-col gap-3">
-                      <a href="mailto:hello@arnaskincare.com" className="text-base hover:text-[#b77f6b] transition-colors border-b border-white/10 pb-1 w-fit">hello@arnaskincare.com</a>
+                      <a href="mailto:arnaskincare7@gmail.com" className="text-base hover:text-[#b77f6b] transition-colors border-b border-white/10 pb-1 w-fit">arnaskincare7@gmail.com</a>
                       <a href="tel:+918850925827" className="text-lg hover:text-[#b77f6b] transition-colors font-medium tracking-wide">+91 8850925827</a>
                     </div>
                   </div>
@@ -204,8 +204,6 @@ const Footer = () => {
                   <span className="hidden md:inline mx-2">|</span>
                   CRAFTED WITH INTENTION FOR CONSCIOUS LIVING 🌿
                 </div>
-
-
               </div>
             </div>
 

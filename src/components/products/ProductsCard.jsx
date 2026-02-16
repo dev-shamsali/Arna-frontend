@@ -21,10 +21,10 @@ export default function ProductCard({ product }) {
   //   });
   // }, [product]);
 
-  const discount = product.mrp && product.price 
+  const discount = product.mrp && product.price
     ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
     : 0;
-    
+
   const existing = cartItems.find((p) => p.id === product.id);
   const qtyInCart = existing?.qty || 0;
 
@@ -35,22 +35,17 @@ export default function ProductCard({ product }) {
         href={`/products/${product.slug}`}
         className="relative bg-[#F4F4F4] aspect-square overflow-hidden block"
       >
-        <img
+        <Image
           src={product.image}
           alt={product.name}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
+          className="object-fill transition-transform duration-500 group-hover:scale-110"
           quality={85}
           loading="lazy"
           onError={(e) => {
             console.error('Image failed to load:', product.image);
-            // Optionally set a fallback image
-            // e.currentTarget.src = '/placeholder.png';
           }}
-          // onLoad={() => {
-          //   console.log('Image loaded successfully:', product.image);
-          // }}
         />
 
         {product.badge && (
