@@ -133,9 +133,10 @@ const ProductsPage = () => {
             {/* Hero Header */}
             <section
                 className="relative bg-cover bg-center bg-no-repeat py-16 md:py-24 px-4"
-                style={{ backgroundImage: "url('/hero.png')" }}
+                style={{ backgroundImage: "url('/Our Products Banner.webp')" }}
             >
-                <div className="absolute inset-0 backdrop-blur-sm"></div>
+                <div className="absolute inset-0 bg-white/20"></div>
+
 
                 <div className="relative max-w-7xl mx-auto text-center">
                     <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-2 rounded-full mb-6 shadow-sm">

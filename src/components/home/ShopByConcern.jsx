@@ -11,28 +11,28 @@ const CONCERNS = [
         id: 'glow',
         title: 'Ultimate Glow',
         desc: 'Brighten and Revitalize',
-        image: '/home/hero/hero-2.jpg', // Reusing existing hero images or placeholders if needed
+        image: '/home/shopbyconcern/Ultimate Glow .webp',
         color: '#b77f6b'
     },
     {
         id: 'acne',
         title: 'Acne Control',
         desc: 'Clear and Balance',
-        image: '/home/hero/hero-3.jpg',
+        image: '/home/shopbyconcern/Acne Control.webp',
         color: '#8e5d4d'
     },
     {
         id: 'hydration',
         title: 'Deep Hydration',
         desc: 'Moisturize and Plump',
-        image: '/home/hero/hero-4.jpg',
+        image: '/home/shopbyconcern/Deep Hydration.webp',
         color: '#c5a059'
     },
     {
         id: 'hair',
         title: 'Hair Strength',
         desc: 'Nourish and Repair',
-        image: '/home/hero/hero-5.jpg',
+        image: '/home/shopbyconcern/Hair Strength.webp',
         color: '#2d2421'
     }
 ]
