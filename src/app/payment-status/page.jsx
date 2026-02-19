@@ -42,6 +42,9 @@ export default function PaymentStatusPage() {
     useEffect(() => {
         console.log("ORDER FROM API:", order);
     }, [order]);
+    useEffect(() => {
+        console.log("PAYMENT STATUS:", order?.paymentStatus);
+    }, [order]);
 
     return (
         <div className="min-h-screen flex items-center justify-center">
