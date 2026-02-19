@@ -8,6 +8,7 @@ const STORAGE_KEY = "arna-cart";
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // load from localStorage once on mount
   useEffect(() => {
@@ -20,13 +21,14 @@ export const CartProvider = ({ children }) => {
         setCartItems([]);
       }
     }
+    setIsLoaded(true);
   }, []);
 
   // save to localStorage whenever cart changes
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || !isLoaded) return;
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
-  }, [cartItems]);
+  }, [cartItems, isLoaded]);
 
   const addToCart = (product) => {
     setCartItems((prev) => {
