@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { useGetMeQuery, useUpdateAddressMutation, useAddAddressMutation, useUpdateMeMutation } from "@/redux/slices/authApislice";
+import { useCreateOrderMutation } from "@/redux/slices/orderApiSlice";
 const INDIAN_STATES = [
   "Andhra Pradesh",
   "Arunachal Pradesh",
@@ -43,7 +44,7 @@ const INDIAN_STATES = [
 ];
 
 export default function CheckoutContent() {
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
   const router = useRouter();
   const { data, refetch } = useGetMeQuery();
   const [updateAddress] = useUpdateAddressMutation();
@@ -51,7 +52,7 @@ export default function CheckoutContent() {
   const [updateMe] = useUpdateMeMutation();
   const [currentAddressId, setCurrentAddressId] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("razorpay");
+  const [paymentMethod, setPaymentMethod] = useState("cashfree");
   const [shippingForm, setShippingForm] = useState({
     fullName: "",
     addressLine1: "",
@@ -65,6 +66,7 @@ export default function CheckoutContent() {
     addressType: "home",
   });
   const [isEditingAddress, setIsEditingAddress] = useState(true);
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
 
 
   useEffect(() => {
@@ -108,19 +110,52 @@ export default function CheckoutContent() {
     () => cartItems.reduce((sum, item) => sum + item.price * item.qty, 0),
     [cartItems]
   );
-  const shipping = 0;
-  const tax = Math.round(subtotal * 0.05);
-  const total = subtotal + shipping + tax;
+  const shipping = 50;
+  const total = subtotal + shipping ;
 
   const handlePayNow = async () => {
-    console.log("Shipping:", shippingForm);
-    console.log("Payment method:", paymentMethod);
-    if (paymentMethod === "razorpay") {
-      // TODO: call API with cartItems + shippingForm and create Razorpay order
-    } else {
-      // COD logic
+    try {
+      if (!currentAddressId) {
+        alert("Please save your address first");
+        return;
+      }
+
+      if (cartItems.length === 0) {
+        alert("Cart is empty");
+        return;
+      }
+
+      const response = await createOrder({
+        items: cartItems.map(item => ({
+          productId: item.id,
+          quantity: item.qty,
+        })),
+        addressId: currentAddressId,
+        paymentMethod,
+      }).unwrap();
+
+      // 💳 CASHFREE FLOW
+      if (paymentMethod === "cashfree") {
+        if (!response.paymentSessionId) {
+          alert("Payment session not created");
+          return;
+        }
+        router.push(`/payment?sessionId=${response.paymentSessionId}&orderId=${response.orderId}`);
+      }
+
+
+      // 💵 COD FLOW
+      if (paymentMethod === "cod") {
+        clearCart();
+        router.push(`/order-success?orderId=${response.orderId}`);
+      }
+
+    } catch (error) {
+      console.error("Order failed:", error);
+      alert("Something went wrong");
     }
   };
+
 
   const handleShippingChange = (field, value) => {
     setShippingForm((prev) => ({ ...prev, [field]: value }));
@@ -230,7 +265,7 @@ export default function CheckoutContent() {
               Complete your purchase
             </h1>
             <p className="text-xs sm:text-sm text-gray-500 mt-1">
-              Secure payment with Razorpay. No extra fees at this step.
+              Secure payment with Cashfree. No extra fees at this step.
             </p>
           </div>
         </header>
@@ -286,7 +321,7 @@ export default function CheckoutContent() {
 
                 <div className="sm:col-span-2">
                   <label className="block text-gray-700 mb-1">
-                    Address line 1
+                    House No / Bldg No / Office 
                   </label>
                   <input
                     type="text"
@@ -302,8 +337,7 @@ export default function CheckoutContent() {
 
                 <div className="sm:col-span-2">
                   <label className="block text-gray-700 mb-1">
-                    Address line 2{" "}
-                    <span className="text-gray-400">(optional)</span>
+                    Area / Colony / Street
                   </label>
                   <input
                     type="text"
@@ -459,24 +493,24 @@ export default function CheckoutContent() {
               All transactions are secure and encrypted.
             </p>
 
-            {/* Razorpay Option */}
+            {/* Cashfree Option */}
             <div
-              className={`rounded-xl border p-4 mb-3 cursor-pointer transition-all ${paymentMethod === "razorpay"
+              className={`rounded-xl border p-4 mb-3 cursor-pointer transition-all ${paymentMethod === "cashfree"
                 ? "border-emerald-400 bg-emerald-50 shadow-sm"
                 : "border-gray-200 bg-white hover:border-emerald-200"
                 }`}
-              onClick={() => setPaymentMethod("razorpay")}
+              onClick={() => setPaymentMethod("cashfree")}
             >
               <div className="flex items-center gap-3 mb-2">
                 <input
                   type="radio"
                   name="payment"
-                  checked={paymentMethod === "razorpay"}
-                  onChange={() => setPaymentMethod("razorpay")}
+                  checked={paymentMethod === "cashfree"}
+                  onChange={() => setPaymentMethod("cashfree")}
                   className="w-4 h-4 accent-emerald-500"
                 />
                 <span className="text-sm font-medium flex-1 text-gray-900">
-                  Razorpay Secure (UPI, Cards, Int&apos;l Cards, Wallets)
+                  Cashfree Secure (UPI, Cards, Int&apos;l Cards, Wallets)
                 </span>
                 <div className="flex gap-2 items-center">
                   <div className="flex items-center gap-1 text-[11px] font-semibold text-gray-600 border border-gray-300 rounded-full px-2 py-0.5">
@@ -492,7 +526,7 @@ export default function CheckoutContent() {
                 </div>
               </div>
 
-              {paymentMethod === "razorpay" && (
+              {paymentMethod === "cashfree" && (
                 <div className="mt-3 pt-3 border-t border-gray-200 flex flex-col items-center text-center">
                   <div className="w-16 h-16 mb-2 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-xl bg-emerald-50/60">
                     <svg
@@ -519,7 +553,7 @@ export default function CheckoutContent() {
                   </div>
                   <p className="text-xs text-gray-600 max-w-xs">
                     After clicking <span className="font-medium">&quot;Pay now&quot;</span>,
-                    you&apos;ll be redirected to Razorpay to securely complete your
+                    you&apos;ll be redirected to Cashfree to securely complete your
                     payment.
                   </p>
                 </div>
@@ -625,23 +659,26 @@ export default function CheckoutContent() {
               </div>
             </div>
           </div>
-          <p className="text-[10px] text-gray-400 mt-1">
-            Including ₹{tax.toFixed(2)} in taxes
-          </p>
 
           {/* Pay now with shine animation */}
           <button
             onClick={handlePayNow}
-            className="relative mt-5 w-full overflow-hidden rounded-full bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-emerald-500/40 transition hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
+            disabled={isLoading}
+            className={`relative mt-5 w-full rounded-full px-4 py-3 text-sm font-semibold text-white shadow-md transition
+    ${isLoading
+                ? "bg-emerald-400 cursor-not-allowed"
+                : "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-500/40"
+              }`}
           >
-            <span className="relative z-10">Pay now</span>
-            {/* shine overlay */}
+            {isLoading ? "Processing..." : "Pay now"}
+
             <span
               className="pointer-events-none absolute inset-0 before:absolute before:inset-0 before:rounded-full before:bg-[linear-gradient(120deg,transparent_0%,rgba(255,255,255,0.9)_50%,transparent_100%)] before:opacity-0 hover:before:opacity-100 before:-translate-x-full hover:before:translate-x-full before:transition-transform before:duration-[900ms]"
             />
           </button>
+
         </section>
       </div>
-    </div>
+    </div >
   );
 }

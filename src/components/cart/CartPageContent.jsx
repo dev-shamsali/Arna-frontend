@@ -20,9 +20,8 @@ export default function CartPageContent() {
   );
 
   const discount = 0;
-  const shipping = 0;
-  const tax = Math.round(subtotal * 0.05);
-  const total = subtotal - discount + shipping + tax;
+  const shipping = 50;
+  const total = subtotal - discount + shipping;
 
   return (
     <>
@@ -103,12 +102,6 @@ export default function CartPageContent() {
                         {shipping === 0
                           ? "Calculated at checkout"
                           : `₹${shipping.toFixed(2)}`}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Tax</span>
-                      <span className="text-gray-500">
-                        {tax === 0 ? "Included" : `₹${tax.toFixed(2)}`}
                       </span>
                     </div>
                   </div>
