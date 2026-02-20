@@ -10,7 +10,14 @@ export default function PaymentStatusPage() {
     const router = useRouter();
     const { clearCart } = useCart();
 
-    const orderId = searchParams.get("orderId");
+    const rawOrderId = searchParams.get("orderId");
+
+    // 🔥 Normalize retry order id
+    let orderId = rawOrderId;
+
+    if (rawOrderId?.includes("-R")) {
+        orderId = rawOrderId.split("-R")[0];
+    }
 
     const { data: order, isLoading, refetch } =
         useGetOrderByIdQuery(orderId, {
@@ -36,7 +43,7 @@ export default function PaymentStatusPage() {
         }
 
         if (order.paymentStatus === "failed") {
-            router.replace(`/payment-failed?orderId=${order.orderId}`);
+            router.replace(`/order-failed?orderId=${order.orderId}`);
         }
     }, [order, router, clearCart]);
     useEffect(() => {
