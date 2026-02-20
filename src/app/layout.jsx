@@ -1,5 +1,5 @@
 import './globals.css'
-import { Inter, Playfair_Display } from 'next/font/google'
+import { Inter, Playfair_Display, Cormorant_Garamond } from 'next/font/google'
 import ConditionalNavbar from '@/components/layout/ConditionalNavbar'
 import { CartProvider } from '@/components/cart/CartContext'
 import { WishlistProvider } from '@/components/wishlist/WishlistContext' // ← Add this
@@ -19,6 +19,14 @@ const playfair = Playfair_Display({
   subsets: ['latin'],
   weight: ['400', '700'],
   variable: '--font-playfair',
+  display: 'swap',
+})
+
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  italic: ['300', '400', '500', '600', '700'],
+  variable: '--font-cormorant',
   display: 'swap',
 })
 
@@ -60,7 +68,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable}`}
+      className={`${inter.variable} ${playfair.variable} ${cormorant.variable}`}
       suppressHydrationWarning
     >
       <head>
