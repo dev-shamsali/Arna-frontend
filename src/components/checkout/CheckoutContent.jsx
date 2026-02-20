@@ -110,9 +110,8 @@ export default function CheckoutContent() {
     () => cartItems.reduce((sum, item) => sum + item.price * item.qty, 0),
     [cartItems]
   );
-  const shipping = 0;
-  const tax = Math.round(subtotal * 0.05);
-  const total = subtotal + shipping + tax;
+  const shipping = 50;
+  const total = subtotal + shipping ;
 
   const handlePayNow = async () => {
     try {
@@ -322,7 +321,7 @@ export default function CheckoutContent() {
 
                 <div className="sm:col-span-2">
                   <label className="block text-gray-700 mb-1">
-                    Address line 1
+                    House No / Bldg No / Office 
                   </label>
                   <input
                     type="text"
@@ -338,8 +337,7 @@ export default function CheckoutContent() {
 
                 <div className="sm:col-span-2">
                   <label className="block text-gray-700 mb-1">
-                    Address line 2{" "}
-                    <span className="text-gray-400">(optional)</span>
+                    Area / Colony / Street
                   </label>
                   <input
                     type="text"
@@ -661,9 +659,6 @@ export default function CheckoutContent() {
               </div>
             </div>
           </div>
-          <p className="text-[10px] text-gray-400 mt-1">
-            Including ₹{tax.toFixed(2)} in taxes
-          </p>
 
           {/* Pay now with shine animation */}
           <button
