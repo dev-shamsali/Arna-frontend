@@ -144,13 +144,11 @@ const ProductsPage = () => {
                         <span className="text-sm text-[#0A7A4E] font-medium">{products.length} Premium Products Available</span>
                     </div>
 
-                    <h1 className="font-serif text-4xl md:text-6xl text-[#0A7A4E] mb-4">
+                    <h1 className="font-serif text-4xl md:text-6xl text-white mb-4">
                         Discover ARNA Products
                     </h1>
 
-                    <p className="text-lg md:text-xl text-black-700 max-w-2xl mx-auto font-light">
-                        Pure, safe, effective skin & hair care
-                    </p>
+
 
                     <div className="mt-8 flex justify-center">
                         <div className="w-24 h-1 bg-gradient-to-r from-transparent via-[#C9A86A] to-transparent"></div>
