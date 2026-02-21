@@ -87,7 +87,7 @@ export default function Navbar({ solid = false }) {
   const isProductSlug =
     pathname.startsWith("/products/") && pathname.split("/").length === 3
   const onCartPage = pathname === '/cart'
-  const showSolid = true // Navbar is now always solid
+  const showSolid = solid || scrolled || onCartPage || isProductSlug
 
 
 
@@ -179,8 +179,7 @@ export default function Navbar({ solid = false }) {
               alt="Arna"
               width={120}
               height={40}
-              className={`h-8 sm:h-9 transition-all duration-300 ${showSolid ? 'brightness-100' : 'brightness-0 invert'
-                }`}
+              className="h-8 sm:h-9 transition-all duration-300 brightness-100"
             />
           </Link>
 
