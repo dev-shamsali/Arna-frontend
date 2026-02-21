@@ -40,9 +40,14 @@ export const metadata = {
     'Premium herbal skincare crafted with natural ingredients — safe, chemical-free formulations designed for glowing, healthy skin.',
   themeColor: '#ffffff',
   icons: {
-    shortcut: '/favicon_io/arna.webp',
+    shortcut: '/favicon_io/favicon.ico',
+    apple: '/favicon_io/apple-touch-icon.png',
     icon: [
-      { url: '/favicon_io/arna.webp', sizes: 'any', type: 'image/webp' },
+      { url: '/favicon_io/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon_io/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon_io/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon_io/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
+      { url: '/favicon_io/favicon.png', sizes: 'any', type: 'image/png' },
     ],
   },
   openGraph: {
@@ -73,8 +78,8 @@ export default function RootLayout({ children }) {
         <link
           rel="preload"
           as="image"
-          href="/favicon_io/arna.webp"
-          type="image/webp"
+          href="/logo1.png"
+          type="image/png"
           fetchPriority="high"
         />
 
@@ -86,7 +91,7 @@ export default function RootLayout({ children }) {
               '@type': 'Organization',
               name: 'Arna Skin Care',
               url: 'https://arnaskincare.in',
-              logo: 'https://arnaskincare.in/favicon_io/arna.webp',
+              logo: 'https://arnaskincare.in/logo.png',
             }),
           }}
         />
