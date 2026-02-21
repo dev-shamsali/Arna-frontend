@@ -40,10 +40,9 @@ export const metadata = {
     'Premium herbal skincare crafted with natural ingredients — safe, chemical-free formulations designed for glowing, healthy skin.',
   themeColor: '#ffffff',
   icons: {
-    shortcut: '/favicon_io/ARN%20Fav%20Icon.webp',
-    apple: '/favicon_io/apple-touch-icon.png?v=2',
+    shortcut: '/favicon_io/arna.webp',
     icon: [
-      { url: '/favicon_io/ARN%20Fav%20Icon.webp', sizes: 'any', type: 'image/webp' },
+      { url: '/favicon_io/arna.webp', sizes: 'any', type: 'image/webp' },
     ],
   },
   openGraph: {
@@ -74,8 +73,8 @@ export default function RootLayout({ children }) {
         <link
           rel="preload"
           as="image"
-          href="/logo1.png"
-          type="image/png"
+          href="/favicon_io/arna.webp"
+          type="image/webp"
           fetchPriority="high"
         />
 
@@ -87,7 +86,7 @@ export default function RootLayout({ children }) {
               '@type': 'Organization',
               name: 'Arna Skin Care',
               url: 'https://arnaskincare.in',
-              logo: 'https://arnaskincare.in/logo.png',
+              logo: 'https://arnaskincare.in/favicon_io/arna.webp',
             }),
           }}
         />
