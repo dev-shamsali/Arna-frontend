@@ -135,16 +135,15 @@ const ProductsPage = () => {
                 className="relative bg-cover bg-center bg-no-repeat py-16 md:py-24 px-4"
                 style={{ backgroundImage: "url('/Our Products Banner.webp')" }}
             >
-                <div className="absolute inset-0 bg-white/20"></div>
-
+                <div className="absolute inset-0 bg-black/10"></div>
 
                 <div className="relative max-w-7xl mx-auto text-center">
-                    <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur px-4 py-2 rounded-full mb-6 shadow-sm">
+                    <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur px-4 py-2 rounded-full mb-6 shadow-sm">
                         <Leaf className="w-4 h-4 text-[#0A7A4E]" />
-                        <span className="text-sm text-[#0A7A4E] font-medium">{products.length} Premium Products Available</span>
+                        <span className="text-sm text-[#0A7A4E] font-bold tracking-wide">{products.length} Premium Products Available</span>
                     </div>
 
-                    <h1 className="font-serif text-4xl md:text-6xl text-white mb-4">
+                    <h1 className="font-serif text-4xl md:text-6xl text-white font-bold tracking-wider drop-shadow-2xl mb-4">
                         Discover ARNA Products
                     </h1>
 

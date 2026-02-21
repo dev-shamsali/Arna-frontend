@@ -1,5 +1,5 @@
 import './globals.css'
-import { Inter, Playfair_Display, Cormorant_Garamond } from 'next/font/google'
+import { Inter, Playfair_Display, Cinzel } from 'next/font/google'
 import ConditionalNavbar from '@/components/layout/ConditionalNavbar'
 import { CartProvider } from '@/components/cart/CartContext'
 import { WishlistProvider } from '@/components/wishlist/WishlistContext' // ← Add this
@@ -22,13 +22,13 @@ const playfair = Playfair_Display({
   display: 'swap',
 })
 
-const cormorant = Cormorant_Garamond({
+const accentFont = Cinzel({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  italic: ['300', '400', '500', '600', '700'],
-  variable: '--font-cormorant',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-accent',
   display: 'swap',
 })
+
 
 /* Metadata — SERVER ONLY */
 export const metadata = {
@@ -71,7 +71,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} ${cormorant.variable}`}
+      className={`${inter.variable} ${playfair.variable} ${accentFont.variable}`}
       suppressHydrationWarning
     >
       <head>
