@@ -443,7 +443,7 @@ export default function OrderSuccessPage() {
           )}
 
           <div className="btn-group">
-            <a href="/orders" className="btn-primary">Track Order</a>
+            <a href="/profile/my-orders" className="btn-primary">Track Order</a>
             <a href="/products" className="btn-secondary">Continue Shopping</a>
           </div>
 

@@ -11,6 +11,9 @@ export const orderApiSlice = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        getMyOrders: builder.query({
+            query: () => "/orders/my-orders",
+        }),
 
         // 🔁 Retry Payment
         retryPayment: builder.mutation({
@@ -33,6 +36,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         }),
 
 
+
     }),
 });
 
@@ -41,4 +45,5 @@ export const {
     useGetOrderByIdQuery,
     useRetryPaymentMutation,
     useRefundOrderMutation,
+    useGetMyOrdersQuery
 } = orderApiSlice;
