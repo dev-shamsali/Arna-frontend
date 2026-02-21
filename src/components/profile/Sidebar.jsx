@@ -5,16 +5,18 @@ import { useEffect } from "react";
 import { X, ChevronRight, Package, User, MapPin, CreditCard, HelpCircle, Settings, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 const MENU_ITEMS = [
-  { key: "orders", label: "My Orders", icon: Package },
-  { key: "profile", label: "Profile Details", icon: User },
-  { key: "addresses", label: "Addresses", icon: MapPin },
-  // { key: "payment", label: "Payment Methods", icon: CreditCard },
-  { key: "help", label: "Help & Support", icon: HelpCircle },
-  // { key: "general", label: "Account Settings", icon: Settings },
+  { key: "my-orders", label: "My Orders", icon: Package, href: "/profile/my-orders" },
+  { key: "details", label: "Profile Details", icon: User, href: "/profile/details" },
+  { key: "addresses", label: "Addresses", icon: MapPin, href: "/profile/addresses" },
+  { key: "help-support", label: "Help & Support", icon: HelpCircle, href: "/profile/help-support" },
 ];
 
-export default function Sidebar({ active, onChange, isOpen, onClose, onLogout, isLoggingOut }) {
+export default function Sidebar({ active, isOpen, onClose, onLogout, isLoggingOut }) {
+  const router = useRouter();
 
   // Close sidebar on window resize if switching to desktop
   useEffect(() => {
@@ -39,10 +41,10 @@ export default function Sidebar({ active, onChange, isOpen, onClose, onLogout, i
           const Icon = item.icon;
 
           return (
-            <button
+            <Link
               key={item.key}
+              href={item.href}
               onClick={() => {
-                onChange(item.key);
                 onClose && onClose();
               }}
               className={clsx(
@@ -62,7 +64,7 @@ export default function Sidebar({ active, onChange, isOpen, onClose, onLogout, i
                   <ChevronRight className="w-4 h-4 text-[var(--arna-accent)]" />
                 </motion.div>
               )}
-            </button>
+            </Link>
           );
         })}
       </nav>

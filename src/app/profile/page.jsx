@@ -1,17 +1,20 @@
-import Footer from '@/components/layout/footer'
-import Navbar from '@/components/layout/navbar'
-import AccountPage from '@/components/profile/Content'
-import React from 'react'
+"use client";
 
-const page = () => {
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+const ProfilePage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/profile/my-orders");
+  }, [router]);
+
   return (
-    <div>
-      <Navbar solid />
-      <AccountPage />
-      <Footer />
-
+    <div className="flex items-center justify-center min-h-[400px]">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--arna-accent)]"></div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default ProfilePage;
