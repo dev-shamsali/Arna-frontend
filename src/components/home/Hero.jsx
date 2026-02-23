@@ -51,7 +51,7 @@ export default function Hero() {
 
         return {
           image: imageUrl,
-          title: slide.title || 'Welcome to Arna',
+          title: slide.title || '',
           text: slide.description || '',
           mediaType: slide.mediaType || 'image'
         };
