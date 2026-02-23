@@ -16,6 +16,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["User"],
     }),
 
     googleLogin: builder.mutation({
@@ -24,6 +25,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["User"],
     }),
 
     logout: builder.mutation({
