@@ -176,6 +176,7 @@ function OrderDetailsPanel({ order, onClose }) {
                     <img
                       src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${item.image}`}
                       alt={item.name}
+                      loading="lazy"
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.target.style.display = "none";

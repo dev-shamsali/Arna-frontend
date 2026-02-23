@@ -8,8 +8,81 @@ import {
   MapPin,
   Mail,
   Phone,
+  CheckCircle,
+  X,
 } from "lucide-react";
 import { useCreateTicketMutation } from "@/redux/slices/ticketsSlice";
+
+// ─── Success Modal ───────────────────────────────────────────────────────────
+function SuccessModal({ onClose }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      {/* Modal Card */}
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 flex flex-col items-center text-center z-10">
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition"
+          aria-label="Close"
+        >
+          <X size={20} />
+        </button>
+
+        {/* Icon */}
+        <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mb-5">
+          <CheckCircle className="text-green-700" size={36} strokeWidth={1.5} />
+        </div>
+
+        {/* Heading */}
+        <h3 className="text-xl font-semibold text-gray-800 mb-2 tracking-wide">
+          Query Submitted Successfully!
+        </h3>
+
+        {/* Message */}
+        <p className="text-gray-500 text-sm leading-relaxed mb-6">
+          Thank you for reaching out. Our team will get back to you shortly.
+        </p>
+
+        {/* Divider */}
+        <div className="w-full border-t border-gray-100 mb-6" />
+
+        {/* Fallback contact info */}
+        <p className="text-xs text-gray-400 uppercase tracking-widest font-semibold mb-3">
+          Didn't receive a response?
+        </p>
+        <p className="text-sm text-gray-600 leading-relaxed mb-1">
+          Call or WhatsApp us directly:
+        </p>
+        <p className="text-green-700 font-semibold text-sm mb-1">
+          +91 90827 42221
+        </p>
+        <p className="text-green-700 font-semibold text-sm">
+          +91 80972 48852
+        </p>
+
+        <p className="text-xs text-gray-400 mt-3">
+          Available daily · 9 AM – 6 PM IST
+        </p>
+
+        {/* Close CTA */}
+        <button
+          onClick={onClose}
+          className="mt-6 w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-2.5 rounded-lg uppercase tracking-wide text-xs transition"
+        >
+          Got it, thanks!
+        </button>
+      </div>
+    </div>
+  );
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 export default function ContactPage() {
   const [createTicket, { isLoading, isSuccess, error }] =
     useCreateTicketMutation();
@@ -22,12 +95,13 @@ export default function ContactPage() {
     message: "",
   });
 
+  const [showModal, setShowModal] = useState(false);
+
   const isDisabled =
     !formData.name ||
     !formData.email ||
     !formData.subject ||
     !formData.message;
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +115,8 @@ export default function ContactPage() {
     try {
       await createTicket(formData).unwrap();
 
-      alert("Your message has been sent successfully!");
+      // Show modal instead of alert
+      setShowModal(true);
 
       setFormData({
         name: "",
@@ -56,9 +131,11 @@ export default function ContactPage() {
     }
   };
 
-
   return (
     <div className="min-h-screen bg-white">
+      {/* Success Modal */}
+      {showModal && <SuccessModal onClose={() => setShowModal(false)} />}
+
       {/* Hero Section with Forest Background */}
       <div className="relative">
         {/* Background Image */}

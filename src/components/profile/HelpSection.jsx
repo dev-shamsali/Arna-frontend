@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 import { HelpCircle, Search, ChevronDown } from "lucide-react";
-
+import {useRouter} from "next/navigation";
 export default function HelpSection() {
   const [openFaq, setOpenFaq] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-
-  const faqs = [
+  const router = useRouter();
+  const faqs = [  
     {
       id: 1,
       question: "How do I track my order?",
-      answer: "You can track your order from the 'Your Orders' section in your account. Click on any order to view its current status and estimated delivery date."
+      answer: "You can track your order from the 'My Orders' section in your account. Click on any order to view its current status and estimated delivery date."
     },
     {
       id: 2,
@@ -36,12 +36,12 @@ export default function HelpSection() {
     {
       id: 6,
       question: "How do I contact customer support?",
-      answer: "Reach us via email at support@arna.com, WhatsApp at +91 98765 43210, or through the chat bubble on our website (10 AM - 8 PM IST)."
+      answer: "Reach us via email at support@arna.com, WhatsApp at +91 9082742221 or through the chat bubble on our website (10 AM - 8 PM IST)."
     },
     {
       id: 7,
       question: "Is my payment information secure?",
-      answer: "Yes, all payments are processed through Razorpay's PCI-DSS compliant gateway with 256-bit SSL encryption. Your data is never stored on our servers."
+      answer: "Yes, all payments are processed through Cashfree compliant gateway with 256-bit SSL encryption. Your data is never stored on our servers."
     }
   ];
 
@@ -53,20 +53,33 @@ export default function HelpSection() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center space-x-3">
-        <div className="p-2 bg-green-100 rounded-lg">
-          <HelpCircle className="h-6 w-6 text-green-600" />
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex items-center space-x-3">
+          <div className="p-2 bg-green-100 rounded-lg">
+            <HelpCircle className="h-6 w-6 text-green-600" />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold text-gray-900">
+              Help & Support
+            </h2>
+            <p className="text-sm text-gray-500">
+              Get assistance with your account, orders, and general inquiries.
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-xl font-semibold text-gray-900">Help & Support</h2>
-          <p className="text-sm text-gray-500">
-            Get assistance with your account, orders, and general inquiries.
-          </p>
-        </div>
+
+        {/* Apply for Refund Button */}
+        <button
+          onClick={() => router.push("/contact")}
+          className="px-5 py-2.5 cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-all duration-200"
+        >
+          Apply for Refund
+        </button>
       </div>
 
       {/* Search */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+      {/* <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <input
@@ -77,7 +90,7 @@ export default function HelpSection() {
             className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
           />
         </div>
-      </div>
+      </div> */}
 
       {/* FAQs */}
       <div className="space-y-3">
@@ -103,13 +116,12 @@ export default function HelpSection() {
                 className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
               >
                 <h3 className="text-lg font-semibold text-gray-900">{faq.question}</h3>
-                <ChevronDown 
-                  className={`h-5 w-5 text-gray-500 transition-transform ${
-                    openFaq === faq.id ? 'rotate-180' : ''
-                  }`}
+                <ChevronDown
+                  className={`h-5 w-5 text-gray-500 transition-transform ${openFaq === faq.id ? 'rotate-180' : ''
+                    }`}
                 />
               </button>
-              
+
               {openFaq === faq.id && (
                 <div className="px-6 pb-6">
                   <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
