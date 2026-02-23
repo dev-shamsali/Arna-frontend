@@ -102,7 +102,7 @@ export default function ContactPage() {
                     <input
                       type="text"
                       name="name"
-                      placeholder="Abdul Aziz"
+                      placeholder="Enter your name"
                       value={formData.name}
                       onChange={handleChange}
                       className="
@@ -131,7 +131,7 @@ export default function ContactPage() {
                       <input
                         type="tel"
                         name="phone"
-                        placeholder="+91 90827 42221"
+                        placeholder="Enter your phone number"
                         value={formData.phone}
                         onChange={handleChange}
                         className="
@@ -157,7 +157,7 @@ export default function ContactPage() {
                       <input
                         type="email"
                         name="email"
-                        placeholder="arnaskincare7@gmail.com"
+                        placeholder="Enter your email address"
                         value={formData.email}
                         onChange={handleChange}
                         className="
