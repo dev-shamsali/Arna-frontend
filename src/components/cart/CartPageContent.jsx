@@ -21,7 +21,14 @@ export default function CartPageContent() {
 
   const discount = 0;
   const shipping = 50;
-  const total = subtotal - discount + shipping;
+
+  // GST 18%
+  const taxableAmount = Math.max(0, subtotal - discount);
+  const cgst = taxableAmount * 0.09;
+  const sgst = taxableAmount * 0.09;
+  const gstTotal = cgst + sgst;
+
+  const total = taxableAmount + gstTotal + shipping;
 
   return (
     <>
@@ -102,6 +109,32 @@ export default function CartPageContent() {
                         {shipping === 0
                           ? "Calculated at checkout"
                           : `₹${shipping.toFixed(2)}`}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">
+                        CGST (9%)
+                      </span>
+                      <span className="text-gray-500">
+                        ₹{cgst.toFixed(2)}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">
+                        SGST (9%)
+                      </span>
+                      <span className="text-gray-500">
+                        ₹{sgst.toFixed(2)}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">
+                        GST (18%)
+                      </span>
+                      <span className="text-gray-500">
+                        ₹{gstTotal.toFixed(2)}
                       </span>
                     </div>
                   </div>

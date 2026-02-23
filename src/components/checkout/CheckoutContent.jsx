@@ -111,7 +111,13 @@ export default function CheckoutContent() {
     [cartItems]
   );
   const shipping = 50;
-  const total = subtotal + shipping ;
+
+  const taxableAmount = subtotal;
+  const cgst = taxableAmount * 0.09;
+  const sgst = taxableAmount * 0.09;
+  const gstTotal = cgst + sgst;
+
+  const total = taxableAmount + gstTotal + shipping;
 
   const handlePayNow = async () => {
     try {
@@ -321,7 +327,7 @@ export default function CheckoutContent() {
 
                 <div className="sm:col-span-2">
                   <label className="block text-gray-700 mb-1">
-                    House No / Bldg No / Office 
+                    House No / Bldg No / Office
                   </label>
                   <input
                     type="text"
@@ -648,6 +654,10 @@ export default function CheckoutContent() {
                   : `₹${shipping.toFixed(2)}`}
               </span>
             </div>
+              <div className="flex justify-between text-gray-600">
+                <span>GST (18%)</span>
+                <span>₹{gstTotal.toFixed(2)}</span>
+              </div>
           </div>
 
           <div className="border-t mt-4 pt-4 flex justify-between items-center">
@@ -657,6 +667,9 @@ export default function CheckoutContent() {
               <div className="text-xl font-bold text-gray-900">
                 ₹{total.toFixed(2)}
               </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Including 18% GST
+              </p>
             </div>
           </div>
 
