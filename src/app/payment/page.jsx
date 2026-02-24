@@ -20,7 +20,7 @@ export default function PaymentPage() {
     const initiatePayment = async () => {
       try {
         const cashfree = await load({
-          mode: process.env.NEXT_PUBLIC_CASHFREE_MODE || "sandbox",
+          mode:"production",
         });
 
         await cashfree.checkout({

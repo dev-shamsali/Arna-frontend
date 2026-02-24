@@ -30,7 +30,7 @@ export default function RetryPaymentPage() {
         }
 
         const cashfree = new window.Cashfree({
-          mode: "sandbox",
+          mode: "production",
         });
 
         cashfree.checkout({
