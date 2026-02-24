@@ -195,7 +195,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#14422c] via-[#1e5e3f] to-[#14422c]"
+      className="relative h-[85vh] sm:h-screen w-full overflow-hidden bg-gradient-to-br from-[#14422c] via-[#1e5e3f] to-[#14422c]"
     >
       <div className="absolute inset-0 w-full h-full">
         {currentSlides.map((slide, i) => (
@@ -218,7 +218,7 @@ export default function Hero() {
                   muted
                   loop
                   playsInline
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-right sm:object-center transform scale-105"
                   onLoadedData={() => setLoaded(true)}
                 />
               ) : (
@@ -228,7 +228,7 @@ export default function Hero() {
                   fill
                   priority={i === 0}
                   unoptimized
-                  className="object-cover"
+                  className="object-cover object-right sm:object-center"
                   onLoad={() => setLoaded(true)}
                   onError={() => setLoaded(true)}
                 />
@@ -241,9 +241,9 @@ export default function Hero() {
         ))}
       </div>
 
-      <div className="relative z-20 h-full flex items-center pt-20 md:pt-32">
+      <div className="relative z-20 h-full flex items-end pb-24 md:items-center md:pt-32 md:pb-0">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="max-w-2xl lg:max-w-3xl text-white text-center md:text-left">
+          <div className="max-w-2xl lg:max-w-3xl text-white text-left">
             <h1
               ref={titleRef}
               className="font-serif text-3xl md:text-5xl lg:text-7xl leading-tight font-medium mb-4 drop-shadow-xl"
@@ -258,7 +258,7 @@ export default function Hero() {
               {currentSlides[active]?.text}
             </p>
 
-            <div ref={buttonsRef} className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mb-10 md:mb-12">
+            <div ref={buttonsRef} className="flex flex-col sm:flex-row items-start justify-start gap-4 mb-10 md:mb-12">
               <Link
                 href="/products"
                 className="w-full sm:w-auto group px-6 py-3.5 md:px-8 md:py-4 bg-emerald-500 text-white font-bold rounded-xl transition-all hover:bg-[#8e5d4d] hover:scale-105 shadow-xl hover:shadow-[#b77f6b]/20 flex items-center justify-center md:justify-start"
@@ -273,7 +273,7 @@ export default function Hero() {
               </Link>
             </div>
 
-            <div className="flex items-center justify-center md:justify-start gap-4">
+            <div className="flex items-center justify-start gap-4">
               <div className="flex gap-4">
                 {currentSlides.map((_, i) => (
                   <div
