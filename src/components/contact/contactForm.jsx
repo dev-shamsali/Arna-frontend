@@ -151,7 +151,7 @@ export default function ContactPage() {
         {/* Hero Text */}
         <div className="relative z-10 pt-20 pb-24 sm:pb-28 md:pb-32 px-4 h-72 sm:h-80 md:h-96 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-light text-white mb-4 sm:mb-6 tracking-[0.2em]">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-light text-white mt-18 sm:mt-20 md:mt-20 lg:mt-2 mb-2 sm:mb-6 tracking-[0.2em]">
               CONTACT US
             </h1>
             <p className="text-white text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed font-light">

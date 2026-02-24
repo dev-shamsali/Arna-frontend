@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Search, User, Heart, ShoppingCart, X, Menu } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCart } from '@/components/cart/CartContext'
 import Image from 'next/image'
@@ -172,16 +172,33 @@ export default function Navbar({ solid = false }) {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex items-center justify-between h-16 sm:h-18">
-          {/* Logo - Responsive sizing */}
-          <Link href="/" className="flex items-center z-50 flex-shrink-0" onClick={closeMobileMenu}>
-            <Image
-              src="/logo1.png"
-              alt="Arna"
-              width={120}
-              height={40}
-              className="h-8 sm:h-9 transition-all duration-300 brightness-100"
-            />
-          </Link>
+          {/* Logo - Responsive sizing - Only shows when navbar becomes solid/scrolled */}
+          <div className="flex items-center z-50 flex-shrink-0">
+            <AnimatePresence>
+              {showSolid && (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                >
+                  <Link
+                    href="/"
+                    className="flex items-center"
+                    onClick={closeMobileMenu}
+                  >
+                    <Image
+                      src="/logo1.png"
+                      alt="Arna"
+                      width={120}
+                      height={40}
+                      className="h-8 sm:h-9 transition-all duration-300 brightness-100"
+                    />
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
 
           {/* Desktop Links */}
