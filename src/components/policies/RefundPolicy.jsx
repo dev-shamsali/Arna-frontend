@@ -85,7 +85,7 @@ export default function RefundPolicyContent() {
                             <div className="mt-6 space-y-4">
                                 <p className="text-slate-800 leading-relaxed">Orders can be cancelled only before they are shipped. Once the order is dispatched, cancellation is not possible due to logistical commitments with our delivery partners.</p>
                                 <div className="bg-stone-50 p-6 rounded-xl border-l-4 border-[#b77f6b]">
-                                    <p className="m-0 font-medium text-[#1c1917] italic">To request cancellation, please contact us immediately at <a href="mailto:support@arnaskincare.in" className="text-[#b77f6b] no-underline">support@arnaskincare.in</a>.</p>
+                                    <p className="m-0 font-medium text-[#1c1917] italic">To request cancellation, please contact us immediately at <a href="mailto:official@arnaskincare.in" className="text-[#b77f6b] no-underline">official@arnaskincare.in</a>.</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -192,7 +192,7 @@ export default function RefundPolicyContent() {
                             <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-stone-50 rounded-2xl border border-stone-100">
                                 <span className="text-sm font-medium text-slate-600">Need further assistance?</span>
                                 <a
-                                    href="mailto:support@arnaskincare.in"
+                                    href="mailto:official@arnaskincare.in"
                                     className="px-6 py-2 bg-[#1e5e3f] text-white rounded-lg text-sm font-bold transition-transform hover:scale-105"
                                 >
                                     Contact Support

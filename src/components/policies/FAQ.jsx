@@ -64,7 +64,7 @@ export default function FAQContent() {
         },
         {
             question: "What if I receive a damaged product?",
-            answer: "Please contact us within 48 hours of delivery with an unboxing video or clear images at support@arnaskincare.in.",
+            answer: "Please contact us within 48 hours of delivery with an unboxing video or clear images at official@arnaskincare.in.",
             category: "returns"
         },
         {
@@ -74,7 +74,7 @@ export default function FAQContent() {
         },
         {
             question: "How can I contact customer support?",
-            answer: "You can contact us at:\nEmail: support@arnaskincare.in\nWebsite: https://arnaskincare.in",
+            answer: "You can contact us at:\nEmail: official@arnaskincare.in\nWebsite: https://arnaskincare.in",
             category: "support"
         }
     ]
@@ -204,8 +204,8 @@ export default function FAQContent() {
                                                     )}
                                                     {faq.category === "support" && index === 12 && (
                                                         <div className="mt-4 space-y-2">
-                                                            <a href="mailto:support@arnaskincare.in" className="block text-[#b77f6b] font-semibold underline hover:text-[#1e5e3f] transition-colors">
-                                                                support@arnaskincare.in
+                                                            <a href="mailto:official@arnaskincare.in" className="block text-[#b77f6b] font-semibold underline hover:text-[#1e5e3f] transition-colors">
+                                                                official@arnaskincare.in
                                                             </a>
                                                             <a href="https://arnaskincare.in" className="block text-[#b77f6b] font-semibold underline hover:text-[#1e5e3f] transition-colors">
                                                                 https://arnaskincare.in
@@ -235,7 +235,7 @@ export default function FAQContent() {
                         <div className="flex items-center gap-3 p-4 bg-white/5 rounded-xl border border-white/10 max-w-xl mx-auto">
                             <AlertCircle className="w-5 h-5 text-[#b77f6b] shrink-0" />
                             <p className="m-0 text-sm text-white/80">
-                                Email us at <a href="mailto:support@arnaskincare.in" className="text-[#b77f6b] underline font-semibold">support@arnaskincare.in</a>
+                                Email us at <a href="mailto:official@arnaskincare.in" className="text-[#b77f6b] underline font-semibold">official@arnaskincare.in</a>
                             </p>
                         </div>
                     </motion.div>

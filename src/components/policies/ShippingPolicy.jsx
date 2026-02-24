@@ -195,7 +195,7 @@ export default function ShippingPolicyContent() {
                                 </div>
                                 <div className="mt-6 flex items-center gap-3 p-4 bg-amber-50 rounded-xl border border-amber-100">
                                     <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
-                                    <p className="m-0 text-xs text-amber-950 font-semibold italic">Contact us within 48 hours at support@arnaskincare.in with your order ID and the video proof.</p>
+                                    <p className="m-0 text-xs text-amber-950 font-semibold italic">Contact us within 48 hours at official@arnaskincare.in with your order ID and the video proof.</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -206,7 +206,7 @@ export default function ShippingPolicyContent() {
                             <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-stone-50 rounded-2xl border border-stone-100 shadow-sm">
                                 <span className="text-sm font-semibold text-slate-700">Still have questions?</span>
                                 <a
-                                    href="mailto:support@arnaskincare.in"
+                                    href="mailto:official@arnaskincare.in"
                                     className="px-8 py-3 bg-[#1e5e3f] text-white rounded-lg text-sm font-bold transition-all hover:scale-105 hover:shadow-lg active:scale-95"
                                 >
                                     Contact Support
