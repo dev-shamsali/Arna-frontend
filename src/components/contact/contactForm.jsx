@@ -142,7 +142,7 @@ export default function ContactPage() {
         <div
           className="absolute top-0 left-0 w-full h-72 sm:h-80 md:h-96"
           style={{
-            background: 'url("/contact/pic2.jpeg") center center / cover no-repeat',
+            background: 'url("/contact/ContactBanner.webp") center center / cover no-repeat',
           }}
         >
           <div className="absolute inset-0 bg-black opacity-40" />
