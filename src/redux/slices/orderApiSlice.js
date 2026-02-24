@@ -35,6 +35,13 @@ export const orderApiSlice = apiSlice.injectEndpoints({
             query: (orderId) => `/orders/${orderId}/get`,
         }),
 
+        previewOrder: builder.mutation({
+            query: (data) => ({
+                url: "/orders/preview",
+                method: "POST",
+                body: data,
+            }),
+        }),
 
 
     }),
@@ -45,5 +52,6 @@ export const {
     useGetOrderByIdQuery,
     useRetryPaymentMutation,
     useRefundOrderMutation,
-    useGetMyOrdersQuery
+    useGetMyOrdersQuery,
+    usePreviewOrderMutation,
 } = orderApiSlice;

@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { useGetMeQuery, useUpdateAddressMutation, useAddAddressMutation, useUpdateMeMutation } from "@/redux/slices/authApislice";
-import { useCreateOrderMutation } from "@/redux/slices/orderApiSlice";
+import { useCreateOrderMutation, usePreviewOrderMutation } from "@/redux/slices/orderApiSlice";
 const INDIAN_STATES = [
   "Andhra Pradesh",
   "Arunachal Pradesh",
@@ -67,7 +67,8 @@ export default function CheckoutContent() {
   });
   const [isEditingAddress, setIsEditingAddress] = useState(true);
   const [createOrder, { isLoading }] = useCreateOrderMutation();
-
+  const [previewOrder, { data: pricingData, isLoading: isPreviewLoading,isError: isPreviewError }] =
+    usePreviewOrderMutation();
 
   useEffect(() => {
     if (data?.user) {
@@ -105,19 +106,18 @@ export default function CheckoutContent() {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (!currentAddressId || cartItems.length === 0) return;
 
-  const subtotal = useMemo(
-    () => cartItems.reduce((sum, item) => sum + item.price * item.qty, 0),
-    [cartItems]
-  );
-  const shipping = 50;
+    previewOrder({
+      items: cartItems.map(item => ({
+        productId: item.id,
+        quantity: item.qty,
+      })),
+      addressId: currentAddressId,
+    });
 
-  const taxableAmount = subtotal;
-  const cgst = taxableAmount * 0.09;
-  const sgst = taxableAmount * 0.09;
-  const gstTotal = cgst + sgst;
-
-  const total = taxableAmount + gstTotal + shipping;
+  }, [currentAddressId, cartItems,previewOrder]);
 
   const handlePayNow = async () => {
     try {
@@ -628,7 +628,7 @@ export default function CheckoutContent() {
             <div className="flex justify-between">
               <span className="text-gray-600">Subtotal</span>
               <span className="font-medium text-gray-900">
-                ₹{subtotal.toFixed(2)}
+                ₹{pricingData?.subtotal?.toFixed(2) || "0.00"}
               </span>
             </div>
             <div className="flex justify-between items-center">
@@ -649,15 +649,13 @@ export default function CheckoutContent() {
                 </svg>
               </div>
               <span className="text-gray-500 text-xs">
-                {shipping === 0
-                  ? "Enter shipping address"
-                  : `₹${shipping.toFixed(2)}`}
+                ₹{pricingData?.shippingCharge?.toFixed(2) || "0.00"}
               </span>
             </div>
-              <div className="flex justify-between text-gray-600">
-                <span>GST (18%)</span>
-                <span>₹{gstTotal.toFixed(2)}</span>
-              </div>
+            <div className="flex justify-between text-gray-600">
+              <span>GST (18%)</span>
+              <span>₹{pricingData?.gstTotal?.toFixed(2) || "0.00"}</span>
+            </div>
           </div>
 
           <div className="border-t mt-4 pt-4 flex justify-between items-center">
@@ -665,7 +663,7 @@ export default function CheckoutContent() {
             <div className="text-right">
               <div className="text-xs text-gray-500 mb-0.5">INR</div>
               <div className="text-xl font-bold text-gray-900">
-                ₹{total.toFixed(2)}
+                ₹{pricingData?.totalAmount?.toFixed(2) || "0.00"}
               </div>
               <p className="text-xs text-gray-500 mt-1">
                 Including 18% GST
@@ -676,7 +674,7 @@ export default function CheckoutContent() {
           {/* Pay now with shine animation */}
           <button
             onClick={handlePayNow}
-            disabled={isLoading}
+           disabled={isLoading || isPreviewLoading || !pricingData || isPreviewError}
             className={`relative mt-5 w-full rounded-full px-4 py-3 text-sm font-semibold text-white shadow-md transition
     ${isLoading
                 ? "bg-emerald-400 cursor-not-allowed"

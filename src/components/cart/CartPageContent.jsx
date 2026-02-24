@@ -19,16 +19,8 @@ export default function CartPageContent() {
     [cartItems]
   );
 
-  const discount = 0;
-  const shipping = 50;
-
-  // GST 18%
-  const taxableAmount = Math.max(0, subtotal - discount);
-  const cgst = taxableAmount * 0.09;
-  const sgst = taxableAmount * 0.09;
-  const gstTotal = cgst + sgst;
-
-  const total = taxableAmount + gstTotal + shipping;
+  const estimatedGst = subtotal * 0.18;
+  const estimatedTotal = subtotal + estimatedGst;
 
   return (
     <>
@@ -98,51 +90,23 @@ export default function CartPageContent() {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Discount</span>
-                      <span className="text-gray-500">
-                        ₹{discount.toFixed(2)}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
                       <span className="text-gray-600">Shipping</span>
                       <span className="text-gray-500">
-                        {shipping === 0
-                          ? "Calculated at checkout"
-                          : `₹${shipping.toFixed(2)}`}
+                        Calculated at checkout
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">
-                        CGST (9%)
-                      </span>
+                      <span className="text-gray-600">Estimated GST (18%)</span>
                       <span className="text-gray-500">
-                        ₹{cgst.toFixed(2)}
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">
-                        SGST (9%)
-                      </span>
-                      <span className="text-gray-500">
-                        ₹{sgst.toFixed(2)}
-                      </span>
-                    </div>
-
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">
-                        GST (18%)
-                      </span>
-                      <span className="text-gray-500">
-                        ₹{gstTotal.toFixed(2)}
+                        Calculated at checkout
                       </span>
                     </div>
                   </div>
 
                   <div className="mt-3 sm:mt-4 flex justify-between items-center text-sm border-t border-gray-100 pt-3 sm:pt-4">
-                    <span className="font-semibold text-gray-900">Total</span>
+                    <span className="font-semibold text-gray-900">Sub Total</span>
                     <span className="text-base sm:text-lg font-semibold text-gray-900">
-                      ₹{total.toFixed(2)}
+                      ₹{subtotal.toFixed(2)}
                     </span>
                   </div>
 
