@@ -34,7 +34,7 @@ export default function AboutHero() {
   return (
     <header className="relative w-full h-screen min-h-[600px] overflow-hidden flex items-center justify-center">
 
-      {/* Background Image */}
+      {/* Background Images */}
       <img
         src={imageUrl}
         alt="Botanical textures and natural ingredients"
@@ -42,7 +42,19 @@ export default function AboutHero() {
         decoding="async"
         onLoad={() => setImageLoaded(true)}
         className={`
-          absolute inset-0 w-full h-full object-cover object-center
+          absolute inset-0 w-full h-full object-cover object-center hidden sm:block
+          transition-opacity duration-700 ease-out
+          ${imageLoaded ? 'opacity-100' : 'opacity-0'}
+        `}
+      />
+      <img
+        src={mobileImageUrl}
+        alt="Botanical textures and natural ingredients"
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setImageLoaded(true)}
+        className={`
+          absolute inset-0 w-full h-full object-cover object-center block sm:hidden
           transition-opacity duration-700 ease-out
           ${imageLoaded ? 'opacity-100' : 'opacity-0'}
         `}

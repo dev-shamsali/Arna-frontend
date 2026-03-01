@@ -52,15 +52,14 @@ export default function Hero() {
           imageUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}${imageUrl}`;
         }
 
-        const fallbackMobileImages = [
-          '/banner/mobilebanner.png',
-          '/banner/mobilebanner2.png',
-          '/banner/mobilebanner3.png'
-        ];
+        let mobileImageUrl = slide.mobileImageUrl || '';
+        if (mobileImageUrl && !mobileImageUrl.startsWith('http')) {
+          mobileImageUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}${mobileImageUrl}`;
+        }
 
         return {
           image: imageUrl,
-          mobileImage: fallbackMobileImages[index % fallbackMobileImages.length],
+          mobileImage: mobileImageUrl,
           title: slide.title || '',
           text: slide.description || '',
           mediaType: slide.mediaType || 'image'
@@ -228,28 +227,22 @@ export default function Hero() {
                   muted
                   loop
                   playsInline
-                  className="w-full h-full object-cover object-right sm:object-center transform scale-105"
+                  className="w-full h-full object-cover object-center"
                   onLoadedData={() => setLoaded(true)}
                 />
               ) : (
                 <>
-                  <Image
+                  <img
                     src={slide.image}
                     alt={slide.title}
-                    fill
-                    priority={i === 0}
-                    unoptimized
-                    className="hidden sm:block object-cover object-right sm:object-center"
+                    className="hidden sm:block absolute inset-0 w-full h-full object-cover object-right-top"
                     onLoad={() => setLoaded(true)}
                     onError={() => setLoaded(true)}
                   />
-                  <Image
+                  <img
                     src={slide.mobileImage || slide.image}
                     alt={slide.title}
-                    fill
-                    priority={i === 0}
-                    unoptimized
-                    className="block sm:hidden object-cover object-right sm:object-center"
+                    className="block sm:hidden absolute inset-0 w-full h-full object-cover object-center"
                     onLoad={() => setLoaded(true)}
                     onError={() => setLoaded(true)}
                   />
