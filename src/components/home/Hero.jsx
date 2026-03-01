@@ -9,16 +9,19 @@ import { useGetHomeHeroQuery } from '@/redux/slices/cmsSlice'
 const DEFAULT_SLIDES = [
   {
     image: '/home/hero/hero-2.jpg',
+    mobileImage: '/banner/mobilebanner.png',
     title: 'Powered by Botanical Actives',
     text: 'Infused with plant-based extracts that nurture and strengthen your skin.',
   },
   {
     image: '/home/hero/hero-3.jpg',
+    mobileImage: '/banner/mobilebanner2.png',
     title: 'Nature Meets Modern Care',
     text: 'Thoughtfully crafted formulas that balance tradition and science.',
   },
   {
     image: '/home/hero/hero-5.jpg',
+    mobileImage: '/banner/mobilebanner3.png',
     title: 'Honest Skincare You Can Trust',
     text: 'No harsh chemicals. No shortcuts. Just clean, conscious beauty.',
   },
@@ -42,15 +45,22 @@ export default function Hero() {
   useEffect(() => {
     if (apiData?.success && apiData?.data?.length > 0) {
       // Map API data to slide format
-      const backendSlides = apiData.data.map(slide => {
+      const backendSlides = apiData.data.map((slide, index) => {
         // Handle image URL robustly
         let imageUrl = slide.imageUrl || '';
         if (imageUrl && !imageUrl.startsWith('http')) {
           imageUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'}${imageUrl}`;
         }
 
+        const fallbackMobileImages = [
+          '/banner/mobilebanner.png',
+          '/banner/mobilebanner2.png',
+          '/banner/mobilebanner3.png'
+        ];
+
         return {
           image: imageUrl,
+          mobileImage: fallbackMobileImages[index % fallbackMobileImages.length],
           title: slide.title || '',
           text: slide.description || '',
           mediaType: slide.mediaType || 'image'
@@ -222,16 +232,28 @@ export default function Hero() {
                   onLoadedData={() => setLoaded(true)}
                 />
               ) : (
-                <Image
-                  src={slide.image}
-                  alt={slide.title}
-                  fill
-                  priority={i === 0}
-                  unoptimized
-                  className="object-cover object-right sm:object-center"
-                  onLoad={() => setLoaded(true)}
-                  onError={() => setLoaded(true)}
-                />
+                <>
+                  <Image
+                    src={slide.image}
+                    alt={slide.title}
+                    fill
+                    priority={i === 0}
+                    unoptimized
+                    className="hidden sm:block object-cover object-right sm:object-center"
+                    onLoad={() => setLoaded(true)}
+                    onError={() => setLoaded(true)}
+                  />
+                  <Image
+                    src={slide.mobileImage || slide.image}
+                    alt={slide.title}
+                    fill
+                    priority={i === 0}
+                    unoptimized
+                    className="block sm:hidden object-cover object-right sm:object-center"
+                    onLoad={() => setLoaded(true)}
+                    onError={() => setLoaded(true)}
+                  />
+                </>
               )}
 
               <div className="absolute inset-0 bg-gradient-to-br from-[#14422c]/40 via-transparent to-black/50" />
@@ -258,16 +280,16 @@ export default function Hero() {
               {currentSlides[active]?.text}
             </p>
 
-            <div ref={buttonsRef} className="flex flex-col sm:flex-row items-start justify-start gap-4 mb-10 md:mb-12">
+            <div ref={buttonsRef} className="flex flex-row items-center justify-start gap-3 sm:gap-4 mb-8 md:mb-12">
               <Link
                 href="/products"
-                className="w-full sm:w-auto group px-6 py-3.5 md:px-8 md:py-4 bg-emerald-500 text-white font-bold rounded-xl transition-all hover:bg-[#8e5d4d] hover:scale-105 shadow-xl hover:shadow-[#b77f6b]/20 flex items-center justify-center md:justify-start"
+                className="w-auto flex-1 sm:flex-none group px-4 py-2.5 sm:px-6 sm:py-3.5 md:px-8 md:py-4 bg-emerald-500 text-white font-bold text-sm sm:text-base rounded-xl transition-all hover:bg-[#8e5d4d] hover:scale-105 shadow-xl hover:shadow-[#b77f6b]/20 flex items-center justify-center"
               >
                 Explore Products →
               </Link>
               <Link
                 href="/about"
-                className="w-full sm:w-auto group px-6 py-3.5 md:px-8 md:py-4 border-2 border-white/80 text-white font-bold rounded-xl hover:bg-white hover:text-[#0a2e1a] transition-all backdrop-blur-sm hover:scale-105 flex items-center justify-center md:justify-start"
+                className="w-auto flex-1 sm:flex-none group px-4 py-2.5 sm:px-6 sm:py-3.5 md:px-8 md:py-4 border-2 border-white/80 text-white font-bold text-sm sm:text-base rounded-xl hover:bg-white hover:text-[#0a2e1a] transition-all backdrop-blur-sm hover:scale-105 flex items-center justify-center"
               >
                 Our Philosophy
               </Link>
