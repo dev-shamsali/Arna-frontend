@@ -9,19 +9,16 @@ import { useGetHomeHeroQuery } from '@/redux/slices/cmsSlice'
 const DEFAULT_SLIDES = [
   {
     image: '/home/hero/hero-2.jpg',
-    mobileImage: '/banner/mobilebanner.png',
     title: 'Powered by Botanical Actives',
     text: 'Infused with plant-based extracts that nurture and strengthen your skin.',
   },
   {
     image: '/home/hero/hero-3.jpg',
-    mobileImage: '/banner/mobilebanner2.png',
     title: 'Nature Meets Modern Care',
     text: 'Thoughtfully crafted formulas that balance tradition and science.',
   },
   {
     image: '/home/hero/hero-5.jpg',
-    mobileImage: '/banner/mobilebanner3.png',
     title: 'Honest Skincare You Can Trust',
     text: 'No harsh chemicals. No shortcuts. Just clean, conscious beauty.',
   },
@@ -59,7 +56,7 @@ export default function Hero() {
 
         return {
           image: imageUrl,
-          mobileImage: mobileImageUrl,
+          mobileImage: mobileImageUrl || imageUrl, // Fallback ONLY to the main CMS image, no more hardcoded banners
           title: slide.title || '',
           text: slide.description || '',
           mediaType: slide.mediaType || 'image'
@@ -204,9 +201,9 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen sm:h-[75vh] w-full overflow-hidden bg-[#14422c]"
+      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#14422c] via-[#1e5e3f] to-[#14422c] touch-none"
     >
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
         {currentSlides.map((slide, i) => (
           <div
             key={i}
@@ -232,20 +229,23 @@ export default function Hero() {
                 />
               ) : (
                 <>
-                  <img
-                    src={slide.image}
-                    alt={slide.title}
-                    className="hidden sm:block absolute inset-0 w-full h-full object-cover object-center"
-                    onLoad={() => setLoaded(true)}
-                    onError={() => setLoaded(true)}
-                  />
-                  <img
-                    src={slide.mobileImage || slide.image}
-                    alt={slide.title}
-                    className="block sm:hidden absolute inset-0 w-full h-full object-cover object-center"
-                    onLoad={() => setLoaded(true)}
-                    onError={() => setLoaded(true)}
-                  />
+                  <picture className="w-full h-full block">
+                    {/* Mobile image: shown on screens narrower than 768px */}
+                    {slide.mobileImage && (
+                      <source
+                        media="(max-width: 767px)"
+                        srcSet={slide.mobileImage}
+                      />
+                    )}
+                    {/* Desktop image: default fallback */}
+                    <img
+                      src={slide.image}
+                      alt={slide.title}
+                      className="w-full h-full object-cover object-right-top md:object-right-top object-center"
+                      onLoad={() => setLoaded(true)}
+                      onError={() => setLoaded(true)}
+                    />
+                  </picture>
                 </>
               )}
 
