@@ -201,7 +201,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#14422c] via-[#1e5e3f] to-[#14422c]"
+      className="relative h-[80vh] md:h-screen w-full overflow-hidden bg-gradient-to-br from-[#14422c] via-[#1e5e3f] to-[#14422c]"
     >
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         {currentSlides.map((slide, i) => (
@@ -256,9 +256,9 @@ export default function Hero() {
         ))}
       </div>
 
-      <div className="relative z-20 h-full flex items-end pb-24 md:items-center md:pt-32 md:pb-0">
+      <div className="relative z-20 h-full flex items-start pt-48 md:items-center md:pt-32 md:pb-0">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="max-w-2xl lg:max-w-3xl text-white text-left">
+          <div className="max-w-xl lg:max-w-3xl text-white text-left">
             <h1
               ref={titleRef}
               className="font-serif text-3xl md:text-5xl lg:text-7xl leading-tight font-medium mb-4 drop-shadow-xl"
@@ -268,21 +268,21 @@ export default function Hero() {
 
             <p
               ref={textRef}
-              className="text-sm sm:text-lg text-white/90 max-w-xl mx-auto md:mx-0 leading-relaxed mb-8 md:mb-10 font-light drop-shadow-md"
+              className="text-sm sm:text-lg text-white/90 max-w-xl md:mx-0 leading-relaxed mb-8 md:mb-10 font-light drop-shadow-md"
             >
               {currentSlides[active]?.text}
             </p>
 
-            <div ref={buttonsRef} className="flex flex-row items-center justify-start gap-3 sm:gap-4 mb-8 md:mb-12">
+            <div ref={buttonsRef} className="flex flex-row items-center justify-start gap-2 sm:gap-4 mb-8 md:mb-12">
               <Link
                 href="/products"
-                className="w-auto flex-1 sm:flex-none group px-4 py-2.5 sm:px-6 sm:py-3.5 md:px-8 md:py-4 bg-emerald-500 text-white font-bold text-sm sm:text-base rounded-xl transition-all hover:bg-[#8e5d4d] hover:scale-105 shadow-xl hover:shadow-[#b77f6b]/20 flex items-center justify-center"
+                className="w-auto group px-5 py-3 sm:px-6 sm:py-3.5 md:px-8 md:py-4 bg-emerald-500 text-white font-bold text-xs sm:text-base rounded-xl transition-all hover:bg-[#8e5d4d] hover:scale-105 shadow-xl hover:shadow-[#b77f6b]/20 flex items-center justify-center whitespace-nowrap"
               >
                 Explore Products →
               </Link>
               <Link
                 href="/about"
-                className="w-auto flex-1 sm:flex-none group px-4 py-2.5 sm:px-6 sm:py-3.5 md:px-8 md:py-4 border-2 border-white/80 text-white font-bold text-sm sm:text-base rounded-xl hover:bg-white hover:text-[#0a2e1a] transition-all backdrop-blur-sm hover:scale-105 flex items-center justify-center"
+                className="w-auto group px-5 py-3 sm:px-6 sm:py-3.5 md:px-8 md:py-4 border-2 border-white/80 text-white font-bold text-xs sm:text-base rounded-xl hover:bg-white hover:text-[#0a2e1a] transition-all backdrop-blur-sm hover:scale-105 flex items-center justify-center whitespace-nowrap"
               >
                 Our Philosophy
               </Link>
