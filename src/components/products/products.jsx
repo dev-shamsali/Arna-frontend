@@ -6,19 +6,22 @@ import { useGetProductsQuery } from '@/redux/slices/cmsSlice';
 import BestSellers from './BestSellers';
 import ProductCard from './ProductsCard';
 import { useSearchParams } from 'next/navigation';
-
+import { useGetProductsHeroQuery } from '@/redux/slices/cmsSlice';
 const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
-
 const ProductsPage = () => {
     const searchParams = useSearchParams();
     const urlSearch = searchParams.get('search') || '';
-
+    
     const [activeCategory, setActiveCategory] = useState('all');
     const [activeProblem, setActiveProblem] = useState(null);
     const [visibleCount, setVisibleCount] = useState(5);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState(urlSearch);
-
+    const { data: heroData } = useGetProductsHeroQuery();
+    const heroImage = heroData?.image
+        ? `${API_BASE_URL}${heroData.image}`
+        : "/Our Products Banner.webp"; // fallback
+        console.log("Hero Image URL:", heroImage);
     // Update local search query if URL search param changes
     useEffect(() => {
         setSearchQuery(urlSearch);
@@ -133,7 +136,7 @@ const ProductsPage = () => {
             {/* Hero Header */}
             <section
                 className="relative bg-cover bg-center bg-no-repeat py-16 md:py-24 px-4"
-                style={{ backgroundImage: "url('/Our Products Banner.webp')" }}
+                style={{ backgroundImage: `url(${heroImage})` }}
             >
                 <div className="absolute inset-0 bg-black/10"></div>
 

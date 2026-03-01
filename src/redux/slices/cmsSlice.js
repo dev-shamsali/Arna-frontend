@@ -66,7 +66,10 @@ export const cmsApi = apiSlice.injectEndpoints({
     getOurStory: builder.query({
       query: () => "/our-story/get",
       providesTags: ["OurStory"],
-    })
+    }),
+    getProductsHero: builder.query({
+      query: () => "/producthero/products-hero",
+    }),
 
   }),
 });
@@ -82,4 +85,5 @@ export const {
   useGetProductQuery,
   useGetPopupPromoQuery,
   useGetOurStoryQuery,
+  useGetProductsHeroQuery,
 } = cmsApi;
