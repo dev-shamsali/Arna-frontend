@@ -201,7 +201,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#14422c] via-[#1e5e3f] to-[#14422c] touch-none"
+      className="relative h-screen w-full overflow-hidden bg-gradient-to-br from-[#14422c] via-[#1e5e3f] to-[#14422c]"
     >
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         {currentSlides.map((slide, i) => (
