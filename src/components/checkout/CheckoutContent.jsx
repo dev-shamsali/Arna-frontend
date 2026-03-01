@@ -67,7 +67,7 @@ export default function CheckoutContent() {
   });
   const [isEditingAddress, setIsEditingAddress] = useState(true);
   const [createOrder, { isLoading }] = useCreateOrderMutation();
-  const [previewOrder, { data: pricingData, isLoading: isPreviewLoading,isError: isPreviewError }] =
+  const [previewOrder, { data: pricingData, isLoading: isPreviewLoading, isError: isPreviewError }] =
     usePreviewOrderMutation();
 
   useEffect(() => {
@@ -106,6 +106,24 @@ export default function CheckoutContent() {
     }
   }, [data]);
 
+  // ── Local pricing fallback (shown before address is saved / preview loads) ──
+  const localPricing = useMemo(() => {
+    const subtotal = +cartItems
+      .reduce((sum, item) => sum + item.price * item.qty, 0)
+      .toFixed(2);
+    const shippingCharge = 150; // conservative default; recalculated by backend once address is saved
+    const taxableAmount = +(subtotal + shippingCharge).toFixed(2);
+    const cgst = +(taxableAmount * 0.09).toFixed(2);
+    const sgst = +(taxableAmount * 0.09).toFixed(2);
+    const gstTotal = +(cgst + sgst).toFixed(2);
+    const totalAmount = +(taxableAmount + gstTotal).toFixed(2);
+    return { subtotal, shippingCharge, taxableAmount, cgst, sgst, gstTotal, totalAmount };
+  }, [cartItems]);
+
+  // Use confirmed server pricing when available, else show local estimate
+  const displayPricing = pricingData ?? localPricing;
+  const isEstimate = !pricingData;
+
   useEffect(() => {
     if (!currentAddressId || cartItems.length === 0) return;
 
@@ -117,7 +135,7 @@ export default function CheckoutContent() {
       addressId: currentAddressId,
     });
 
-  }, [currentAddressId, cartItems,previewOrder]);
+  }, [currentAddressId, cartItems, previewOrder]);
 
   const handlePayNow = async () => {
     try {
@@ -628,7 +646,7 @@ export default function CheckoutContent() {
             <div className="flex justify-between">
               <span className="text-gray-600">Subtotal</span>
               <span className="font-medium text-gray-900">
-                ₹{pricingData?.subtotal?.toFixed(2) || "0.00"}
+                ₹{displayPricing.subtotal.toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between items-center">
@@ -647,41 +665,47 @@ export default function CheckoutContent() {
                     strokeLinecap="round"
                   />
                 </svg>
+                {isEstimate && (
+                  <span className="text-[10px] text-amber-500 font-medium">est.</span>
+                )}
               </div>
               <span className="text-gray-500 text-xs">
-                ₹{pricingData?.shippingCharge?.toFixed(2) || "0.00"}
+                ₹{displayPricing.shippingCharge.toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between text-gray-600">
               <span>CGST (9%)</span>
-              <span>₹{pricingData?.cgst?.toFixed(2) || "0.00"}</span>
-            </div><div className="flex justify-between text-gray-600">
+              <span>₹{displayPricing.cgst.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between text-gray-600">
               <span>SGST (9%)</span>
-              <span>₹{pricingData?.sgst?.toFixed(2) || "0.00"}</span>
+              <span>₹{displayPricing.sgst.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-gray-600">
               <span>Total GST (18%)</span>
-              <span>₹{pricingData?.gstTotal?.toFixed(2) || "0.00"}</span>
+              <span>₹{displayPricing.gstTotal.toFixed(2)}</span>
             </div>
           </div>
 
           <div className="border-t mt-4 pt-4 flex justify-between items-center">
-            <span className="text-base font-semibold text-gray-900">Total</span>
+            <div>
+              <span className="text-base font-semibold text-gray-900">Total</span>
+              {isEstimate && (
+                <p className="text-[10px] text-amber-500 mt-0.5">Save address to confirm</p>
+              )}
+            </div>
             <div className="text-right">
               <div className="text-xs text-gray-500 mb-0.5">INR</div>
               <div className="text-xl font-bold text-gray-900">
-                ₹{pricingData?.totalAmount?.toFixed(2) || "0.00"}
+                ₹{displayPricing.totalAmount.toFixed(2)}
               </div>
-              {/* <p className="text-xs text-gray-500 mt-1">
-                Including 18% GST
-              </p> */}
             </div>
           </div>
 
           {/* Pay now with shine animation */}
           <button
             onClick={handlePayNow}
-           disabled={isLoading || isPreviewLoading || !pricingData || isPreviewError}
+            disabled={isLoading || isPreviewLoading || !pricingData || isPreviewError}
             className={`relative mt-5 w-full rounded-full px-4 py-3 text-sm font-semibold text-white shadow-md transition
     ${isLoading
                 ? "bg-emerald-400 cursor-not-allowed"
