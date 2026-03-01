@@ -204,7 +204,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative h-[85vh] sm:h-screen w-full overflow-hidden bg-gradient-to-br from-[#14422c] via-[#1e5e3f] to-[#14422c]"
+      className="relative h-screen sm:h-[75vh] w-full overflow-hidden bg-[#14422c]"
     >
       <div className="absolute inset-0 w-full h-full">
         {currentSlides.map((slide, i) => (
@@ -235,7 +235,7 @@ export default function Hero() {
                   <img
                     src={slide.image}
                     alt={slide.title}
-                    className="hidden sm:block absolute inset-0 w-full h-full object-cover object-right-top"
+                    className="hidden sm:block absolute inset-0 w-full h-full object-cover object-center"
                     onLoad={() => setLoaded(true)}
                     onError={() => setLoaded(true)}
                   />
