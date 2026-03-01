@@ -1,28 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Sidebar from "@/components/profile/Sidebar";
 import OrdersSection from "@/components/profile/OrdersSection";
 import ProfileSection from "@/components/profile/ProfileSection";
 import AddressesSection from "@/components/profile/AddressesSection";
 import PaymentSection from "@/components/profile/PaymentSection";
 import HelpSection from "@/components/profile/HelpSection";
+import { useRouter } from "next/navigation"
 import { useGetMeQuery, useLogoutMutation } from "@/redux/slices/authApislice";
+import { useDispatch } from "react-redux";
+import { apiSlice } from "@/redux/slices/apiSlice";
 export default function Content() {
   const [active, setActive] = useState("orders");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data, isLoading, error } = useGetMeQuery();
   const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
-
+  const router = useRouter();
+  const dispatch = useDispatch();
   if (isLoading) {
     return <div className="pt-24 text-center">Loading profile...</div>;
   }
 
   // 401 → not logged in
-  if (error?.status === 401) {
-    window.location.href = "/login";
-    return null;
-  }
+  useEffect(() => {
+    if (error?.status === 401) {
+      router.replace("/login");
+    }
+  }, [error, router]);
 
   // 404 or any other error
   if (error) {
@@ -34,10 +39,15 @@ export default function Content() {
     return <div className="pt-24 text-center">Loading user...</div>;
   }
 
+
   const handleLogout = async () => {
     try {
-      await logout().unwrap();   // calls backend logout
-      window.location.href = "/login";  // redirect after logout
+      await logout().unwrap();
+
+      // 🔥 This clears ALL RTK Query cache instantly
+      dispatch(apiSlice.util.resetApiState());
+
+      router.push("/login");
     } catch (err) {
       console.error("Logout failed:", err);
     }

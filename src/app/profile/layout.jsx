@@ -6,10 +6,12 @@ import Sidebar from "@/components/profile/Sidebar";
 import { useGetMeQuery, useLogoutMutation } from "@/redux/slices/authApislice";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
-
+import { useDispatch } from "react-redux";
+import { apiSlice } from "@/redux/slices/apiSlice";
 export default function ProfileLayout({ children }) {
     const pathname = usePathname();
     const router = useRouter();
+    const dispatch = useDispatch();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const { data, isLoading, error } = useGetMeQuery();
     const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
@@ -56,9 +58,14 @@ export default function ProfileLayout({ children }) {
         );
     }
 
+
     const handleLogout = async () => {
         try {
             await logout().unwrap();
+
+            // 🔥 This clears ALL RTK Query cache instantly
+            dispatch(apiSlice.util.resetApiState());
+
             router.push("/login");
         } catch (err) {
             console.error("Logout failed:", err);
