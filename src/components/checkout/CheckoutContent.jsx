@@ -567,7 +567,7 @@ export default function CheckoutContent() {
             </div>
 
             {/* COD Option */}
-            <div
+            {/* <div
               className={`rounded-xl border p-4 cursor-pointer transition-all ${paymentMethod === "cod"
                 ? "border-emerald-400 bg-emerald-50 shadow-sm"
                 : "border-gray-200 bg-white hover:border-emerald-200"
@@ -589,7 +589,7 @@ export default function CheckoutContent() {
               <p className="mt-1.5 text-[11px] text-gray-500">
                 Pay with cash or card when the order is delivered.
               </p>
-            </div>
+            </div> */}
           </div>
         </section>
 
@@ -653,7 +653,14 @@ export default function CheckoutContent() {
               </span>
             </div>
             <div className="flex justify-between text-gray-600">
-              <span>GST (18%)</span>
+              <span>CGST (9%)</span>
+              <span>₹{pricingData?.cgst?.toFixed(2) || "0.00"}</span>
+            </div><div className="flex justify-between text-gray-600">
+              <span>SGST (9%)</span>
+              <span>₹{pricingData?.sgst?.toFixed(2) || "0.00"}</span>
+            </div>
+            <div className="flex justify-between text-gray-600">
+              <span>Total GST (18%)</span>
               <span>₹{pricingData?.gstTotal?.toFixed(2) || "0.00"}</span>
             </div>
           </div>
@@ -665,9 +672,9 @@ export default function CheckoutContent() {
               <div className="text-xl font-bold text-gray-900">
                 ₹{pricingData?.totalAmount?.toFixed(2) || "0.00"}
               </div>
-              <p className="text-xs text-gray-500 mt-1">
+              {/* <p className="text-xs text-gray-500 mt-1">
                 Including 18% GST
-              </p>
+              </p> */}
             </div>
           </div>
 
