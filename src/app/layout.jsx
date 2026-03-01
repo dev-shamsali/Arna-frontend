@@ -1,5 +1,5 @@
 import './globals.css'
-import { Inter, Playfair_Display, Cinzel } from 'next/font/google'
+import { Inter, Playfair_Display, Cinzel, Pinyon_Script } from 'next/font/google'
 import ConditionalNavbar from '@/components/layout/ConditionalNavbar'
 import { CartProvider } from '@/components/cart/CartContext'
 import { WishlistProvider } from '@/components/wishlist/WishlistContext' // ← Add this
@@ -26,6 +26,13 @@ const accentFont = Cinzel({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-accent',
+  display: 'swap',
+})
+
+const calligraphy = Pinyon_Script({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-calligraphy',
   display: 'swap',
 })
 
@@ -71,7 +78,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} ${accentFont.variable}`}
+      className={`${inter.variable} ${playfair.variable} ${accentFont.variable} ${calligraphy.variable}`}
       suppressHydrationWarning
     >
       <head>

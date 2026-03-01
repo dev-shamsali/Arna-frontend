@@ -73,6 +73,10 @@
     font-family: var(--font-accent);
   }
 
+  .font-calligraphy {
+    font-family: var(--font-calligraphy), cursive;
+  }
+
 
   a {
     color: inherit;
