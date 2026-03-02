@@ -358,7 +358,7 @@ export default function ContactPage() {
                       EMAIL US
                     </h3>
                     <p className="text-gray-600 text-[11px] sm:text-xs">
-                      official.arnaskincare.in
+                      official@arnaskincare.in
                     </p>
                   </div>
                 </div>
