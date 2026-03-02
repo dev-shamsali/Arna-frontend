@@ -111,7 +111,7 @@ export default function SignInForm() {
     };
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center p-4 bg-white dark:bg-white">
+        <div className="relative min-h-screen flex items-start sm:items-center justify-center p-4 pt-48 sm:pt-4 bg-white dark:bg-white">
             {/* Background with overlay */}
             <div className="absolute inset-0 z-0">
                 <Image

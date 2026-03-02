@@ -268,7 +268,7 @@ export default function CheckoutContent() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-3xl mx-auto px-4 pt-20 sm:pt-24 pb-10 sm:pb-14">
+      <div className="max-w-3xl mx-auto px-4 pt-48 sm:pt-24 pb-10 sm:pb-14">
         {/* Page heading */}
         <header className="mb-6 flex items-start gap-3">
           {/* Back button */}

@@ -168,7 +168,7 @@ export default function SignUpForm() {
     };
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center px-4 py-20 sm:py-24 md:py-28 lg:py-32 bg-white dark:bg-white">
+        <div className="relative min-h-screen flex items-start sm:items-center justify-center px-4 pt-48 sm:pt-24 md:pt-28 lg:pt-32 bg-white dark:bg-white">
             {/* Background with overlay */}
             <div className="absolute inset-0 z-0">
                 <Image
