@@ -123,9 +123,9 @@ const Footer = () => {
                   <p className="text-xs text-[#c5a059] uppercase tracking-[0.3em] font-semibold">Connect with us</p>
                   <div className="flex gap-4">
                     {[
-                      { Icon: Facebook, href: "https://facebook.com" },
-                      { Icon: Instagram, href: "https://instagram.com" },
-                      { Icon: Linkedin, href: "https://linkedin.com" }
+                      { Icon: Facebook, href: "https://www.facebook.com/arnaworld7?rdid=9mz9GEMLIAYLUswZ&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1Fy6At4Kad%2F" },
+                      { Icon: Instagram, href: "https://www.instagram.com/arna.skincare_?igsh=MWY3enB4NDNnZzM2ZQ%3D%3D" },
+                      
                     ].map((social, idx) => (
                       <motion.a
                         key={idx}
@@ -172,7 +172,7 @@ const Footer = () => {
                   <h4 className="text-sm font-semibold uppercase tracking-[0.25em] text-[#c5a059]">Reach Us</h4>
                   <div className="space-y-4">
                     <div className="flex flex-col gap-3">
-                      <a href="mailto:arnaskincare7@gmail.com" className="text-base hover:text-[#b77f6b] transition-colors border-b border-white/10 pb-1 w-fit">arnaskincare7@gmail.com</a>
+                      <a href="mailto:official.arnaskincare.in" className="text-base hover:text-[#b77f6b] transition-colors border-b border-white/10 pb-1 w-fit">official.arnaskincare.in</a>
                       <a href="tel:+918850925827" className="text-lg hover:text-[#b77f6b] transition-colors font-medium tracking-wide">+91 8850925827</a>
                     </div>
                   </div>
