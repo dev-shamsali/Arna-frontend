@@ -358,7 +358,7 @@ export default function ContactPage() {
                       EMAIL US
                     </h3>
                     <p className="text-gray-600 text-[11px] sm:text-xs">
-                      arnaskincare7@gmail.com
+                      official.arnaskincare.in
                     </p>
                   </div>
                 </div>
@@ -380,26 +380,39 @@ export default function ContactPage() {
                   </div>
                 </div>
 
+              
                 {/* Social Media */}
-                <div>
-                  <h3 className="font-semibold text-gray-800 mb-3 sm:mb-4 uppercase text-[10px] sm:text-xs tracking-widest">
-                    FOLLOW OUR SOCIAL MEDIA
-                  </h3>
-                  <div className="flex gap-2.5 sm:gap-3">
-                    <button className="bg-green-700 text-white p-2.5 sm:p-3 rounded-full hover:bg-green-800 transition duration-300">
-                      <Facebook size={16} className="sm:h-[18px] sm:w-[18px]" />
-                    </button>
-                    <button className="bg-green-700 text-white p-2.5 sm:p-3 rounded-full hover:bg-green-800 transition duration-300">
-                      <Instagram size={16} className="sm:h-[18px] sm:w-[18px]" />
-                    </button>
-                    <button className="bg-green-700 text-white p-2.5 sm:p-3 rounded-full hover:bg-green-800 transition duration-300">
-                      <Twitter size={16} className="sm:h-[18px] sm:w-[18px]" />
-                    </button>
-                    <button className="bg-green-700 text-white p-2.5 sm:p-3 rounded-full hover:bg-green-800 transition duration-300">
-                      <Youtube size={16} className="sm:h-[18px] sm:w-[18px]" />
-                    </button>
-                  </div>
-                </div>
+<div>
+  <h3 className="font-semibold text-gray-800 mb-3 sm:mb-4 uppercase text-[10px] sm:text-xs tracking-widest">
+    FOLLOW OUR SOCIAL MEDIA
+  </h3>
+
+  <div className="flex gap-2.5 sm:gap-3">
+    {/* Facebook */}
+    <a
+      href="https://www.facebook.com/arnaworld7?rdid=9mz9GEMLIAYLUswZ&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1Fy6At4Kad%2F"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Visit our Facebook page"
+    >
+      <div className="bg-green-700 text-white p-2.5 sm:p-3 rounded-full hover:bg-green-800 transition duration-300 cursor-pointer">
+        <Facebook size={16} className="sm:h-[18px] sm:w-[18px]" />
+      </div>
+    </a>
+
+    {/* Instagram */}
+    <a
+      href="https://www.instagram.com/arna.skincare_?igsh=MWY3enB4NDNnZzM2ZQ%3D%3D"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Visit our Instagram page"
+    >
+      <div className="bg-green-700 text-white p-2.5 sm:p-3 rounded-full hover:bg-green-800 transition duration-300 cursor-pointer">
+        <Instagram size={16} className="sm:h-[18px] sm:w-[18px]" />
+      </div>
+    </a>
+  </div>
+</div>
               </div>
             </div>
           </div>

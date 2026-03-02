@@ -19,5 +19,5 @@ export const categories = [
         { id: 'soaps', label: 'Soaps', parent: 'skincare' },
         { id: 'body-washes', label: 'Body Wash', parent: 'skincare' },
         { id: 'shampoos', label: 'Shampoos', parent: 'haircare' },
-        { id: 'hair-care', label: 'Hair Booster Spray', parent: 'haircare' },
+        { id: 'hair-care', label: 'Hair Care ', parent: 'haircare' },
     ];
