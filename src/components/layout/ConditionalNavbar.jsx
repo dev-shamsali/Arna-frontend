@@ -6,7 +6,7 @@ export default function ConditionalNavbar() {
   const pathname = usePathname();
 
   // Hide navbar on pages that manage their own navbar
-  if (['/checkout', '/login', '/signup', '/profile'].includes(pathname)) {
+  if (['/checkout', '/login', '/signup'].includes(pathname) || pathname.startsWith('/profile')) {
     return null;
   }
 

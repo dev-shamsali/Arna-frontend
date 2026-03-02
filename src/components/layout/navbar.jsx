@@ -171,7 +171,7 @@ export default function Navbar({ solid = false }) {
 
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex items-center justify-between h-16 sm:h-18">
+        <div className="flex items-center justify-between h-20 sm:h-24">
           {/* Logo - Responsive sizing - Only shows when navbar becomes solid/scrolled */}
           <div className="flex items-center z-50 flex-shrink-0">
             <AnimatePresence>
@@ -190,9 +190,10 @@ export default function Navbar({ solid = false }) {
                     <Image
                       src="/logo1.png"
                       alt="Arna"
-                      width={120}
-                      height={40}
-                      className="h-8 sm:h-9 transition-all duration-300 brightness-100"
+                      width={300}
+                      height={100}
+                      className="h-16 sm:h-20 w-auto object-contain transition-all duration-300 brightness-100"
+                      priority
                     />
                   </Link>
                 </motion.div>
@@ -412,9 +413,13 @@ export default function Navbar({ solid = false }) {
           {/* Mobile Logo & Close */}
           <div className="flex items-center justify-between mb-8">
             <Link href="/" onClick={closeMobileMenu} className="flex items-center">
-              <span className="text-2xl font-serif tracking-wider text-gray-800">
-                ARNA
-              </span>
+              <Image
+                src="/logo1.png"
+                alt="Arna"
+                width={160}
+                height={56}
+                className="h-12 w-auto object-contain"
+              />
             </Link>
             <button
               onClick={closeMobileMenu}
