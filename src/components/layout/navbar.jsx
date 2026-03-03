@@ -184,17 +184,21 @@ export default function Navbar({ solid = false }) {
                 >
                   <Link
                     href="/"
-                    className="flex items-center"
+                    className="flex items-center relative"
                     onClick={closeMobileMenu}
                   >
-                    <Image
-                      src="/logo1.png"
-                      alt="Arna"
-                      width={300}
-                      height={100}
-                      className="h-16 sm:h-20 w-auto object-contain transition-all duration-300 brightness-100"
-                      priority
-                    />
+                    <div className="absolute top-1/2 -translate-y-1/2 left-0">
+                      <Image
+                        src="/logo1.png"
+                        alt="Arna"
+                        width={300}
+                        height={100}
+                        className="h-28 sm:h-36 w-auto object-contain transition-all duration-300 brightness-100 max-w-none"
+                        priority
+                      />
+                    </div>
+                    {/* Spacer to maintain layout flow since the above is absolute */}
+                    <div className="h-10 w-32 sm:w-48" />
                   </Link>
                 </motion.div>
               )}
