@@ -11,8 +11,9 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:50
 const ProductsPage = () => {
     const searchParams = useSearchParams();
     const urlSearch = searchParams.get('search') || '';
-    
-    const [activeCategory, setActiveCategory] = useState('all');
+    const urlCategory = searchParams.get('category') || 'all';
+
+    const [activeCategory, setActiveCategory] = useState(urlCategory);
     const [activeProblem, setActiveProblem] = useState(null);
     const [visibleCount, setVisibleCount] = useState(5);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -21,11 +22,12 @@ const ProductsPage = () => {
     const heroImage = heroData?.image
         ? `${API_BASE_URL}${heroData.image}`
         : "/Our Products Banner.webp"; // fallback
-        console.log("Hero Image URL:", heroImage);
-    // Update local search query if URL search param changes
+    console.log("Hero Image URL:", heroImage);
+    // Update local states if URL params change
     useEffect(() => {
         setSearchQuery(urlSearch);
-    }, [urlSearch]);
+        setActiveCategory(urlCategory);
+    }, [urlSearch, urlCategory]);
 
     // Price filter state
     const [selectedPriceRanges, setSelectedPriceRanges] = useState([]);

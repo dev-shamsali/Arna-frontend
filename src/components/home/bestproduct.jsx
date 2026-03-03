@@ -15,31 +15,36 @@ const productCards = [
     id: 1,
     title: 'Moisturizer',
     category: 'Daily Hydration',
-    keyIngredient: 'Hyaluronic Acid'
+    keyIngredient: 'Hyaluronic Acid',
+    categoryQuery: 'moisturizers'
   },
   {
     id: 2,
     title: 'Night Cream',
     category: 'Overnight Repair',
-    keyIngredient: 'Retinol 0.5%'
+    keyIngredient: 'Retinol 0.5%',
+    categoryQuery: 'night-creams'
   },
   {
     id: 3,
     title: 'Sunscreen SPF 50+',
     category: 'UV Protection',
-    keyIngredient: 'Zinc Oxide'
+    keyIngredient: 'Zinc Oxide',
+    categoryQuery: 'sunscreens'
   },
   {
     id: 4,
     title: 'Vitamin C Serum',
     category: 'Brightening Treatment',
-    keyIngredient: 'L-Ascorbic Acid 15%'
+    keyIngredient: 'L-Ascorbic Acid 15%',
+    categoryQuery: 'serums'
   },
   {
     id: 5,
     title: 'Cleansing Bar',
     category: 'Gentle Purification',
-    keyIngredient: 'Tea Tree Oil'
+    keyIngredient: 'Tea Tree Oil',
+    categoryQuery: 'soaps'
   }
 ]
 
@@ -124,7 +129,11 @@ const UniformCard3D = ({ product, cardRef }) => {
 
 
   const handleClick = () => {
-    router.push('/products')
+    if (product.categoryQuery) {
+      router.push(`/products?category=${product.categoryQuery}`)
+    } else {
+      router.push('/products')
+    }
   }
 
 
