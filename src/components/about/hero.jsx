@@ -13,7 +13,9 @@ export default function AboutHero() {
 
   const title = aboutData?.data?.title || ''
   const description = aboutData?.data?.description || ''
-  const imageUrl = aboutData?.data?.imageUrl || '/about/about-hero.jpg'
+  const desktopImage = aboutData?.data?.imageUrl
+  const mobileImage =
+    aboutData?.data?.mobileImageUrl || desktopImage
 
   if (isLoading) {
     return (
@@ -36,7 +38,7 @@ export default function AboutHero() {
 
       {/* Background Images */}
       <img
-        src={imageUrl}
+        src={desktopImage}
         alt="Botanical textures and natural ingredients"
         loading="lazy"
         decoding="async"
@@ -48,7 +50,7 @@ export default function AboutHero() {
         `}
       />
       <img
-        src={mobileImageUrl}
+        src={mobileImage}
         alt="Botanical textures and natural ingredients"
         loading="lazy"
         decoding="async"
