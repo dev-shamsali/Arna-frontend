@@ -12,6 +12,7 @@ const CONCERNS = [
         title: 'Ultimate Glow',
         desc: 'Brighten and Revitalize',
         image: '/home/shopbyconcern/Ultimate Glow .webp',
+        slug:'magic-glow-serum',
         color: '#b77f6b'
     },
     {
@@ -19,6 +20,7 @@ const CONCERNS = [
         title: 'Acne Control',
         desc: 'Clear and Balance',
         image: '/home/shopbyconcern/Acne Control.webp',
+        slug:'acne-pimple-cream',
         color: '#8e5d4d'
     },
     {
@@ -26,6 +28,7 @@ const CONCERNS = [
         title: 'Deep Hydration',
         desc: 'Moisturize and Plump',
         image: '/home/shopbyconcern/Deep Hydration.webp',
+        slug:'rice-toner',
         color: '#c5a059'
     },
     {
@@ -33,6 +36,7 @@ const CONCERNS = [
         title: 'Hair Strength',
         desc: 'Nourish and Repair',
         image: '/home/shopbyconcern/Hair Strength.webp',
+        slug:'hair-booster-spary',
         color: '#2d2421'
     }
 ]
@@ -114,7 +118,7 @@ export default function ShopByConcern() {
                                     </p>
 
                                     <Link
-                                        href={`/products?concern=${concern.id}`}
+                                        href={`/products/${concern.slug}`}
                                         className="inline-flex items-center gap-3 px-6 py-3 md:px-8 md:py-4 bg-emerald-500 text-white rounded-xl text-xs md:text-sm font-bold uppercase tracking-widest shadow-lg hover:bg-[#8e5d4d] transition-all group/btn"
                                     >
                                         <span>Explore</span>

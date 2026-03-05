@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import {
   Facebook,
   Instagram,
-  Twitter,
-  Youtube,
   MapPin,
   Mail,
   Phone,
