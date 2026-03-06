@@ -15,7 +15,6 @@ import Footer from '@/components/layout/footer'
 export default function Home() {
   return (
     <>
-      <Navbar />
       <Hero />
       <TrustBar />
       <ShopByConcern />
