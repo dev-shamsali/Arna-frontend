@@ -47,15 +47,9 @@ export const metadata = {
     'Premium herbal skincare crafted with natural ingredients — safe, chemical-free formulations designed for glowing, healthy skin.',
   themeColor: '#ffffff',
   icons: {
-    shortcut: '/favicon_io/favicon.ico',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
     apple: '/arnalogo.svg',
-    icon: [
-      { url: '/arnalogo.svg', type: 'image/svg+xml' },
-      { url: '/favicon_io/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon_io/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon_io/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/favicon_io/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
-    ],
   },
   openGraph: {
     type: 'website',
