@@ -22,7 +22,7 @@ const ProductsPage = () => {
     const heroImage = heroData?.image
         ? `${API_BASE_URL}${heroData.image}`
         : "/Our Products Banner.webp"; // fallback
-    console.log("Hero Image URL:", heroImage);
+    // console.log("Hero Image URL:", heroImage);
     // Update local states if URL params change
     useEffect(() => {
         setSearchQuery(urlSearch);
@@ -143,10 +143,10 @@ const ProductsPage = () => {
                 <div className="absolute inset-0 bg-black/10"></div>
 
                 <div className="relative max-w-7xl mx-auto text-center">
-                    <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur px-4 py-2 rounded-full mb-6 shadow-sm">
+                    {/* <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur px-4 py-2 rounded-full mb-6 shadow-sm">
                         <Leaf className="w-4 h-4 text-[#0A7A4E]" />
                         <span className="text-sm text-[#0A7A4E] font-bold tracking-wide">{products.length} Premium Products Available</span>
-                    </div>
+                    </div> */}
 
                     <h1 className="font-serif text-4xl md:text-6xl text-white font-bold tracking-wider drop-shadow-2xl mb-4">
                         Discover ARNA Products
