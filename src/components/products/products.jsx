@@ -137,7 +137,7 @@ const ProductsPage = () => {
         <div className="min-h-screen bg-white">
             {/* Hero Header */}
             <section
-                className="relative bg-cover bg-center bg-no-repeat py-16 md:py-24 px-4"
+                className="relative bg-cover bg-center bg-no-repeat pt-36 pb-16 md:pt-24 md:pb-24 px-4"
                 style={{ backgroundImage: `url(${heroImage})` }}
             >
                 <div className="absolute inset-0 bg-black/10"></div>
