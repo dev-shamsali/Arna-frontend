@@ -335,7 +335,7 @@ export default function PrivacyPolicyContent() {
                             <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-stone-50 rounded-2xl border border-stone-100">
                                 <span className="text-sm font-medium text-slate-600">Questions about your privacy?</span>
                                 <a
-                                    href="mailto:official@arnaskincare.in"
+                                    href="tel:+918850925827"
                                     className="px-6 py-2 bg-[#1e5e3f] text-white rounded-lg text-sm font-bold transition-transform hover:scale-105"
                                 >
                                     Contact Support

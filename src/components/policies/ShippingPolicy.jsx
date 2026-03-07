@@ -206,7 +206,7 @@ export default function ShippingPolicyContent() {
                             <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 bg-stone-50 rounded-2xl border border-stone-100 shadow-sm">
                                 <span className="text-sm font-semibold text-slate-700">Still have questions?</span>
                                 <a
-                                    href="mailto:official@arnaskincare.in"
+                                   href="tel:+918850925827"
                                     className="px-8 py-3 bg-[#1e5e3f] text-white rounded-lg text-sm font-bold transition-all hover:scale-105 hover:shadow-lg active:scale-95"
                                 >
                                     Contact Support
