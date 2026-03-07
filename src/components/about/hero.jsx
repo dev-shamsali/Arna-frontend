@@ -34,33 +34,30 @@ export default function AboutHero() {
   const secondPart = titleParts[1]?.trim() || 'Beautifully Effective'
 
   return (
-    <header className="relative w-full h-screen min-h-[600px] overflow-hidden flex items-center justify-center">
+    <header className="relative w-full min-h-screen h-auto md:h-screen md:overflow-hidden flex items-start md:items-center justify-center">
 
       {/* Background Images */}
-      <img
-        src={desktopImage}
-        alt="Botanical textures and natural ingredients"
-        loading="lazy"
-        decoding="async"
-        onLoad={() => setImageLoaded(true)}
-        className={`
-          absolute inset-0 w-full h-full object-cover object-center hidden sm:block
-          transition-opacity duration-700 ease-out
-          ${imageLoaded ? 'opacity-100' : 'opacity-0'}
-        `}
-      />
-      <img
-        src={mobileImage}
-        alt="Botanical textures and natural ingredients"
-        loading="lazy"
-        decoding="async"
-        onLoad={() => setImageLoaded(true)}
-        className={`
-          absolute inset-0 w-full h-full object-cover object-center block sm:hidden
-          transition-opacity duration-700 ease-out
-          ${imageLoaded ? 'opacity-100' : 'opacity-0'}
-        `}
-      />
+      <picture className="absolute inset-0 w-full h-full">
+        {desktopImage && (
+          <source
+            media="(min-width: 640px)"
+            srcSet={desktopImage}
+          />
+        )}
+        <img
+          src={mobileImage}
+          alt="Botanical textures and natural ingredients"
+          loading="lazy"
+          decoding="async"
+          onLoad={() => setImageLoaded(true)}
+          className={`
+            w-full h-full object-cover object-center
+            transition-opacity duration-700 ease-out
+            ${imageLoaded ? 'opacity-100' : 'opacity-0'}
+          `}
+        />
+      </picture>
+
 
       {/* Dark Overlay */}
       <div
@@ -69,7 +66,7 @@ export default function AboutHero() {
       />
 
       {/* Content */}
-      <div className="relative z-20 max-w-6xl mx-auto px-6 w-full">
+      <div className="relative z-20 max-w-6xl mx-auto px-6 w-full pt-40 pb-20 md:pt-0 md:pb-0">
         <motion.div
           initial={prefersReduced ? {} : { opacity: 0, y: 20 }}
           animate={prefersReduced ? {} : { opacity: 1, y: 0 }}

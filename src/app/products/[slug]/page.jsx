@@ -2,13 +2,15 @@
 import Image from "next/image";
 import { notFound, useRouter } from "next/navigation";
 import { use } from "react";
-import { ShoppingCart, Shield, Truck, Leaf, MessageCircle, Loader2, Award, Sparkles, ArrowLeft } from "lucide-react";
+import { ShoppingCart, Shield, Truck, Leaf, MessageCircle, Loader2, Award, Sparkles, ArrowLeft, Minus, Plus } from "lucide-react";
 import { useGetProductQuery } from "@/redux/slices/cmsSlice";
-import Footer from "@/components/layout/footer"; 
+import Footer from "@/components/layout/footer";
+import { useCart } from "@/components/cart/CartContext";
 
 export default function ProductPage({ params }) {
   const { slug } = use(params);
   const router = useRouter();
+  const { addToCart, updateQty, getItemQty } = useCart();
 
   // RTK Query hook to fetch product data
   const { data, isLoading, isError } = useGetProductQuery(slug);
@@ -239,26 +241,63 @@ export default function ProductPage({ params }) {
               )}
             </div>
 
-            {/* Call-to-Action Section */}
-            <div className="space-y-3 sm:space-y-4 pt-2 sm:pt-4">
-              {/* Primary CTA - WhatsApp Order Button */}
-              <button
-                onClick={handleWhatsAppOrder}
-                className="w-full bg-gradient-to-r from-[#0A7A4E] to-[#0d9959] hover:from-[#0d9959] hover:to-[#0A7A4E] text-white font-semibold py-4 sm:py-5 px-6 sm:px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg group cursor-pointer"
-              >
-                <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
-                Buy Through WhatsApp
-              </button>
+            {/* Cart Logic Data normalization */}
+            {(() => {
+              const productId = product._id || product.id;
+              const qtyInCart = getItemQty(productId);
+              const normalizedProduct = {
+                ...product,
+                id: productId,
+                image: product.image?.startsWith('http')
+                  ? product.image
+                  : `${process.env.NEXT_PUBLIC_BACKEND_URL}${product.image}`,
+                displayPrice: product.salePrice || product.price,
+                mrp: product.price,
+                price: product.salePrice || product.price,
+              };
 
-              {/* Secondary action - Save for later (placeholder for future cart feature) */}
-              <button
-                disabled
-                className="w-full bg-white hover:bg-gray-50 text-gray-800 font-semibold py-4 sm:py-5 px-6 sm:px-8 rounded-xl border-2 border-gray-200 transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg opacity-50 cursor-not-allowed"
-              >
-                <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6" />
-                Add to Cart (Coming Soon)
-              </button>
-            </div>
+              return (
+                <div className="space-y-3 sm:space-y-4 pt-2 sm:pt-4">
+                  {/* Primary CTA - WhatsApp Order Button */}
+                  <button
+                    onClick={handleWhatsAppOrder}
+                    className="w-full bg-gradient-to-r from-[#0A7A4E] to-[#0d9959] hover:from-[#0d9959] hover:to-[#0A7A4E] text-white font-semibold py-4 sm:py-5 px-6 sm:px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg group cursor-pointer"
+                  >
+                    <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+                    Buy Through WhatsApp
+                  </button>
+
+                  {/* Functional Add to Cart Button */}
+                  {qtyInCart === 0 ? (
+                    <button
+                      onClick={() => addToCart(normalizedProduct)}
+                      className="w-full bg-white hover:bg-gray-50 text-[#0A7A4E] font-semibold py-4 sm:py-5 px-6 sm:px-8 rounded-xl border-2 border-[#0A7A4E] transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 text-base sm:text-lg group cursor-pointer"
+                    >
+                      <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+                      Add to Cart
+                    </button>
+                  ) : (
+                    <div className="flex items-center justify-between gap-4 p-1 bg-gray-50 rounded-xl border-2 border-gray-100">
+                      <button
+                        onClick={() => updateQty(productId, qtyInCart - 1)}
+                        className="flex-1 py-3 sm:py-4 rounded-lg bg-white border border-gray-200 text-[#0A7A4E] flex items-center justify-center hover:bg-gray-100 transition-colors"
+                      >
+                        <Minus className="w-5 h-5" />
+                      </button>
+                      <span className="text-xl font-bold text-[#0A7A4E] px-4 min-w-[3rem] text-center">
+                        {qtyInCart}
+                      </span>
+                      <button
+                        onClick={() => updateQty(productId, qtyInCart + 1)}
+                        className="flex-1 py-3 sm:py-4 rounded-lg bg-[#0A7A4E] text-white flex items-center justify-center hover:bg-[#0A7A4E]/90 transition-colors shadow-md"
+                      >
+                        <Plus className="w-5 h-5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
 
             {/* Additional Information */}
             <div className="bg-gray-50 rounded-xl p-5 sm:p-6 space-y-3 mt-6 sm:mt-8 border border-gray-100">
@@ -328,6 +367,6 @@ export default function ProductPage({ params }) {
       </div>
       <Footer />
     </div>
-    
+
   );
 }
