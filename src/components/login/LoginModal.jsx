@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useGoogleLoginMutation, useLoginMutation, useSignupMutation } from "@/redux/slices/authApislice";
 import Link from "next/link";
 import Image from "next/image";
-
+import { useRouter } from "next/navigation";
 export default function LoginModal({ isOpen, onClose, redirectPath = "/profile" }) {
     const [mode, setMode] = useState("login"); // 'login' or 'signup'
     const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +22,7 @@ export default function LoginModal({ isOpen, onClose, redirectPath = "/profile" 
     const [login] = useLoginMutation();
     const [googleLogin] = useGoogleLoginMutation();
     const [signup] = useSignupMutation();
-
+    const router = useRouter();
     useEffect(() => {
         if (!isOpen) return;
 
@@ -38,7 +38,7 @@ export default function LoginModal({ isOpen, onClose, redirectPath = "/profile" 
                         setLoading(true);
                         await googleLogin({ credential: response.credential }).unwrap();
                         onClose();
-                        window.location.href = redirectPath;
+                        router.push(redirectPath);
                     } catch (err) {
                         console.error("Google login failed", err);
                     } finally {
@@ -112,7 +112,7 @@ export default function LoginModal({ isOpen, onClose, redirectPath = "/profile" 
             }
 
             onClose();
-            window.location.href = redirectPath;
+            router.push(redirectPath);
         } catch (err) {
             console.error(`${mode} error:`, err);
             setErrors({

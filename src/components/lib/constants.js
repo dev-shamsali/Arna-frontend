@@ -20,4 +20,5 @@ export const categories = [
         { id: 'body-washes', label: 'Body Wash', parent: 'skincare' },
         { id: 'shampoos', label: 'Shampoos', parent: 'haircare' },
         { id: 'hair-care', label: 'Hair Care ', parent: 'haircare' },
+        { id: 'toners', label: 'Toners ', parent: 'skincare' },
     ];
