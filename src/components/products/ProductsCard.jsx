@@ -4,29 +4,39 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart, Star, Sparkles } from "lucide-react";
 import { useCart } from "@/components/cart/CartContext";
-import { useEffect } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useGetMeQuery } from "@/redux/slices/authApislice";
+import LoginModal from "@/components/login/LoginModal";
 
 export default function ProductCard({ product }) {
-  const { addToCart, updateQty, cartItems } = useCart();
+  const router = useRouter();
+  const { addToCart, updateQty, getItemQty } = useCart();
+  const { data: userData } = useGetMeQuery();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  // // Debug logging
-  // useEffect(() => {
-  //   console.log('ProductCard received:', {
-  //     name: product.name,
-  //     image: product.image,
-  //     price: product.price,
-  //     mrp: product.mrp,
-  //     id: product.id,
-  //     slug: product.slug
-  //   });
-  // }, [product]);
+  const productId = product._id || product.id;
+  const qtyInCart = getItemQty(productId);
 
   const discount = product.mrp && product.price
     ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
     : 0;
 
-  const existing = cartItems.find((p) => p.id === product.id);
-  const qtyInCart = existing?.qty || 0;
+  const handleBuyNow = (e) => {
+    e.preventDefault();
+    if (!userData?.user) {
+      setIsLoginModalOpen(true);
+      return;
+    }
+    if (qtyInCart === 0) {
+      addToCart(product);
+      setTimeout(() => {
+        router.push("/checkout");
+      }, 100);
+    } else {
+      router.push("/checkout");
+    }
+  };
 
   return (
     <div className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-2xl hover:shadow-[#0A7A4E]/10 transition-all duration-500 hover:-translate-y-2 h-full flex flex-col">
@@ -89,7 +99,7 @@ export default function ProductCard({ product }) {
         </div>
 
         <div className="mt-auto flex flex-col gap-3">
-          {/* Add to cart / qty controls */}
+          {/* Add to Cart / Qty Controls */}
           {qtyInCart === 0 ? (
             <button
               onClick={() => addToCart(product)}
@@ -101,7 +111,7 @@ export default function ProductCard({ product }) {
           ) : (
             <div className="flex items-center justify-between gap-3">
               <button
-                onClick={() => updateQty(product.id, qtyInCart - 1)}
+                onClick={() => updateQty(productId, qtyInCart - 1)}
                 className="flex-1 py-3 rounded-full border border-[#0A7A4E] text-[#0A7A4E] text-lg font-semibold"
               >
                 -
@@ -110,7 +120,7 @@ export default function ProductCard({ product }) {
                 {qtyInCart}
               </span>
               <button
-                onClick={() => updateQty(product.id, qtyInCart + 1)}
+                onClick={() => updateQty(productId, qtyInCart + 1)}
                 className="flex-1 py-3 rounded-full bg-[#0A7A4E] text-white text-lg font-semibold"
               >
                 +
@@ -118,7 +128,15 @@ export default function ProductCard({ product }) {
             </div>
           )}
 
-          {/* More info button (optional, in addition to image/title link) */}
+          {/* Buy Now — always visible */}
+          <button
+            onClick={handleBuyNow}
+            className="w-full bg-gradient-to-r from-[#0A7A4E] to-[#0d9959] hover:from-[#0d9959] hover:to-[#0A7A4E] text-white font-semibold py-3 px-4 rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 text-sm cursor-pointer"
+          >
+            Buy Now
+          </button>
+
+          {/* More info link */}
           <Link
             href={`/products/${product.slug}`}
             className="w-full text-center text-sm font-medium text-[#0A7A4E] underline underline-offset-4 hover:opacity-80"
@@ -127,6 +145,12 @@ export default function ProductCard({ product }) {
           </Link>
         </div>
       </div>
+
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        redirectPath="/checkout"
+      />
     </div>
   );
 }
