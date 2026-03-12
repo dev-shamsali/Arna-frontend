@@ -542,7 +542,7 @@ export default function CheckoutContent() {
               </div>
 
               {/* COD Option */}
-              <div
+              {/* <div
                 className={`pay-opt ${paymentMethod === "cod" ? "active" : ""}`}
                 onClick={() => setPaymentMethod("cod")}
               >
@@ -555,7 +555,7 @@ export default function CheckoutContent() {
                     <p className="text-[11px] text-gray-400 mt-0.5">Pay with cash or card when the order is delivered.</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="flex flex-wrap gap-3 pt-1">
                 <div className="flex items-center gap-1 text-[11px] text-gray-400 font-medium">

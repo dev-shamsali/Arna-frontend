@@ -305,14 +305,14 @@ export default function Navbar({ solid = false }) {
 
 
 
-            <Link
+            {/* <Link
               href="/wishlist"
               className={`hidden sm:block transition-colors duration-300 hover:opacity-70 ${showSolid ? 'text-gray-800' : 'text-white'
                 }`}
               aria-label="Wishlist"
             >
               <Heart className="w-5 h-5" />
-            </Link>
+            </Link> */}
 
 
             {/* Cart with Badge */}
@@ -505,14 +505,14 @@ export default function Navbar({ solid = false }) {
 
 
 
-              <Link
+              {/* <Link
                 href="/wishlist"
                 onClick={closeMobileMenu}
                 className="flex items-center gap-3 py-2 px-4 text-sm text-gray-800 hover:bg-[#006A4E]/5 rounded-md transition-colors"
               >
                 <Heart className="w-5 h-5" />
                 <span>Wishlist</span>
-              </Link>
+              </Link> */}
 
 
               <Link

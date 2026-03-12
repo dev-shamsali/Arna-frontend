@@ -110,23 +110,6 @@ export default function CartPageContent() {
                     </span>
                   </div>
 
-                  {/* Promo code */}
-                  <div className="mt-4 sm:mt-5">
-                    <p className="text-[11px] sm:text-xs text-gray-600 mb-1">
-                      Promo or gift code
-                    </p>
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Enter code"
-                        className="flex-1 min-w-0 px-3 py-2 text-xs sm:text-sm border rounded-full outline-none focus:ring-1 focus:ring-emerald-500 bg-white text-gray-900"
-                      />
-                      <button className="shrink-0 px-4 py-2 text-xs sm:text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-50 transition text-gray-900">
-                        Apply
-                      </button>
-                    </div>
-                  </div>
-
                   {/* Buttons */}
                   <button
                     className="mt-4 sm:mt-5 w-full py-2.5 sm:py-3 rounded-full bg-[#1e5e3f] hover:bg-[#164a32] text-white text-sm font-medium transition"
