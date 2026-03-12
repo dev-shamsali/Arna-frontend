@@ -96,7 +96,7 @@ export default function CartPageContent() {
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-600">Estimated GST (18%)</span>
+                      <span className="text-gray-600">Estimated GST (9%)</span>
                       <span className="text-gray-500">
                         Calculated at checkout
                       </span>
