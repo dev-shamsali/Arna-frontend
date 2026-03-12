@@ -7,18 +7,18 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft, MapPin, CreditCard, ShoppingBag,
-  ChevronDown, CheckCircle2, Lock, Truck, Pencil
+  ChevronDown, CheckCircle2, Lock, Truck, Pencil, Tag, X
 } from "lucide-react";
 import { useGetMeQuery, useUpdateAddressMutation, useAddAddressMutation, useUpdateMeMutation } from "@/redux/slices/authApislice";
 import { useCreateOrderMutation, usePreviewOrderMutation } from "@/redux/slices/orderApiSlice";
 
 const INDIAN_STATES = [
-  "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa",
-  "Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala",
-  "Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland",
-  "Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura",
-  "Uttar Pradesh","Uttarakhand","West Bengal","Delhi","Jammu and Kashmir",
-  "Ladakh","Puducherry",
+  "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
+  "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala",
+  "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
+  "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+  "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi", "Jammu and Kashmir",
+  "Ladakh", "Puducherry",
 ];
 
 export default function CheckoutContent() {
@@ -36,9 +36,11 @@ export default function CheckoutContent() {
     addressLine2: "", city: "", state: "", postalCode: "",
     country: "India", addressType: "home",
   });
+  const [promoCode, setPromoCode] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState(null);
   const [isEditingAddress, setIsEditingAddress] = useState(true);
   const [createOrder, { isLoading }] = useCreateOrderMutation();
-  const [previewOrder, { data: pricingData, isLoading: isPreviewLoading, isError: isPreviewError }] =
+  const [previewOrder, { data: pricingData, isLoading: isPreviewLoading, isError: isPreviewError, error: previewError }] =
     usePreviewOrderMutation();
 
   useEffect(() => {
@@ -82,8 +84,9 @@ export default function CheckoutContent() {
     previewOrder({
       items: cartItems.map((i) => ({ productId: i.id, quantity: i.qty })),
       addressId: currentAddressId,
+      promoCode: appliedPromo || undefined,
     });
-  }, [currentAddressId, cartItems, previewOrder]);
+  }, [currentAddressId, cartItems, appliedPromo, previewOrder]);
 
   const handlePayNow = async () => {
     try {
@@ -91,7 +94,7 @@ export default function CheckoutContent() {
       if (cartItems.length === 0) { alert("Cart is empty"); return; }
       const response = await createOrder({
         items: cartItems.map((i) => ({ productId: i.id, quantity: i.qty })),
-        addressId: currentAddressId, paymentMethod,
+        addressId: currentAddressId, paymentMethod, promoCode: appliedPromo || undefined,
       }).unwrap();
       if (paymentMethod === "cashfree") {
         if (!response.paymentSessionId) { alert("Payment session not created"); return; }
@@ -157,10 +160,51 @@ export default function CheckoutContent() {
     }
   };
 
+  const handleApplyPromo = async () => {
+    if (!promoCode) return;
+    if (!currentAddressId) {
+      alert("Please save address first");
+      return;
+    }
+
+    try {
+      await previewOrder({
+        items: cartItems.map((i) => ({ productId: i.id, quantity: i.qty })),
+        addressId: currentAddressId,
+        promoCode,
+      }).unwrap();
+
+      setAppliedPromo(promoCode);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleRemovePromo = () => {
+    setPromoCode("");
+    setAppliedPromo(null);
+    if (currentAddressId && cartItems.length > 0) {
+      previewOrder({
+        items: cartItems.map((i) => ({ productId: i.id, quantity: i.qty })),
+        addressId: currentAddressId,
+      });
+    }
+  };
+
+  useEffect(() => {
+    setAppliedPromo(null);
+  }, [cartItems]);
+
   const inp = "w-full px-3.5 py-2.5 border border-gray-200 rounded-lg bg-white text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/25 focus:border-emerald-500 transition-all";
   const lbl = "block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1";
   const addressIsComplete = !isEditingAddress && currentAddressId;
-  const canPay = !isLoading && !isPreviewLoading && !!pricingData && !isPreviewError;
+  const canPay =
+    addressIsComplete &&
+    !isLoading &&
+    !isPreviewLoading &&
+    !!pricingData &&
+    !isPreviewError;
+  const promoApplied = pricingData?.discount > 0;
 
   return (
     <>
@@ -228,6 +272,57 @@ export default function CheckoutContent() {
         .pay-btn.on:hover .sh { transform: translateX(100%); }
         .step-bar { flex: 1; height: 1px; background: #e5e7eb; margin: 0 6px; }
         .step-bar.done { background: #10b981; }
+        .promo-input {
+          flex: 1;
+          padding: 9px 12px;
+          border: 1.5px solid #e5e7eb;
+          border-radius: 9px;
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          color: #111827;
+          background: #fff;
+          outline: none;
+          transition: border-color 0.15s;
+        }
+        .promo-input::placeholder { font-weight: 400; letter-spacing: 0; color: #9ca3af; font-size: 13px; }
+        .promo-input:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
+        .promo-input.applied { border-color: #10b981; background: #f0fdf4; color: #065f46; }
+        .promo-apply-btn {
+          padding: 9px 16px;
+          border-radius: 9px;
+          font-size: 13px;
+          font-weight: 700;
+          border: none;
+          cursor: pointer;
+          transition: all 0.15s;
+          white-space: nowrap;
+        }
+        .promo-apply-btn.idle { background: #111827; color: #fff; }
+        .promo-apply-btn.idle:hover { background: #1f2937; }
+        .promo-apply-btn.loading { background: #e5e7eb; color: #9ca3af; cursor: not-allowed; }
+        .promo-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          background: #f0fdf4;
+          border: 1px solid #a7f3d0;
+          border-radius: 6px;
+          padding: 3px 8px 3px 6px;
+          font-size: 11px;
+          font-weight: 700;
+          color: #065f46;
+        }
+        .promo-divider {
+          height: 1px;
+          background: #f3f4f6;
+          margin: 12px 0;
+        }
+        @keyframes fadeSlideIn {
+          from { opacity: 0; transform: translateY(-4px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .promo-success { animation: fadeSlideIn 0.2s ease; }
       `}</style>
 
       <div className="co-page min-h-screen bg-white">
@@ -447,7 +542,7 @@ export default function CheckoutContent() {
               </div>
 
               {/* COD Option */}
-              {/* <div
+              <div
                 className={`pay-opt ${paymentMethod === "cod" ? "active" : ""}`}
                 onClick={() => setPaymentMethod("cod")}
               >
@@ -460,15 +555,9 @@ export default function CheckoutContent() {
                     <p className="text-[11px] text-gray-400 mt-0.5">Pay with cash or card when the order is delivered.</p>
                   </div>
                 </div>
-              </div> */}
+              </div>
 
               <div className="flex flex-wrap gap-3 pt-1">
-                <div className="flex items-center gap-1 text-[11px] text-gray-400 font-medium">
-                  <Lock className="w-3 h-3 text-emerald-400" />256-bit SSL
-                </div>
-                <div className="flex items-center gap-1 text-[11px] text-gray-400 font-medium">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-400" />PCI Compliant
-                </div>
                 <div className="flex items-center gap-1 text-[11px] text-gray-400 font-medium">
                   <Truck className="w-3 h-3 text-emerald-400" />Tracked Delivery
                 </div>
@@ -490,6 +579,7 @@ export default function CheckoutContent() {
               </span>
             </div>
 
+            {/* Cart items */}
             <div className="px-4 pt-3 space-y-3">
               {cartItems.map((item) => (
                 <div key={item.id} className="flex items-center gap-3">
@@ -509,11 +599,87 @@ export default function CheckoutContent() {
             </div>
 
             <div className="p-4">
+
+              {/* ── PROMO CODE ── */}
+              <div className="mb-3">
+                <div className="flex items-center gap-1.5 mb-2">
+                  <Tag className="w-3.5 h-3.5 text-gray-400" />
+                  <span className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Promo code</span>
+                </div>
+
+                {promoApplied ? (
+                  /* Applied state */
+                  <div className="promo-success flex items-center justify-between bg-emerald-50 border border-emerald-200 rounded-xl px-3.5 py-2.5">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                      <div>
+                        <p className="text-xs font-bold text-emerald-800">
+                          {pricingData?.appliedPromo?.promoCode ?? promoCode} applied
+                        </p>
+                        <p className="text-[10px] text-emerald-600 mt-0.5">
+                          You save ₹{pricingData.discount.toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleRemovePromo}
+                      className="w-6 h-6 rounded-full bg-emerald-100 hover:bg-emerald-200 flex items-center justify-center transition"
+                    >
+                      <X className="w-3.5 h-3.5 text-emerald-700" />
+                    </button>
+                  </div>
+                ) : (
+                  /* Input state */
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Enter promo code"
+                      value={promoCode}
+                      disabled={promoApplied}
+                      onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                      onKeyDown={(e) => e.key === "Enter" && handleApplyPromo()}
+                      className={`promo-input ${promoApplied ? "applied" : ""}`}
+                    />
+
+                    <button
+                      onClick={handleApplyPromo}
+                      disabled={!promoCode || isPreviewLoading}
+                      className={`promo-apply-btn ${!promoCode || isPreviewLoading ? "loading" : "idle"}`}
+                    >
+                      {isPreviewLoading ? "…" : "Apply"}
+                    </button>
+                  </div>
+
+                )}
+              </div>
+              {previewError && (
+                <p className="text-[11px] text-red-500 mt-1 font-medium">
+                  {previewError?.data?.message || "Invalid promo code"}
+                </p>
+              )}
+              <div className="promo-divider" />
+
+              {/* Price breakdown */}
               <div className="bg-gray-50 rounded-xl p-3">
                 <div className="prow">
                   <span className="text-xs text-gray-500">Subtotal</span>
                   <span className="text-xs font-semibold text-gray-800">₹{displayPricing.subtotal.toFixed(2)}</span>
                 </div>
+
+                {/* Promo discount row — only shown when discount > 0 */}
+                {displayPricing.discount > 0 && (
+                  <div className="prow promo-success">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs text-emerald-600 font-medium">Promo discount</span>
+                      <span className="promo-tag">
+                        <Tag className="w-2.5 h-2.5" />
+                        {displayPricing.appliedPromo?.promoCode ?? promoCode}
+                      </span>
+                    </div>
+                    <span className="text-xs font-bold text-emerald-600">−₹{displayPricing.discount.toFixed(2)}</span>
+                  </div>
+                )}
+
                 <div className="prow">
                   <div className="flex items-center gap-1">
                     <span className="text-xs text-gray-500">Shipping</span>
@@ -533,6 +699,7 @@ export default function CheckoutContent() {
                   <span className="text-xs text-gray-500">Total GST (9%)</span>
                   <span className="text-xs text-gray-500">₹{displayPricing.gstTotal.toFixed(2)}</span>
                 </div>
+
                 <div className="flex justify-between items-center pt-2.5 mt-1 border-t border-gray-200">
                   <div>
                     <p className="text-sm font-bold text-gray-900">Total payable</p>
@@ -557,11 +724,6 @@ export default function CheckoutContent() {
                   <><Lock className="w-4 h-4" />Pay ₹{displayPricing.totalAmount.toFixed(2)} securely</>
                 )}
               </button>
-
-              <p className="flex items-center justify-center gap-1 text-[11px] text-gray-400 mt-2.5">
-                <Lock className="w-3 h-3" />
-                Protected by 256-bit SSL encryption
-              </p>
             </div>
           </div>
 
