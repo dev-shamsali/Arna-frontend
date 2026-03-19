@@ -62,7 +62,7 @@ function SuccessModal({ onClose }) {
           +91 90827 42221
         </p>
         <p className="text-green-700 font-semibold text-sm">
-          +91 80972 48852
+          +91 88509 25827
         </p>
 
         <p className="text-xs text-gray-400 mt-3">

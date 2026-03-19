@@ -65,6 +65,9 @@ export const metadata = {
     description: 'Pure, herbal and chemical-free skincare that truly works.',
     images: ['/og-image.png'],
   },
+  verification: {
+    google: "b8tIqWmJMPKdpXMmR945Kg2VEfjzY6zvQT1TPJaET40", // 👈 ONLY this code (not full filename)
+  },
   manifest: '/favicon_io/site.webmanifest',
 }
 
