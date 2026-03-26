@@ -46,18 +46,13 @@ export const metadata = {
   description:
     'Premium herbal skincare crafted with natural ingredients — safe, chemical-free formulations designed for glowing, healthy skin.',
   themeColor: '#ffffff',
-  icons: {
-    icon: '/favicon.svg',
-    shortcut: '/favicon.svg',
-    apple: '/arnalogo.svg',
-  },
   openGraph: {
     type: 'website',
     url: 'https://arnaskincare.in',
     title: 'Arna Skin Care — Refined Rituals',
     description:
       'Luxury herbal skincare designed for healthy, glowing, timeless skin.',
-    images: ['/og-image.jpg'],
+    images: ['/og-image.png'],
   },
   twitter: {
     card: 'summary_large_image',
@@ -66,9 +61,11 @@ export const metadata = {
     images: ['/og-image.png'],
   },
   verification: {
-    google: "b8tIqWmJMPKdpXMmR945Kg2VEfjzY6zvQT1TPJaET40", // 👈 ONLY this code (not full filename)
+    google: [
+      "b8tIqWmJMPKdpXMmR945Kg2VEfjzY6zvQT1TPJaET40", // Client's code
+      "-sLkfcSOaNnWXNeY0P5jD6a6OzGBVhHSPrRYn8bagqc", // Your personal code
+    ],
   },
-  manifest: '/favicon_io/site.webmanifest',
 }
 
 export default function RootLayout({ children }) {
