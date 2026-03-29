@@ -377,7 +377,7 @@ export default function ContactPage() {
                     <p className="text-gray-600 text-[11px] sm:text-xs">
                       +91 90827 42221
                       <br />
-                      +91 80972 48852
+                      +91 88509 25827
                     </p>
                   </div>
                 </div>
