@@ -2,7 +2,7 @@
 "use client";
 
 import { useCart } from "@/components/cart/CartContext";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
@@ -43,6 +43,10 @@ export default function CheckoutContent() {
   const [previewOrder, { data: pricingData, isLoading: isPreviewLoading, isError: isPreviewError, error: previewError }] =
     usePreviewOrderMutation();
 
+  // Ref to scroll save button into view on mobile
+  const saveButtonRef = useRef(null);
+  const shippingCardRef = useRef(null);
+
   useEffect(() => {
     if (data?.user) {
       const user = data.user;
@@ -64,6 +68,15 @@ export default function CheckoutContent() {
       }
     }
   }, [data]);
+
+  // Scroll save button into view when editing starts on mobile
+  useEffect(() => {
+    if (isEditingAddress && saveButtonRef.current) {
+      setTimeout(() => {
+        saveButtonRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+      }, 150);
+    }
+  }, [isEditingAddress]);
 
   const localPricing = useMemo(() => {
     const subtotal = +cartItems.reduce((s, i) => s + i.price * i.qty, 0).toFixed(2);
@@ -114,6 +127,8 @@ export default function CheckoutContent() {
     setShippingForm((prev) => ({ ...prev, [field]: value }));
 
   const handleSaveAddress = async () => {
+    // Safety reset to avoid stuck isSaving state on mobile
+    if (isSaving) return;
     try {
       setIsSaving(true);
       const addressPayload = {
@@ -217,6 +232,10 @@ export default function CheckoutContent() {
           overflow: hidden;
           margin-bottom: 10px;
         }
+        /* Fix: allow overflow visible when editing so keyboard + scroll works on mobile */
+        .co-card.editing {
+          overflow: visible;
+        }
         .co-head {
           display: flex;
           align-items: center;
@@ -235,12 +254,19 @@ export default function CheckoutContent() {
           border-radius: 8px; font-size: 12px; font-weight: 600;
           border: 1.5px solid #e5e7eb; background: #fff; color: #6b7280;
           cursor: pointer; text-align: center; transition: all 0.15s;
+          /* Fix: ensure tap target is large enough on mobile */
+          min-height: 38px;
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
         }
         .addr-pill.active { border-color: #10b981; background: #f0fdf4; color: #059669; }
         .pay-opt {
           border: 1.5px solid #e5e7eb; border-radius: 10px;
           padding: 12px 14px; cursor: pointer;
           transition: all 0.18s; background: #fff; margin-bottom: 8px;
+          /* Fix: better tap handling on mobile */
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
         }
         .pay-opt.active { border-color: #10b981; background: #f7fdf9; }
         .rdot {
@@ -259,6 +285,10 @@ export default function CheckoutContent() {
           position: relative; overflow: hidden;
           transition: all 0.18s; margin-top: 14px;
           display: flex; align-items: center; justify-content: center; gap: 8px;
+          /* Fix: ensure tappable on iOS */
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+          min-height: 48px;
         }
         .pay-btn.on { background: #059669; }
         .pay-btn.on:hover { background: #047857; box-shadow: 0 6px 20px rgba(5,150,105,0.28); transform: translateY(-1px); }
@@ -297,6 +327,10 @@ export default function CheckoutContent() {
           cursor: pointer;
           transition: all 0.15s;
           white-space: nowrap;
+          /* Fix: tappable on iOS */
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+          min-height: 40px;
         }
         .promo-apply-btn.idle { background: #111827; color: #fff; }
         .promo-apply-btn.idle:hover { background: #1f2937; }
@@ -323,10 +357,38 @@ export default function CheckoutContent() {
           to { opacity: 1; transform: translateY(0); }
         }
         .promo-success { animation: fadeSlideIn 0.2s ease; }
+
+        /* Fix: save button — large tap target, always visible above keyboard on mobile */
+        .save-addr-btn {
+          margin-top: 16px;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          border-radius: 12px;
+          padding: 14px 16px;
+          font-size: 14px;
+          font-weight: 700;
+          color: #fff;
+          border: none;
+          min-height: 52px;
+          transition: all 0.18s;
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+          cursor: pointer;
+          /* Ensure it's always above the iOS keyboard */
+          position: relative;
+          z-index: 1;
+        }
+        .save-addr-btn.ready { background: #059669; }
+        .save-addr-btn.ready:active { background: #047857; transform: scale(0.99); }
+        .save-addr-btn.saving { background: #34d399; cursor: not-allowed; }
       `}</style>
 
       <div className="co-page min-h-screen bg-white">
-        <div className="max-w-lg mx-auto px-4 pt-14 sm:pt-20 pb-10">
+        {/* Fix: pb-40 gives enough room on mobile so save button is never hidden behind nav bars */}
+        <div className="max-w-lg mx-auto px-4 pt-14 sm:pt-20 pb-40">
 
           {/* Header */}
           <div className="flex items-center gap-3 mb-5">
@@ -352,8 +414,9 @@ export default function CheckoutContent() {
             ].map((s, i) => (
               <div key={s.label} className="flex items-center" style={{ flex: i < 2 ? 1 : "none" }}>
                 <div className="flex items-center gap-1.5">
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-all shrink-0
-                    ${s.done ? "bg-emerald-500 text-white" : i === 0 ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-400"}`}>
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-content-center text-[11px] font-bold transition-all shrink-0
+                    ${s.done ? "bg-emerald-500 text-white" : i === 0 ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-400"}`}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {s.done ? <CheckCircle2 className="w-3.5 h-3.5" /> : s.n}
                   </div>
                   <span className={`text-xs font-semibold hidden sm:block ${s.done ? "text-emerald-600" : i === 0 ? "text-gray-800" : "text-gray-400"}`}>
@@ -366,7 +429,8 @@ export default function CheckoutContent() {
           </div>
 
           {/* SHIPPING CARD */}
-          <div className="co-card">
+          {/* Fix: overflow visible when editing so the card doesn't clip the save button on mobile */}
+          <div className={`co-card${isEditingAddress ? " editing" : ""}`} ref={shippingCardRef}>
             <div className="co-head">
               <div className="flex items-center gap-2.5">
                 <div className={`co-icon ${addressIsComplete ? "bg-emerald-50" : "bg-gray-50"}`}>
@@ -379,8 +443,10 @@ export default function CheckoutContent() {
               </div>
               {!isEditingAddress && (
                 <button
+                  type="button"
                   onClick={() => setIsEditingAddress(true)}
                   className="flex items-center gap-1 text-xs font-semibold text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1.5 rounded-lg transition"
+                  style={{ WebkitTapHighlightColor: "transparent", touchAction: "manipulation" }}
                 >
                   <Pencil className="w-3 h-3" /> Edit
                 </button>
@@ -391,8 +457,12 @@ export default function CheckoutContent() {
               <div className="p-4">
                 <div className="flex gap-2 mb-4">
                   {["home", "work", "other"].map((t) => (
-                    <button key={t} className={`addr-pill ${shippingForm.addressType === t ? "active" : ""}`}
-                      onClick={() => handleAddressTypeChange(t)}>
+                    <button
+                      key={t}
+                      type="button"
+                      className={`addr-pill ${shippingForm.addressType === t ? "active" : ""}`}
+                      onClick={() => handleAddressTypeChange(t)}
+                    >
                       {t === "home" ? "🏠 Home" : t === "work" ? "💼 Work" : "📍 Other"}
                     </button>
                   ))}
@@ -464,11 +534,15 @@ export default function CheckoutContent() {
                       className={`${inp} bg-gray-50`} />
                   </div>
                 </div>
+
+                {/* Fix: save button with ref for scrollIntoView, type="button" prevents any form submit,
+                    large min-height for easy tap, touch-action manipulation for instant response on iOS */}
                 <button
+                  ref={saveButtonRef}
+                  type="button"
                   disabled={isSaving}
                   onClick={handleSaveAddress}
-                  className={`mt-4 w-full flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all
-                    ${isSaving ? "bg-emerald-400 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99]"}`}
+                  className={`save-addr-btn ${isSaving ? "saving" : "ready"}`}
                 >
                   {isSaving
                     ? <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Saving…</>
@@ -622,8 +696,10 @@ export default function CheckoutContent() {
                       </div>
                     </div>
                     <button
+                      type="button"
                       onClick={handleRemovePromo}
                       className="w-6 h-6 rounded-full bg-emerald-100 hover:bg-emerald-200 flex items-center justify-center transition"
+                      style={{ WebkitTapHighlightColor: "transparent", touchAction: "manipulation" }}
                     >
                       <X className="w-3.5 h-3.5 text-emerald-700" />
                     </button>
@@ -642,6 +718,7 @@ export default function CheckoutContent() {
                     />
 
                     <button
+                      type="button"
                       onClick={handleApplyPromo}
                       disabled={!promoCode || isPreviewLoading}
                       className={`promo-apply-btn ${!promoCode || isPreviewLoading ? "loading" : "idle"}`}
@@ -712,7 +789,12 @@ export default function CheckoutContent() {
                 </div>
               </div>
 
-              <button onClick={handlePayNow} disabled={!canPay} className={`pay-btn ${canPay ? "on" : "off"}`}>
+              <button
+                type="button"
+                onClick={handlePayNow}
+                disabled={!canPay}
+                className={`pay-btn ${canPay ? "on" : "off"}`}
+              >
                 <span className="sh" />
                 {isLoading ? (
                   <><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Processing…</>
