@@ -34,12 +34,12 @@ const ProductsPage = () => {
     const [isPriceExpanded, setIsPriceExpanded] = useState(true);
 
     const { data, isLoading, isError } = useGetProductsQuery({
-        category: activeCategory !== "all" ? activeCategory : undefined, limit: 100
+        category: activeCategory !== "all" ? activeCategory : undefined, limit: 100 , isActive: true
     });
 
     // Transform products to add full image URLs
     const products = useMemo(() => {
-        const rawProducts = data?.data ?? [];
+        const rawProducts = (data?.data ?? []).filter(p => p.isActive);
         return rawProducts.map(product => {
             const fullImageUrl = product.image?.startsWith('http')
                 ? product.image

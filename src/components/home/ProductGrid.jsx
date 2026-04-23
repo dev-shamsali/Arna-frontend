@@ -16,7 +16,7 @@ export default function ProductGrid() {
   const autoScrollIntervalRef = useRef(null)
 
   // Fetch bestseller products from the backend
-  const { data, isLoading, isError } = useGetProductsQuery({ isBestSeller: 'true' })
+  const { data, isLoading, isError } = useGetProductsQuery({ isBestSeller: 'true',isActive:'true' })
   const products = data?.data || []
 
   // Check scroll position
