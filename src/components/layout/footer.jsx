@@ -48,7 +48,7 @@ const Footer = () => {
     <>
       {/* Sticky WhatsApp Button */}
       <motion.a
-        href="https://wa.me/918850925827"
+        href="https://wa.me/919087242221"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-[9999]"
@@ -173,7 +173,7 @@ const Footer = () => {
                   <div className="space-y-4">
                     <div className="flex flex-col gap-3">
                       <a href="mailto:official@arnaskincare.in" className="text-base hover:text-[#b77f6b] transition-colors border-b border-white/10 pb-1 w-fit">official@arnaskincare.in</a>
-                      <a href="tel:+918850925827" className="text-lg hover:text-[#b77f6b] transition-colors font-medium tracking-wide">+91 8850925827</a>
+                      <a href="tel:+919087242221" className="text-lg hover:text-[#b77f6b] transition-colors font-medium tracking-wide">+91 9087242221</a>
                     </div>
                   </div>
                 </div>
