@@ -90,16 +90,17 @@ const topFeatures = [
 
 
 // Uniform Size Card Component with Light to Dark Green Gradient
-const UniformCard3D = ({ product, cardRef }) => {
+const UniformCard3D = ({ product, cardRef, isMobile = false }) => {
   const router = useRouter()
   const [rotateX, setRotateX] = useState(0)
   const [rotateY, setRotateY] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
   const shouldReduceMotion = useReducedMotion()
 
+  const disable3D = shouldReduceMotion || isMobile
 
   const handleMouseMove = (e) => {
-    if (shouldReduceMotion) return
+    if (disable3D) return
 
 
     const card = e.currentTarget
@@ -141,25 +142,25 @@ const UniformCard3D = ({ product, cardRef }) => {
     <motion.div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => !disable3D && setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
-      className="group cursor-pointer"
+      className="group cursor-pointer select-none"
       style={{
-        perspective: '1500px',
-        transformStyle: 'preserve-3d'
+        perspective: disable3D ? 'none' : '1500px',
+        transformStyle: disable3D ? 'flat' : 'preserve-3d'
       }}
-      whileHover={{ scale: shouldReduceMotion ? 1 : 1.03 }}
+      whileHover={disable3D ? {} : { scale: 1.03 }}
+      whileTap={{ scale: 0.96 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       <div
-        className="relative rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl border border-slate-200/50 transition-all duration-500"
+        className={`relative rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-2xl border border-slate-200/50 transition-all duration-500 ${isMobile ? 'h-[230px]' : 'h-[280px]'}`}
         style={{
-          height: '280px',
-          transform: shouldReduceMotion
+          transform: disable3D
             ? 'none'
             : `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${isHovered ? '10px' : '0px'})`,
-          transformStyle: 'preserve-3d',
+          transformStyle: disable3D ? 'flat' : 'preserve-3d',
           transition: 'transform 0.1s ease-out, box-shadow 0.5s ease'
         }}
       >
@@ -167,8 +168,8 @@ const UniformCard3D = ({ product, cardRef }) => {
         <div
           className="absolute inset-0 bg-white"
           style={{
-            transform: 'translateZ(-10px)',
-            transformStyle: 'preserve-3d'
+            transform: disable3D ? 'none' : 'translateZ(-10px)',
+            transformStyle: disable3D ? 'flat' : 'preserve-3d'
           }}
         />
 
@@ -176,51 +177,55 @@ const UniformCard3D = ({ product, cardRef }) => {
         <div
           className="absolute inset-0 bg-gradient-to-br from-stone-50 via-stone-100 to-stone-200 transition-opacity duration-500"
           style={{
-            transform: 'translateZ(1px)',
-            transformStyle: 'preserve-3d'
+            transform: disable3D ? 'none' : 'translateZ(1px)',
+            transformStyle: disable3D ? 'flat' : 'preserve-3d'
           }}
         />
 
         {/* Dark Accent Overlay (Appears on Hover) */}
-        <div
-          className="absolute inset-0 bg-gradient-to-br from-[#1c1917] via-[#2d2421] to-[#1c1917] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            transform: 'translateZ(2px)',
-            transformStyle: 'preserve-3d'
-          }}
-        />
+        {!disable3D && (
+          <div
+            className="absolute inset-0 bg-gradient-to-br from-[#1c1917] via-[#2d2421] to-[#1c1917] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            style={{
+              transform: 'translateZ(2px)',
+              transformStyle: 'preserve-3d'
+            }}
+          />
+        )}
 
 
         {/* Shimmer Effect */}
-        <div
-          className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-          style={{
-            transform: `translateZ(5px) translateX(${rotateY * 2}px) translateY(${rotateX * 2}px)`,
-            transformStyle: 'preserve-3d'
-          }}
-        />
+        {!disable3D && (
+          <div
+            className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+            style={{
+              transform: `translateZ(5px) translateX(${rotateY * 2}px) translateY(${rotateX * 2}px)`,
+              transformStyle: 'preserve-3d'
+            }}
+          />
+        )}
 
 
         {/* Top Accent Line */}
         <div
           className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#b77f6b]/60 to-[#d1a394]/60 group-hover:from-[#b77f6b] group-hover:to-[#d1a394] transition-all duration-500"
           style={{
-            transform: 'translateZ(12px)',
-            transformStyle: 'preserve-3d'
+            transform: disable3D ? 'none' : 'translateZ(12px)',
+            transformStyle: disable3D ? 'flat' : 'preserve-3d'
           }}
         />
 
 
         {/* Card Content - Fixed Height Layout */}
-        <div className="relative p-6 h-full flex flex-col justify-between">
+        <div className={`relative ${isMobile ? 'p-4' : 'p-6'} h-full flex flex-col justify-between`}>
 
 
           {/* Category badge */}
           <div
             className="inline-flex items-center gap-2 w-fit"
             style={{
-              transform: 'translateZ(18px)',
-              transformStyle: 'preserve-3d'
+              transform: disable3D ? 'none' : 'translateZ(18px)',
+              transformStyle: disable3D ? 'flat' : 'preserve-3d'
             }}
           >
             <div className="w-2 h-2 rounded-full bg-[#b77f6b] group-hover:bg-[#d1a394] transition-colors duration-500" />
@@ -234,11 +239,11 @@ const UniformCard3D = ({ product, cardRef }) => {
           <div
             className="flex-1 flex items-center justify-center"
             style={{
-              transform: 'translateZ(22px)',
-              transformStyle: 'preserve-3d'
+              transform: disable3D ? 'none' : 'translateZ(22px)',
+              transformStyle: disable3D ? 'flat' : 'preserve-3d'
             }}
           >
-            <h3 className="text-xl md:text-2xl font-semibold text-slate-900 group-hover:text-white text-center leading-tight tracking-tight transition-colors duration-500">
+            <h3 className={`${isMobile ? 'text-lg' : 'text-xl md:text-2xl'} font-semibold text-slate-900 group-hover:text-white text-center leading-tight tracking-tight transition-colors duration-500`}>
               {product.title}
             </h3>
           </div>
@@ -246,10 +251,10 @@ const UniformCard3D = ({ product, cardRef }) => {
 
           {/* Key ingredient badge and arrow */}
           <div
-            className="pt-4 border-t border-stone-200/60 group-hover:border-stone-400/40 transition-colors duration-500"
+            className="pt-3 border-t border-stone-200/60 group-hover:border-stone-400/40 transition-colors duration-500"
             style={{
-              transform: 'translateZ(20px)',
-              transformStyle: 'preserve-3d'
+              transform: disable3D ? 'none' : 'translateZ(20px)',
+              transformStyle: disable3D ? 'flat' : 'preserve-3d'
             }}
           >
             <div className="flex items-center justify-between">
@@ -265,14 +270,14 @@ const UniformCard3D = ({ product, cardRef }) => {
 
               {/* Arrow Icon */}
               <div
-                className="w-10 h-10 rounded-full bg-stone-100 group-hover:bg-white/20 flex items-center justify-center transition-all duration-500"
+                className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} rounded-full bg-stone-100 group-hover:bg-white/20 flex items-center justify-center transition-all duration-500`}
                 style={{
-                  transform: isHovered ? 'translateZ(10px)' : 'translateZ(5px)',
-                  transformStyle: 'preserve-3d'
+                  transform: disable3D ? 'none' : (isHovered ? 'translateZ(10px)' : 'translateZ(5px)'),
+                  transformStyle: disable3D ? 'flat' : 'preserve-3d'
                 }}
               >
                 <svg
-                  className="w-5 h-5 text-[#b77f6b] group-hover:text-white group-hover:translate-x-1 transition-all duration-500"
+                  className="w-4 h-4 text-[#b77f6b] group-hover:text-white group-hover:translate-x-1 transition-all duration-500"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -290,18 +295,8 @@ const UniformCard3D = ({ product, cardRef }) => {
         <div
           className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-stone-900/5 to-transparent group-hover:from-stone-950/30 pointer-events-none transition-colors duration-500"
           style={{
-            transform: 'translateZ(-5px)',
-            transformStyle: 'preserve-3d'
-          }}
-        />
-
-
-        {/* Corner Glow */}
-        <div
-          className="absolute top-0 right-0 w-32 h-32 bg-gradient-radial from-[#b77f6b]/0 to-transparent opacity-0 group-hover:opacity-30 blur-2xl transition-opacity duration-700 pointer-events-none"
-          style={{
-            transform: 'translateZ(3px)',
-            transformStyle: 'preserve-3d'
+            transform: disable3D ? 'none' : 'translateZ(-5px)',
+            transformStyle: disable3D ? 'flat' : 'preserve-3d'
           }}
         />
       </div>
@@ -315,8 +310,55 @@ export default function ArnaProductShowcase() {
   const heroContentRef = useRef(null)
   const featureRefs = useRef([])
   const cardRefs = useRef([])
+  const carouselRef = useRef(null)
   const shouldReduceMotion = useReducedMotion()
 
+  const [isMobile, setIsMobile] = useState(false)
+  const [activeCardIndex, setActiveCardIndex] = useState(0)
+  const isInteractingRef = useRef(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Auto-scroll autoplay effect for mobile view
+  useEffect(() => {
+    if (!isMobile) return
+
+
+    const interval = setInterval(() => {
+      if (isInteractingRef.current) return
+      const nextIndex = (activeCardIndex + 1) % productCards.length
+      scrollToCard(nextIndex)
+    }, 4000) // Advances slide every 4 seconds
+
+
+    return () => clearInterval(interval)
+  }, [isMobile, activeCardIndex])
+
+  const handleScroll = () => {
+    if (!carouselRef.current) return
+    const container = carouselRef.current
+    const scrollLeft = container.scrollLeft
+    // 280px card width + 16px gap = 296px scroll step
+    const index = Math.round(scrollLeft / 296)
+    setActiveCardIndex(Math.max(0, Math.min(productCards.length - 1, index)))
+  }
+
+  const scrollToCard = (index) => {
+    if (!carouselRef.current) return
+    const container = carouselRef.current
+    container.scrollTo({
+      left: index * 296,
+      behavior: 'smooth'
+    })
+    setActiveCardIndex(index)
+  }
 
   useEffect(() => {
     if (shouldReduceMotion) return
@@ -352,26 +394,41 @@ export default function ArnaProductShowcase() {
       })
 
 
-      cardRefs.current.forEach((card, index) => {
-        if (card) {
-          gsap.from(card, {
-            y: 60,
+      if (!isMobile) {
+        cardRefs.current.forEach((card, index) => {
+          if (card) {
+            gsap.from(card, {
+              y: 60,
+              opacity: 0,
+              duration: 0.9,
+              delay: 0.3 + index * 0.15,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+              }
+            })
+          }
+        })
+      } else {
+        if (carouselRef.current) {
+          gsap.from(carouselRef.current, {
+            y: 40,
             opacity: 0,
-            duration: 0.9,
-            delay: 0.3 + index * 0.15,
-            ease: 'power3.out',
+            duration: 0.8,
+            ease: 'power2.out',
             scrollTrigger: {
-              trigger: card,
-              start: 'top 85%',
+              trigger: carouselRef.current,
+              start: 'top 90%',
             }
           })
         }
-      })
+      }
     }, sectionRef)
 
 
     return () => ctx.revert()
-  }, [shouldReduceMotion])
+  }, [shouldReduceMotion, isMobile])
 
 
   return (
@@ -395,11 +452,12 @@ export default function ArnaProductShowcase() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 text-center">
 
+
         {/* Compact Main Layout with Tighter Spacing */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center mb-8 md:mb-12">
 
 
-          {/* LEFT CARD */}
+          {/* LEFT CARD - Hidden on Mobile and Tablet */}
           <div className="lg:col-span-3 hidden lg:block">
             <UniformCard3D
               product={productCards[0]}
@@ -434,7 +492,7 @@ export default function ArnaProductShowcase() {
           </motion.div>
 
 
-          {/* RIGHT CARD */}
+          {/* RIGHT CARD - Hidden on Mobile and Tablet */}
           <div className="lg:col-span-3 hidden lg:block">
             <UniformCard3D
               product={productCards[1]}
@@ -444,8 +502,8 @@ export default function ArnaProductShowcase() {
         </div>
 
 
-        {/* Bottom Row - Responsive Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-16 max-w-6xl mx-auto">
+        {/* Bottom Row - Responsive Grid (Visible on Desktop/Tablet only) */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-16 max-w-6xl mx-auto">
           {productCards.slice(2, 5).map((product, index) => (
             <UniformCard3D
               key={product.id}
@@ -453,19 +511,47 @@ export default function ArnaProductShowcase() {
               cardRef={(el) => (cardRefs.current[index + 2] = el)}
             />
           ))}
+        </div>
 
-          {/* Mobile visible cards only */}
-          <div className="md:hidden">
-            <UniformCard3D
-              product={productCards[0]}
-              cardRef={(el) => (cardRefs.current[5] = el)}
-            />
+
+        {/* Mobile Swipeable Carousel (Visible on Mobile only) */}
+        <div className="md:hidden mb-10 relative">
+          <div
+            ref={carouselRef}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-6 px-6 -mx-6 scroll-smooth"
+            onScroll={handleScroll}
+            onTouchStart={() => { isInteractingRef.current = true }}
+            onTouchEnd={() => { isInteractingRef.current = false }}
+            onMouseDown={() => { isInteractingRef.current = true }}
+            onMouseUp={() => { isInteractingRef.current = false }}
+            onMouseLeave={() => { isInteractingRef.current = false }}
+          >
+            {productCards.map((product, index) => (
+              <div
+                key={product.id}
+                className="w-[280px] shrink-0 snap-center"
+              >
+                <UniformCard3D
+                  product={product}
+                  isMobile={true}
+                />
+              </div>
+            ))}
           </div>
-          <div className="md:hidden">
-            <UniformCard3D
-              product={productCards[1]}
-              cardRef={(el) => (cardRefs.current[6] = el)}
-            />
+
+
+          {/* Scroll Indicator / Page Dots */}
+          <div className="flex items-center justify-center gap-2 mt-2">
+            {productCards.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollToCard(index)}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  activeCardIndex === index ? 'w-5 bg-[#b77f6b]' : 'w-1.5 bg-stone-300'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
 
@@ -491,6 +577,16 @@ export default function ArnaProductShowcase() {
             </span>
           </Link>
         </motion.div>
+        {/* Scoped Scrollbar Styling */}
+        <style>{`
+          .no-scrollbar::-webkit-scrollbar {
+            display: none;
+          }
+          .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+        `}</style>
       </div>
     </section>
   )

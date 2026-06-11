@@ -18,9 +18,10 @@ export default function Home() {
       <Hero />
       <TrustBar />
       <ShopByConcern />
+      <ProductGrid />
       <BestProduct />
       <About />
-      <ProductGrid />
+      
       <OurStory />
       <Testimonials />
       <PromoPopupModal />

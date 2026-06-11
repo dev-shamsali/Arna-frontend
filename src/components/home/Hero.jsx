@@ -256,7 +256,7 @@ export default function Hero() {
         ))}
       </div>
 
-      <div className="relative z-20 h-full flex items-start pt-48 md:items-center md:pt-32 md:pb-0">
+      <div className="relative z-20 h-full flex items-end pb-12 md:items-center md:pt-32 md:pb-0">
         <div className="container mx-auto px-6 md:px-12">
           <div className="max-w-xl lg:max-w-3xl text-white text-left">
             <h1
