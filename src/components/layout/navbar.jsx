@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import Link from 'next/link'
 import { Search, User, Heart, ShoppingCart, X, Menu } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -8,7 +8,7 @@ import { useCart } from '@/components/cart/CartContext'
 import Image from 'next/image'
 import { useGetMeQuery } from '@/redux/slices/authApislice'
 
-export default function Navbar({ solid = false }) {
+function NavbarContent({ solid = false }) {
   const searchParams = useSearchParams()
   const initialSearch = searchParams.get('search') || ""
 
@@ -353,43 +353,55 @@ export default function Navbar({ solid = false }) {
         </div>
 
         {/* Mobile Search Bar - Visible only on mobile/tablet */}
-        <div className="lg:hidden pb-5 px-4 max-w-2xl mx-auto">
-          <div className="relative w-full group">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                if (e.target.value.trim()) {
-                  router.push(`/products?search=${encodeURIComponent(e.target.value)}`);
-                } else {
-                  router.push('/products');
-                }
-              }}
-              onClick={() => {
-                if (pathname !== '/products') {
-                  router.push('/products');
-                }
-              }}
-              placeholder={placeholder}
-              className={`w-full py-3 px-11 rounded-full text-sm transition-all duration-300 border outline-none shadow-sm focus:ring-2 focus:ring-[#b77f6b]/50 ${showSolid
-                ? 'bg-gray-100 border-gray-200 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#b77f6b]/30'
-                : 'bg-black/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-xl focus:bg-black/30 focus:border-white/50'
-                }`}
-            />
-            <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${showSolid ? 'text-gray-400' : 'text-white/80 group-focus-within:text-white'}`} />
-            {/* Simulated blinking cursor for placeholder */}
-            {!searchQuery && (
-              <motion.div
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.8, repeat: Infinity }}
-                className={`absolute pointer-events-none top-1/2 -translate-y-1/2 h-4 w-[1px] ${showSolid ? 'bg-gray-400' : 'bg-white/80 group-focus-within:bg-white'
-                  }`}
-                style={{ left: `calc(44px + ${placeholder.length * 7.5}px)` }}
-              />
-            )}
-          </div>
-        </div>
+        <AnimatePresence>
+          {showSolid && (
+            <motion.div
+              initial={{ opacity: 0, y: 20, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: 'auto' }}
+              exit={{ opacity: 0, y: -20, height: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="lg:hidden overflow-hidden w-full"
+            >
+              <div className="pb-5 px-4 max-w-2xl mx-auto">
+                <div className="relative w-full group">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      if (e.target.value.trim()) {
+                        router.push(`/products?search=${encodeURIComponent(e.target.value)}`);
+                      } else {
+                        router.push('/products');
+                      }
+                    }}
+                    onClick={() => {
+                      if (pathname !== '/products') {
+                        router.push('/products');
+                      }
+                    }}
+                    placeholder={placeholder}
+                    className={`w-full py-3 px-11 rounded-full text-sm transition-all duration-300 border outline-none shadow-sm focus:ring-2 focus:ring-[#b77f6b]/50 ${showSolid
+                      ? 'bg-gray-100 border-gray-200 text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-[#b77f6b]/30'
+                      : 'bg-black/20 border-white/30 text-white placeholder:text-white/70 backdrop-blur-xl focus:bg-black/30 focus:border-white/50'
+                      }`}
+                  />
+                  <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-4.5 h-4.5 transition-colors ${showSolid ? 'text-gray-400' : 'text-white/80 group-focus-within:text-white'}`} />
+                  {/* Simulated blinking cursor for placeholder */}
+                  {!searchQuery && (
+                    <motion.div
+                      animate={{ opacity: [1, 0] }}
+                      transition={{ duration: 0.8, repeat: Infinity }}
+                      className={`absolute pointer-events-none top-1/2 -translate-y-1/2 h-4 w-[1px] ${showSolid ? 'bg-gray-400' : 'bg-white/80 group-focus-within:bg-white'
+                        }`}
+                      style={{ left: `calc(44px + ${placeholder.length * 7.5}px)` }}
+                    />
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
 
@@ -535,5 +547,13 @@ export default function Navbar({ solid = false }) {
         </div>
       </div>
     </nav>
+  )
+}
+
+export default function Navbar(props) {
+  return (
+    <Suspense fallback={null}>
+      <NavbarContent {...props} />
+    </Suspense>
   )
 }

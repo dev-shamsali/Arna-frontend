@@ -1,9 +1,9 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
-export default function OrderFailedPage() {
+function OrderFailedPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const orderId = searchParams.get("orderId");
@@ -155,5 +155,17 @@ export default function OrderFailedPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function OrderFailedPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <p className="text-gray-700">Loading details...</p>
+      </div>
+    }>
+      <OrderFailedPageContent />
+    </Suspense>
   );
 }

@@ -1,9 +1,9 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
-export default function OrderSuccessPage() {
+function OrderSuccessPageContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
   const [visible, setVisible] = useState(false);
@@ -451,5 +451,17 @@ export default function OrderSuccessPage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function OrderSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <p className="text-gray-700">Loading order status...</p>
+      </div>
+    }>
+      <OrderSuccessPageContent />
+    </Suspense>
   );
 }

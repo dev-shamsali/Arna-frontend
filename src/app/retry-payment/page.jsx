@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation"; // ✅ add router
 import { useRetryPaymentMutation } from "@/redux/slices/orderApiSlice";
 import Script from "next/script";
 
-export default function RetryPaymentPage() {
+function RetryPaymentPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter(); // ✅ initialize router
   const orderId = searchParams.get("orderId");
@@ -85,5 +85,13 @@ export default function RetryPaymentPage() {
         )}
       </div>
     </>
+  );
+}
+
+export default function RetryPaymentPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-700">Loading payment details...</div>}>
+      <RetryPaymentPageContent />
+    </Suspense>
   );
 }

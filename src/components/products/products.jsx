@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import { Leaf, Menu, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { categories, problems } from "../lib/constants"
 import { useGetProductsQuery } from '@/redux/slices/cmsSlice';
@@ -8,7 +8,7 @@ import ProductCard from './ProductsCard';
 import { useSearchParams } from 'next/navigation';
 import { useGetProductsHeroQuery } from '@/redux/slices/cmsSlice';
 const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
-const ProductsPage = () => {
+const ProductsPageContent = () => {
     const searchParams = useSearchParams();
     const urlSearch = searchParams.get('search') || '';
     const urlCategory = searchParams.get('category') || 'all';
@@ -411,4 +411,10 @@ const ProductsPage = () => {
     );
 };
 
-export default ProductsPage;
+export default function ProductsPage() {
+    return (
+        <Suspense fallback={<div className="p-8 text-center text-gray-500">Loading products...</div>}>
+            <ProductsPageContent />
+        </Suspense>
+    );
+}

@@ -1,11 +1,11 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useGetOrderByIdQuery } from "@/redux/slices/orderApiSlice";
 import { useCart } from "@/components/cart/CartContext";
 
-export default function PaymentStatusPage() {
+function PaymentStatusPageContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const { clearCart } = useCart();
@@ -59,5 +59,17 @@ export default function PaymentStatusPage() {
                 Verifying your payment...
             </p>
         </div>
+    );
+}
+
+export default function PaymentStatusPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+                <p className="text-lg font-medium">Verifying your payment...</p>
+            </div>
+        }>
+            <PaymentStatusPageContent />
+        </Suspense>
     );
 }
